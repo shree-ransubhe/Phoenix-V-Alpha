@@ -3,13 +3,13 @@
 //  IndiGoPrototype
 //
 //  Molecule – Search widget pill with blinking cursor.
-//  Three scroll-driven modes:
-//    .expanded  – full-width pill, dark glass (Figma: bg rgba(0,0,0,0.5) mix-blend-hard-light)
-//    .compact   – full-width pill, light glass (Figma: bg rgba(235,236,238,0.1) mix-blend-plus-lighter)
-//    .inline    – narrower pill sharing row with 6Eskai + avatar
 //
-//  Figma search node: 3:9911 / 3:6853 / 3:7852
-//  Pill specs: h 60, border 2 white, rounded 500, shadow 0 4 16.8 rgba(0,0,0,0.25), p 16
+//  Two scroll-driven modes:
+//    .expanded – full-width pill, dark glass, rounded-16 (Figma 804:10305 / 957:10684)
+//    .inline  – narrower pill + 6Eskai + profile in one row, rounded-16, gap-12 (Figma 917:11177)
+//
+//  Pill specs: h 60, border 2 white, rounded 16, shadow 0 4 16.8 rgba(0,0,0,0.25), p 16
+//  Glass: rgba(0,0,0,0.5) backdrop-blur-8 mix-blend-hard-light
 //  Cursor bar: #EAF8FF, 3x32, rounded 20
 //  Placeholder: Poppins Light 14/20, white
 //  Voice icon: 24x24, white
@@ -17,15 +17,10 @@
 
 import SwiftUI
 
-// MARK: - Search widget display mode
-
 enum SearchWidgetMode: Equatable {
     case expanded
-    case compact
     case inline
 }
-
-// MARK: - SearchWidgetView
 
 struct SearchWidgetView: View {
     let mode: SearchWidgetMode
@@ -37,41 +32,38 @@ struct SearchWidgetView: View {
     var body: some View {
         switch mode {
         case .expanded:
-            fullWidthPill(glassStyle: .dark)
-        case .compact:
-            fullWidthPill(glassStyle: .light)
+            fullWidthPill
         case .inline:
             inlineRow
         }
     }
 
-    // MARK: - Full-width pill (states 1 & 2) – px 20
+    // MARK: - Full-width pill
 
-    private func fullWidthPill(glassStyle: GlassStyle) -> some View {
+    private var fullWidthPill: some View {
         Button(action: onTap) {
-            pillContent(glassStyle: glassStyle)
+            pillContent
         }
         .buttonStyle(.plain)
     }
 
-    // MARK: - Inline row (state 3) – gap 10, pill(flex-1) + 6Eskai(30) + avatar(36)
+    // MARK: - Inline row: search(flex) + 6Eskai(32) + profile(32), gap 12
 
     private var inlineRow: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: 12) {
             Button(action: onTap) {
-                pillContent(glassStyle: .light)
+                pillContent
             }
             .buttonStyle(.plain)
 
             sixEskaiButton
-
             avatarButton
         }
     }
 
-    // MARK: - Pill content (shared across all modes)
+    // MARK: - Pill content (shared, always rounded-16 dark glass)
 
-    private func pillContent(glassStyle: GlassStyle) -> some View {
+    private var pillContent: some View {
         HStack(spacing: IndiGoSpacing.md) {
             HStack(spacing: IndiGoSpacing.xs) {
                 blinkingCursor
@@ -90,30 +82,22 @@ struct SearchWidgetView: View {
         .padding(.horizontal, IndiGoSpacing.md)
         .frame(height: pillHeight)
         .frame(maxWidth: .infinity)
-        .background(glassBackground(style: glassStyle))
-        .clipShape(Capsule())
-        .overlay(Capsule().strokeBorder(.white, lineWidth: 2))
+        .background(glassBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(.white, lineWidth: 2))
         .shadow(color: .black.opacity(0.25), radius: 8.4, x: 0, y: 4)
     }
 
-    // MARK: - Glass background
+    // MARK: - Glass background (dark, always)
 
-    private enum GlassStyle { case dark, light }
-
-    @ViewBuilder
-    private func glassBackground(style: GlassStyle) -> some View {
+    private var glassBackground: some View {
         ZStack {
-            Capsule().fill(.ultraThinMaterial)
-            switch style {
-            case .dark:
-                Capsule().fill(Color.black.opacity(0.5))
-            case .light:
-                Capsule().fill(Color(hex: "EBECEE").opacity(0.1))
-            }
+            RoundedRectangle(cornerRadius: 16).fill(.ultraThinMaterial)
+            RoundedRectangle(cornerRadius: 16).fill(Color.black.opacity(0.5))
         }
     }
 
-    // MARK: - Blinking cursor (Figma: #EAF8FF, 3x32, rounded 20)
+    // MARK: - Blinking cursor (#EAF8FF, 3x32, rounded 20)
 
     private var blinkingCursor: some View {
         TimelineView(.periodic(from: .now, by: 0.6)) { timeline in
@@ -138,28 +122,24 @@ struct SearchWidgetView: View {
         .buttonStyle(.plain)
     }
 
-    // MARK: - 6Eskai button (inline mode, 30x30)
-
     private var sixEskaiButton: some View {
         Button(action: {}) {
             Image("6eskai-entry")
                 .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 30, height: 30)
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32, height: 32)
                 .clipShape(Circle())
                 .shadow(color: Color(hex: "4C5D9E").opacity(0.08), radius: 6)
         }
         .buttonStyle(.plain)
     }
 
-    // MARK: - Avatar button (inline mode, 36x36)
-
     private var avatarButton: some View {
         Button(action: {}) {
             Image("profile-avatar")
                 .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 36, height: 36)
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32, height: 32)
                 .clipShape(Circle())
                 .overlay(Circle().strokeBorder(.white, lineWidth: 1))
         }
@@ -167,11 +147,9 @@ struct SearchWidgetView: View {
     }
 }
 
-// MARK: - Previews
-
-#Preview("Expanded – dark glass") {
+#Preview("Expanded") {
     ZStack {
-        Image("header-bg").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea()
+        Image("light-header-bg").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea()
         VStack {
             Spacer().frame(height: 120)
             SearchWidgetView(mode: .expanded).padding(.horizontal, 20)
@@ -180,20 +158,9 @@ struct SearchWidgetView: View {
     }
 }
 
-#Preview("Compact – light glass") {
+#Preview("Inline") {
     ZStack {
-        Image("header-bg").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea()
-        VStack {
-            Spacer().frame(height: 40)
-            SearchWidgetView(mode: .compact).padding(.horizontal, 20)
-            Spacer()
-        }
-    }
-}
-
-#Preview("Inline – with 6Eskai + avatar") {
-    ZStack {
-        Image("header-bg").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea()
+        Image("light-header-bg").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea()
         VStack {
             Spacer().frame(height: 40)
             SearchWidgetView(mode: .inline).padding(.horizontal, 20)

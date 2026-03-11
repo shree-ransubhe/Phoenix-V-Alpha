@@ -2,16 +2,24 @@
 //  HomeHeaderView.swift
 //  IndiGoPrototype
 //
-//  Molecule – Home header banner with scroll-driven transitions.
+//  Molecule – Home sticky header overlay with scroll-driven transitions.
 //
-//  Layout from Figma (375pt design):
-//    Expanded (428pt) – 3:9846:  StickyHeader(status44+gap24+greeting44+pb16) → gap24 → SearchPill(h60,px20) → gap24 → WelcomeComm → clipped
-//    Compact  (207pt) – 3:6770:  StickyHeader → gap24 → SearchPill (welcome cropped away)
-//    Inline   (139pt) – 3:7803:  StatusBar(44) → SearchPill+6Eskai+Profile in one row (px20, gap10)
+//  Architecture (from Figma 804:10305 / 917:11177):
+//    The BG image lives in HomeView, NOT in this view. This view is a
+//    transparent overlay that pins to the top via scroll offset.
 //
-//  The header height interpolates continuously from 428→139 as scrollOffset increases.
-//  At 428→207 the welcome-comm is progressively clipped.
-//  At 207→139 the greeting row collapses and search pill rearranges inline.
+//  State 1 – Expanded (207pt, Figma 804:10305):
+//    StatusBar(44) + gap(24) + GreetingRow(44, px24) + pb(16)
+//    + SearchPill(60, px20)  — total content ~188pt inside 207pt frame
+//    No shadow. Greeting row visible.
+//
+//  State 2 – Inline (139pt, Figma 917:11177):
+//    StatusBar(44) + pb(16)
+//    + InlineRow(search + 6eskai + profile, px20, gap12) — total ~120pt inside 139pt frame
+//    Shadow visible. Greeting row collapsed.
+//
+//  Transition: over 68pt of scroll (207→139), greeting row fades/collapses
+//  and search pill rearranges inline with 6eskai + profile.
 //
 
 import SwiftUI
@@ -20,28 +28,15 @@ struct HomeHeaderView: View {
     let scrollOffset: CGFloat
     var onSearchTap: () -> Void = {}
 
-    // Figma heights
-    static let expandedHeight: CGFloat = 428
-    static let compactHeight: CGFloat = 207
+    static let expandedHeight: CGFloat = 207
     static let inlineHeight: CGFloat = 139
-
-    // Scroll ranges for each transition phase
-    static let phase1Range: CGFloat = 180   // 428 → 207 over 180pt of scroll
-    static let phase2Range: CGFloat = 80    // 207 → 139 over next 80pt of scroll
-    static let totalCollapseRange: CGFloat = phase1Range + phase2Range
+    static let collapseRange: CGFloat = expandedHeight - inlineHeight  // 68pt
 
     static func headerHeight(for offset: CGFloat) -> CGFloat {
         let clamped = max(0, offset)
-        if clamped <= phase1Range {
-            let t = clamped / phase1Range
-            return expandedHeight - (expandedHeight - compactHeight) * t
-        }
-        let p2 = clamped - phase1Range
-        if p2 <= phase2Range {
-            let t = p2 / phase2Range
-            return compactHeight - (compactHeight - inlineHeight) * t
-        }
-        return inlineHeight
+        if clamped >= collapseRange { return inlineHeight }
+        let t = clamped / collapseRange
+        return expandedHeight - (expandedHeight - inlineHeight) * t
     }
 
     private var clampedOffset: CGFloat { max(0, scrollOffset) }
@@ -50,89 +45,77 @@ struct HomeHeaderView: View {
         Self.headerHeight(for: clampedOffset)
     }
 
-    // Progress values (0→1) for each phase
-    private var phase1Progress: CGFloat {
-        min(1, max(0, clampedOffset / Self.phase1Range))
-    }
-    private var phase2Progress: CGFloat {
-        let p2 = clampedOffset - Self.phase1Range
-        return min(1, max(0, p2 / Self.phase2Range))
+    private var collapseProgress: CGFloat {
+        min(1, max(0, clampedOffset / Self.collapseRange))
     }
 
-    private var isInlineMode: Bool { phase2Progress >= 1.0 }
+    private var isInlineMode: Bool { collapseProgress >= 1.0 }
+
+    private var showShadow: Bool { clampedOffset > 2 }
 
     var body: some View {
         VStack(spacing: 0) {
-            // Status bar (always 44pt)
-            statusBarSpacer
+            Color.clear.frame(height: 44)
 
-            // Gap between status bar and greeting (24pt, collapses to 16pt in phase 2)
-            let topGap = 24 - (8 * phase2Progress)
-            Spacer().frame(height: topGap)
-
-            // Greeting row (44pt, collapses during phase 2)
             if !isInlineMode {
+                Spacer().frame(height: 24 * (1 - collapseProgress))
+
                 greetingRow
                     .padding(.horizontal, 24)
-                    .frame(height: 44 * (1 - phase2Progress))
-                    .opacity(Double(1 - phase2Progress))
+                    .frame(height: 44 * (1 - collapseProgress))
+                    .opacity(Double(1 - collapseProgress))
                     .clipped()
 
-                // Padding-bottom from sticky-header (16pt, collapses in phase 2)
-                Spacer().frame(height: 16 * (1 - phase2Progress))
+                Spacer().frame(height: 16 * (1 - collapseProgress))
+            } else {
+                Spacer().frame(height: 16)
             }
 
-            // Search section
             if isInlineMode {
-                inlineRow
+                SearchWidgetView(mode: .inline, onTap: onSearchTap)
                     .padding(.horizontal, 20)
-            } else if phase2Progress > 0 {
-                inlineRow
+            } else if collapseProgress > 0.5 {
+                SearchWidgetView(mode: .inline, onTap: onSearchTap)
                     .padding(.horizontal, 20)
-                    .opacity(Double(phase2Progress))
+                    .opacity(Double((collapseProgress - 0.5) / 0.5))
             } else {
-                // Full-width search pill (states 1 & 2)
-                searchPill
+                SearchWidgetView(mode: .expanded, onTap: onSearchTap)
                     .padding(.horizontal, 20)
-
-                // Welcome comm (fades during phase 1, cropped by container)
-                welcomeComm
-                    .padding(.top, 24)
-                    .opacity(Double(1 - phase1Progress))
             }
 
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity)
         .frame(height: headerHeight)
-        .background(bgLayer)
-        .clipShape(
-            UnevenRoundedRectangle(
-                bottomLeadingRadius: 16,
-                bottomTrailingRadius: 16
-            )
-        )
+        .background(headerBg)
         .shadow(
-            color: isInlineMode ? .black.opacity(0.25) : .clear,
+            color: showShadow ? .black.opacity(0.25) : .clear,
             radius: 8, x: 0, y: 4
         )
     }
 
-    // MARK: - Status bar spacer (44pt for Dynamic Island / notch)
-
-    private var statusBarSpacer: some View {
-        Color.clear.frame(height: 44)
+    private var headerBg: some View {
+        ZStack {
+            if showShadow {
+                Rectangle().fill(.ultraThinMaterial)
+                    .opacity(Double(min(1, clampedOffset / 40)))
+            } else {
+                Color.clear
+            }
+        }
     }
 
-    // MARK: - Greeting row: dotted-plane + "Hi there! / Ishika Verma" ... 6Eskai + Profile
+    // MARK: - Greeting row
 
     private var greetingRow: some View {
         HStack {
             HStack(spacing: 12) {
                 Image("dotted-plane")
                     .resizable()
+                    .renderingMode(.template)
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 28, height: 28)
+                    .foregroundStyle(IndiGoColors.backgroundBase)
 
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Hi there!")
@@ -154,106 +137,12 @@ struct HomeHeaderView: View {
         .frame(height: 44)
     }
 
-    // MARK: - Full-width search pill (expanded & compact states)
-
-    private var searchPill: some View {
-        SearchWidgetView(
-            mode: phase1Progress < 0.3 ? .expanded : .compact,
-            onTap: onSearchTap
-        )
-    }
-
-    // MARK: - Inline row (state 3): search pill + 6Eskai + avatar all in one row
-
-    private var inlineRow: some View {
-        SearchWidgetView(mode: .inline, onTap: onSearchTap)
-    }
-
-    // MARK: - Welcome comm section (Figma 3:9917 — 313x147, gap 24)
-
-    private var welcomeComm: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            VStack(alignment: .leading, spacing: 0) {
-                Text("Athens, now boarding!")
-                    .font(IndiGoFonts.displaySmall())       // Bauhaus Std Medium 24/32
-                    .foregroundStyle(IndiGoColors.backgroundBase)
-                    .tracking(-0.6)
-                    .frame(width: 224, alignment: .leading)
-
-                Text("Introducing, XLR Experience with non-stop flights between India and Greece.")
-                    .font(IndiGoFonts.bodySmall())           // Poppins Regular 12/18
-                    .foregroundStyle(IndiGoColors.backgroundBase)
-            }
-            .frame(width: 313, height: 115, alignment: .topLeading)
-
-            pageIndicator
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 31)
-    }
-
-    // Figma 3:9921 — 303x8, pill 20x8, dots 8x8, gap 4
-    private var pageIndicator: some View {
-        HStack(spacing: 4) {
-            RoundedRectangle(cornerRadius: 4)
-                .fill(IndiGoColors.indigoBlue)
-                .frame(width: 20, height: 8)
-            Circle()
-                .fill(IndiGoColors.indigoBlue.opacity(0.3))
-                .frame(width: 8, height: 8)
-            Circle()
-                .fill(IndiGoColors.indigoBlue.opacity(0.3))
-                .frame(width: 8, height: 8)
-        }
-        .frame(height: 8)
-    }
-
-    // MARK: - BG layer
-
-    private var bgLayer: some View {
-        ZStack {
-            Image("header-bg")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .clipped()
-
-            LinearGradient(
-                stops: [
-                    .init(color: .white.opacity(0.0), location: 0.33),
-                    .init(color: .white.opacity(0.5), location: 0.60)
-                ],
-                startPoint: .bottom,
-                endPoint: .top
-            )
-
-            LinearGradient(
-                stops: [
-                    .init(color: .white.opacity(0.1), location: 0.65),
-                    .init(color: .clear, location: 0.87)
-                ],
-                startPoint: .bottomLeading,
-                endPoint: .topTrailing
-            )
-
-            LinearGradient(
-                stops: [
-                    .init(color: .clear, location: 0.44),
-                    .init(color: .black.opacity(0.1), location: 0.69)
-                ],
-                startPoint: .topTrailing,
-                endPoint: .bottomLeading
-            )
-        }
-    }
-
-    // MARK: - Shared buttons
-
     private var sixEskaiButton: some View {
         Button(action: {}) {
             Image("6eskai-entry")
                 .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 30, height: 30)
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32, height: 32)
                 .clipShape(Circle())
                 .shadow(color: Color(hex: "4C5D9E").opacity(0.08), radius: 6)
         }
@@ -263,35 +152,31 @@ struct HomeHeaderView: View {
     private var avatarButton: some View {
         Image("profile-avatar")
             .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: 36, height: 36)
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 32, height: 32)
             .clipShape(Circle())
             .overlay(Circle().strokeBorder(.white, lineWidth: 1))
     }
 }
 
-// MARK: - Previews
-
-#Preview("Expanded – 428pt") {
-    VStack(spacing: 0) {
-        HomeHeaderView(scrollOffset: 0)
-        Spacer()
-    }
-    .ignoresSafeArea(edges: .top)
-}
-
-#Preview("Compact – 207pt") {
-    VStack(spacing: 0) {
-        HomeHeaderView(scrollOffset: 180)
-        Spacer()
+#Preview("Expanded – 207pt") {
+    ZStack {
+        Image("light-header-bg").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea()
+        VStack(spacing: 0) {
+            HomeHeaderView(scrollOffset: 0)
+            Spacer()
+        }
     }
     .ignoresSafeArea(edges: .top)
 }
 
 #Preview("Inline – 139pt") {
-    VStack(spacing: 0) {
-        HomeHeaderView(scrollOffset: 300)
-        Spacer()
+    ZStack {
+        Image("light-header-bg").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea()
+        VStack(spacing: 0) {
+            HomeHeaderView(scrollOffset: 100)
+            Spacer()
+        }
     }
     .ignoresSafeArea(edges: .top)
 }

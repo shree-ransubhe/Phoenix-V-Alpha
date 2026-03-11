@@ -15,6 +15,7 @@
 		0D6EBE3006B65180115CDCD0 /* IndiGoFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5720F16D15CA66FA5BD87F0 /* IndiGoFonts.swift */; };
 		1311159E116D289406CE462A /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002F40D8ABCB255176F2D9DF /* IconButton.swift */; };
 		15C6A08E32771E7F4A8B1B43 /* img-community3@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = B8E94DD153ADFB23AFB72261 /* img-community3@1.5x.png */; };
+		19394E2AFFEC72437191A891 /* light-BG@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = ED9129F38D733FEE954AF08C /* light-BG@1.5x.png */; };
 		1B46C4EEFB8224D69E8DFAF5 /* 6Eskai-entry@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB53ECA6F64349B405851742 /* 6Eskai-entry@1x.png */; };
 		1BDA8868F68DAACC20055306 /* Offers Cards -  Style C@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15800EE780580ABA1939EE1D /* Offers Cards -  Style C@2x.png */; };
 		21D807F71461520F297C8E1C /* img-nofilter@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 252FF722689AF18A585073E8 /* img-nofilter@1x.png */; };
@@ -23,11 +24,13 @@
 		29876207D2336AB233F46D7D /* Offers Cards -  Style A@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F0637A07046A14C3BC2F2D /* Offers Cards -  Style A@1x.png */; };
 		2B860A0AC240C3A3E3F643D6 /* hotels@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = B635BAE6B7A992772332E0A5 /* hotels@4x.png */; };
 		2F683C73B1C973814CD7CE7D /* img-nofilter@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1109D657B8DCF5FE4F9B723E /* img-nofilter@1.5x.png */; };
+		3157D31FCF6472CA3808951B /* light-BG@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9313784AAA45C274D42CA2D /* light-BG@4x.png */; };
 		38C3A8AE303F51300EA250BB /* SearchWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD38B27CFE1E7C5FD8217D0 /* SearchWidgetView.swift */; };
 		416CA0F75E9D3F66E7C95F5C /* Offers Cards -  Style B@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EE0A1195AD1608171503C80 /* Offers Cards -  Style B@3x.png */; };
 		43B22F2F6E984FA590E914F5 /* 6Eskai-entry@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A96D2C34BD8B75A89354EC9 /* 6Eskai-entry@4x.png */; };
 		443C7B22E76D78BF25C39985 /* experience@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD8DC044D83EF0C46E8C8F57 /* experience@4x.png */; };
 		488F12865E5E6C666B176F12 /* img-community2@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C78AF562C5585F24FED8BCC /* img-community2@1x.png */; };
+		4A806715F0D82B006C45D29A /* light-BG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 125C94EF53D239EDD5F8D313 /* light-BG@2x.png */; };
 		4B01477B7FC90A356CEB45BE /* img-nofilter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 321A779E0033B4B2AE76315B /* img-nofilter@2x.png */; };
 		4BC587D6C047D43E561674FF /* LottieAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D72593953A72FDA5FF6F679 /* LottieAnimationView.swift */; };
 		4D5031C79351D8740AF059C2 /* FromToView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB075753C061B9BA972B35B8 /* FromToView.swift */; };
@@ -51,6 +54,7 @@
 		6F5917C1AF37803485BD4481 /* dotted plane@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86767A00FB252C09BC7A3E7F /* dotted plane@3x.png */; };
 		6F806A9022F747B3A8F2F667 /* img-community2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6AFAD8873939BD3CF98CAA3 /* img-community2@2x.png */; };
 		7411B09DFA54B68F6DB78BA5 /* BG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10A7AABDEDF9448D311C3228 /* BG@2x.png */; };
+		759EEE6BEA7BC3E3CD4C8E19 /* light-BG@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 819ADF5689F9DC776F364084 /* light-BG@3x.png */; };
 		75C5517532738A27B20F07B8 /* img-community2@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 670243DE3D9D91BE40F6D7EA /* img-community2@1.5x.png */; };
 		7695CFC1BC4FB119D6FCC20E /* Offers Cards -  Style B@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DC4A5C81E1FF1BCDF2F3DE5 /* Offers Cards -  Style B@1.5x.png */; };
 		7A6464A5A2689ECD8FF4F886 /* nofilter-logo@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7402E134B46983328F384BAC /* nofilter-logo@1.5x.png */; };
@@ -61,6 +65,7 @@
 		80EA873E506AEE350D525D0E /* img-community3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9189E682DB84CCCE89F93078 /* img-community3@2x.png */; };
 		834326993B7EE4CD15E86010 /* cabs@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BEA1CC8583A0A4CC004BF1C /* cabs@1x.png */; };
 		83FB3EA45567A17024B40511 /* IndiGoColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178BCCB373AD5E8C58E6EE06 /* IndiGoColors.swift */; };
+		856C47D14B9E133798DEA5E0 /* light-BG@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DE2514F6C807329726A2EE /* light-BG@1x.png */; };
 		8CF02617FA2EA0780D7B4A81 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A334CB4B30322C2C37810A54 /* ContentView.swift */; };
 		8D2FAD9B191A3840F2EBA018 /* Offers Cards -  Style A@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FFA2F5743CB40659F9EAB51 /* Offers Cards -  Style A@4x.png */; };
 		8DA1991E029B7584A5C4521C /* Offers Cards -  Style B@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA055A153C129B85B5DFBBB8 /* Offers Cards -  Style B@2x.png */; };
@@ -150,6 +155,7 @@
 		0FCDDF10A0C105CA0C68DC92 /* cabs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cabs@2x.png"; sourceTree = "<group>"; };
 		10A7AABDEDF9448D311C3228 /* BG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BG@2x.png"; sourceTree = "<group>"; };
 		1109D657B8DCF5FE4F9B723E /* img-nofilter@1.5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img-nofilter@1.5x.png"; sourceTree = "<group>"; };
+		125C94EF53D239EDD5F8D313 /* light-BG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light-BG@2x.png"; sourceTree = "<group>"; };
 		15800EE780580ABA1939EE1D /* Offers Cards -  Style C@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Offers Cards -  Style C@2x.png"; sourceTree = "<group>"; };
 		178BCCB373AD5E8C58E6EE06 /* IndiGoColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndiGoColors.swift; sourceTree = "<group>"; };
 		1A96D2C34BD8B75A89354EC9 /* 6Eskai-entry@4x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6Eskai-entry@4x.png"; sourceTree = "<group>"; };
@@ -201,6 +207,7 @@
 		77E5DA71E0C989EEB65D279E /* dotted plane@1.5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dotted plane@1.5x.png"; sourceTree = "<group>"; };
 		7D72593953A72FDA5FF6F679 /* LottieAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimationView.swift; sourceTree = "<group>"; };
 		7FE6E83AAF2AFCDDF63B93D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		819ADF5689F9DC776F364084 /* light-BG@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light-BG@3x.png"; sourceTree = "<group>"; };
 		83DD9127B9285F09A93DDC72 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		83FEF061FEFAEDABC41CF42B /* cabs@1.5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cabs@1.5x.png"; sourceTree = "<group>"; };
 		86675892C5EDF5C69BB7D318 /* OfferHighlighterCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferHighlighterCard.swift; sourceTree = "<group>"; };
@@ -211,6 +218,7 @@
 		9096CC3AC78CFBC923E49D41 /* FlightStatusCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightStatusCard.swift; sourceTree = "<group>"; };
 		90F4231FAB55AA5C46571653 /* experience@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "experience@3x.png"; sourceTree = "<group>"; };
 		9189E682DB84CCCE89F93078 /* img-community3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img-community3@2x.png"; sourceTree = "<group>"; };
+		98DE2514F6C807329726A2EE /* light-BG@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light-BG@1x.png"; sourceTree = "<group>"; };
 		99BB5BCADCB4EE130C323139 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		9B289C3DB06EC6C0DD1FA53D /* hotels@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hotels@3x.png"; sourceTree = "<group>"; };
 		9F1D409219C28D2C0F327C90 /* OfferListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferListItem.swift; sourceTree = "<group>"; };
@@ -236,6 +244,7 @@
 		C388DD469A8C86C0235E4D9F /* 6Eskai-entry@1.5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6Eskai-entry@1.5x.png"; sourceTree = "<group>"; };
 		C40845FEC4C49D0DA17AD2ED /* FareSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareSelectionView.swift; sourceTree = "<group>"; };
 		C7092C656A5DBB6096886D23 /* cabs@4x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cabs@4x.png"; sourceTree = "<group>"; };
+		C9313784AAA45C274D42CA2D /* light-BG@4x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light-BG@4x.png"; sourceTree = "<group>"; };
 		CAD38B27CFE1E7C5FD8217D0 /* SearchWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWidgetView.swift; sourceTree = "<group>"; };
 		CB3C4F5CEE4F17C036B6AAC0 /* profile@1.5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile@1.5x.png"; sourceTree = "<group>"; };
 		CD512EF71AC685AC32404EF6 /* img-community3@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img-community3@1x.png"; sourceTree = "<group>"; };
@@ -255,6 +264,7 @@
 		E6AFAD8873939BD3CF98CAA3 /* img-community2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img-community2@2x.png"; sourceTree = "<group>"; };
 		E93814D90B5FF7AE4DD3F056 /* BG@4x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BG@4x.png"; sourceTree = "<group>"; };
 		EA21F376D12EE03D8B35EE4D /* BestOffersSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestOffersSection.swift; sourceTree = "<group>"; };
+		ED9129F38D733FEE954AF08C /* light-BG@1.5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light-BG@1.5x.png"; sourceTree = "<group>"; };
 		F56A48B4C2064967B20BE846 /* Offers Cards -  Style B@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Offers Cards -  Style B@1x.png"; sourceTree = "<group>"; };
 		FA77EC54D8DAF4C6FDC67958 /* img-nofilter@4x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img-nofilter@4x.png"; sourceTree = "<group>"; };
 		FB42F924B15E08B65A0D81AA /* 6Eskai-entry@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6Eskai-entry@2x.png"; sourceTree = "<group>"; };
@@ -543,6 +553,11 @@
 				321A779E0033B4B2AE76315B /* img-nofilter@2x.png */,
 				713D30FBC8F865AAE3BE63B1 /* img-nofilter@3x.png */,
 				FA77EC54D8DAF4C6FDC67958 /* img-nofilter@4x.png */,
+				ED9129F38D733FEE954AF08C /* light-BG@1.5x.png */,
+				98DE2514F6C807329726A2EE /* light-BG@1x.png */,
+				125C94EF53D239EDD5F8D313 /* light-BG@2x.png */,
+				819ADF5689F9DC776F364084 /* light-BG@3x.png */,
+				C9313784AAA45C274D42CA2D /* light-BG@4x.png */,
 				FDB904F92947FD85BE97DB31 /* nofilter-indigo-logo.png */,
 				7402E134B46983328F384BAC /* nofilter-logo@1.5x.png */,
 				4156F0CBC9716D2261621D8F /* nofilter-logo@1x.png */,
@@ -708,6 +723,11 @@
 				4B01477B7FC90A356CEB45BE /* img-nofilter@2x.png in Resources */,
 				961B24352F632324B92DB3E1 /* img-nofilter@3x.png in Resources */,
 				B5A516B927DF1A83D5918D8F /* img-nofilter@4x.png in Resources */,
+				19394E2AFFEC72437191A891 /* light-BG@1.5x.png in Resources */,
+				856C47D14B9E133798DEA5E0 /* light-BG@1x.png in Resources */,
+				4A806715F0D82B006C45D29A /* light-BG@2x.png in Resources */,
+				759EEE6BEA7BC3E3CD4C8E19 /* light-BG@3x.png in Resources */,
+				3157D31FCF6472CA3808951B /* light-BG@4x.png in Resources */,
 				FA592831BC881E289C5AF9D3 /* nofilter-indigo-logo.png in Resources */,
 				7A6464A5A2689ECD8FF4F886 /* nofilter-logo@1.5x.png in Resources */,
 				A111E78EC51F493CF57DD1D8 /* nofilter-logo@1x.png in Resources */,
@@ -848,8 +868,8 @@
 				INFOPLIST_FILE = IndiGoPrototype/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -871,8 +891,8 @@
 				INFOPLIST_FILE = IndiGoPrototype/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

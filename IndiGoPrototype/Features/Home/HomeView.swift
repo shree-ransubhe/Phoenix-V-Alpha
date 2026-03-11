@@ -4,9 +4,13 @@
 //
 //  Home screen with scroll-driven sticky collapsing header.
 //
-//  Uses a UIScrollView KVO observer for reliable scroll offset tracking,
-//  and offset-based pinning to keep the header stuck at the top while it
-//  transitions through three Figma states (expanded → compact → inline).
+//  Architecture:
+//    - BG image (light-BG) sits at the top of scroll content as a static layer
+//    - HomeHeaderView is a transparent overlay that pins to top via .offset(y:)
+//    - Page content (For You, etc.) starts overlapping the BG image area
+//    - As user scrolls, header collapses 207→139pt and shadow appears
+//
+//  Uses UIScrollView KVO observer for reliable scroll offset tracking.
 //
 
 import SwiftUI
@@ -77,7 +81,7 @@ struct HomeView: View {
     }
 
     private var contentCompensation: CGFloat {
-        let cappedScroll = min(clampedOffset, HomeHeaderView.totalCollapseRange)
+        let cappedScroll = min(clampedOffset, HomeHeaderView.collapseRange)
         return currentHeaderHeight - HomeHeaderView.expandedHeight + cappedScroll
     }
 
@@ -87,6 +91,7 @@ struct HomeView: View {
                 ScrollOffsetReader(offset: $scrollOffset)
                     .frame(height: 0)
 
+                // Header pinned to top via offset
                 HomeHeaderView(
                     scrollOffset: clampedOffset,
                     onSearchTap: { showSearchJourney = true }
@@ -100,6 +105,11 @@ struct HomeView: View {
                 pageContent
                     .offset(y: contentCompensation)
             }
+            .background(alignment: .top) {
+                // BG image pinned to the top of the scroll content
+                bgImageLayer
+                    .frame(height: HomeHeaderView.expandedHeight)
+            }
         }
         .background(IndiGoColors.background)
         .ignoresSafeArea(edges: .top)
@@ -112,6 +122,35 @@ struct HomeView: View {
         }
         .navigationDestination(item: $selectedOfferTitle) { title in
             OfferDetailView(offerTitle: title)
+        }
+    }
+
+    // MARK: - BG Image layer (light-BG with gradient overlays)
+
+    private var bgImageLayer: some View {
+        ZStack {
+            Image("light-header-bg")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .clipped()
+
+            LinearGradient(
+                stops: [
+                    .init(color: .white.opacity(0.1), location: 0.655),
+                    .init(color: Color(hex: "666666").opacity(0.0), location: 0.873)
+                ],
+                startPoint: .bottomLeading,
+                endPoint: .topTrailing
+            )
+
+            LinearGradient(
+                stops: [
+                    .init(color: .white.opacity(0.0), location: 0.393),
+                    .init(color: .white.opacity(0.9), location: 0.746)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
         }
     }
 
@@ -170,8 +209,6 @@ struct HomeView: View {
         .padding(.top, IndiGoSpacing.xs)
     }
 }
-
-// MARK: - Preview
 
 #Preview {
     NavigationStack {
