@@ -31,7 +31,7 @@ enum IndiGoColors {
     static let divider = Color(hex: "EEEEEE")
 
     // Nav-specific
-    static let navBarBlur = Color.white.opacity(0.9)
+    static let navBarBlur = Color.white.opacity(0.8)
     static let stickyFooterBg = Color.white.opacity(0.12)
 
     // Search widget
@@ -75,6 +75,29 @@ enum IndiGoColors {
     static let footerStatsBg = Color(hex: "EAF8FF")
     static let footerStatBorder = Color(hex: "D1EFFF")
     static let footerStatLabel = Color(hex: "7A85A0")
+
+    // Booking / Location selection (from Figma node 3:7894)
+    static let secondaryBright = Color(hex: "00AEE5")
+    static let secondaryMain = Color(hex: "AFE4FF")
+    static let primaryMain = Color(hex: "000099")
+    static let textTertiaryFull = Color(hex: "7A85A0")
+
+    // SRP (Search Results Page)
+    static let stretchGold = Color(hex: "A97D0E")
+    static let stretchGoldLight = Color(hex: "FFF8E5")
+    static let economyBlueLight = Color(hex: "EAF8FF")
+    static let economyBlueBadge = Color(hex: "D5F0FF")
+    static let economyBlueBadgeBorder = Color(hex: "B0E5FF").opacity(0.4)
+    static let successGreen = Color(hex: "218946")
+    static let accentDark = Color(hex: "209326")
+    static let actionDisabled = Color(hex: "9BA4B8")
+    static let semiWhite = Color(hex: "F8F8F8")
+    static let businessGreen = Color(hex: "CBF1CA")
+    static let businessGreenBorder = Color(hex: "CDF1CC")
+    static let srpCardShadow = Color(hex: "4C5D9E").opacity(0.15)
+    static let srpCardBorder = Color(hex: "E2EBF2")
+    static let calendarSelected = Color(hex: "AFE4FF")
+    static let calendarDefault = Color(hex: "EAF8FF")
 }
 
 // MARK: - Color+Hex

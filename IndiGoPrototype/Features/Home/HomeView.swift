@@ -69,6 +69,7 @@ private extension UIView {
 // MARK: - HomeView
 
 struct HomeView: View {
+    @EnvironmentObject private var bookingState: BookingState
     @State private var scrollOffset: CGFloat = 0
     @State private var showSearchJourney = false
     @State private var showAllOffers = false
@@ -122,6 +123,11 @@ struct HomeView: View {
         }
         .navigationDestination(item: $selectedOfferTitle) { title in
             OfferDetailView(offerTitle: title)
+        }
+        .onChange(of: showSearchJourney) { _, isActive in
+            if !isActive {
+                bookingState.isInBookingFlow = false
+            }
         }
     }
 
@@ -186,6 +192,17 @@ struct HomeView: View {
                 onOfferTap: { offer in selectedOfferTitle = offer.title },
                 onViewAllOffers: { showAllOffers = true }
             )
+
+            BluChipBalanceCard(
+                balance: "67,440",
+                tierName: "Blu 3",
+                progressFraction: 0.63,
+                maxPoints: "100,000",
+                unlockMessage: "Only 200 points away to unlock",
+                unlockHighlight: "20 passes"
+            )
+            .padding(.horizontal, IndiGoSpacing.lg)
+            .padding(.bottom, IndiGoSpacing.md)
 
             CommunitySection(items: [
                 CommunityItem(

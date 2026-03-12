@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject private var bookingState: BookingState
     @State private var selectedTab: NavTab = .explore
 
     var body: some View {
@@ -27,8 +28,12 @@ struct ContentView: View {
                 }
             }
 
-            BottomNavBar(selectedTab: $selectedTab)
+            if !bookingState.isInBookingFlow {
+                BottomNavBar(selectedTab: $selectedTab)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
         }
+        .animation(.easeInOut(duration: 0.25), value: bookingState.isInBookingFlow)
         .ignoresSafeArea(.keyboard)
     }
 }

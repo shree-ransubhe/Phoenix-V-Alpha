@@ -79,4 +79,10 @@ enum IndiGoFonts {
 
     // Body Medium 12pt
     static func bodySmallMedium() -> Font { .custom(poppinsMedium, size: 12) }
+
+    // SRP-specific sizes
+    static func bodyLight() -> Font { .custom(poppinsLight, size: 12) }
+    static func subHeading7() -> Font { .custom(poppinsSemiBold, size: 16) }
+    static func bodyExtraExtraSmall() -> Font { .custom(poppinsRegular, size: 8) }
+    static func bodyExtraExtraSmallMedium() -> Font { .custom(poppinsMedium, size: 8) }
 }

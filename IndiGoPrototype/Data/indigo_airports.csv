@@ -1,0 +1,145 @@
+city,airport_name,airport_code,country,type
+Delhi,Indira Gandhi International Airport,DEL,India,domestic
+Mumbai,Chhatrapati Shivaji Maharaj International Airport,BOM,India,domestic
+Bengaluru,Kempegowda International Airport,BLR,India,domestic
+Chennai,Chennai International Airport,MAA,India,domestic
+Hyderabad,Rajiv Gandhi International Airport,HYD,India,domestic
+Kolkata,Netaji Subhas Chandra Bose International Airport,CCU,India,domestic
+Pune,Pune Airport,PNQ,India,domestic
+Goa (Dabolim),Dabolim Airport,GOI,India,domestic
+Goa (Mopa),Manohar International Airport,GOX,India,domestic
+Ahmedabad,Sardar Vallabhbhai Patel International Airport,AMD,India,domestic
+Lucknow,Chaudhary Charan Singh International Airport,LKO,India,domestic
+Jaipur,Jaipur International Airport,JAI,India,domestic
+Kochi,Cochin International Airport,COK,India,domestic
+Chandigarh,Shaheed Bhagat Singh International Airport,IXC,India,domestic
+Guwahati,Lokpriya Gopinath Bordoloi International Airport,GAU,India,domestic
+Indore,Devi Ahilya Bai Holkar Airport,IDR,India,domestic
+Patna,Jay Prakash Narayan Airport,PAT,India,domestic
+Nagpur,Dr. Babasaheb Ambedkar International Airport,NAG,India,domestic
+Srinagar,Srinagar Airport,SXR,India,domestic
+Amritsar,Sri Guru Ram Das Ji International Airport,ATQ,India,domestic
+Varanasi,Lal Bahadur Shastri Airport,VNS,India,domestic
+Bhubaneswar,Biju Patnaik Airport,BBI,India,domestic
+Ranchi,Birsa Munda Airport,IXR,India,domestic
+Visakhapatnam,Visakhapatnam Airport,VTZ,India,domestic
+Coimbatore,Coimbatore International Airport,CJB,India,domestic
+Thiruvananthapuram,Thiruvananthapuram International Airport,TRV,India,domestic
+Mangaluru,Mangalore International Airport,IXE,India,domestic
+Dehradun,Dehradun Airport,DED,India,domestic
+Udaipur,Maharana Pratap Airport,UDR,India,domestic
+Surat,Surat International Airport,STV,India,domestic
+Vadodara,Vadodara Airport,BDQ,India,domestic
+Rajkot,Rajkot International Airport,RAJ,India,domestic
+Madurai,Madurai International Airport,IXM,India,domestic
+Tiruchirappalli,Tiruchirappalli International Airport,TRZ,India,domestic
+Vijayawada,Vijayawada International Airport,VGA,India,domestic
+Kozhikode,Calicut International Airport,CCJ,India,domestic
+Jammu,Jammu Airport,IXJ,India,domestic
+Raipur,Swami Vivekananda Airport,RPR,India,domestic
+Bhopal,Raja Bhoj Airport,BHO,India,domestic
+Jodhpur,Jodhpur Airport,JDH,India,domestic
+Agartala,Maharaja Bir Bikram Airport,IXA,India,domestic
+Imphal,Imphal Airport,IMF,India,domestic
+Leh,Kushok Bakula Rimpochee Airport,IXL,India,domestic
+Bagdogra,Bagdogra Airport,IXB,India,domestic
+Kannur,Kannur International Airport,CNN,India,domestic
+Aurangabad,Aurangabad Airport,IXU,India,domestic
+Tirupati,Tirupati Airport,TIR,India,domestic
+Dibrugarh,Dibrugarh Airport,DIB,India,domestic
+Jorhat,Jorhat Airport,JRH,India,domestic
+Silchar,Silchar Airport,IXS,India,domestic
+Dharamshala,Kangra Airport,DHM,India,domestic
+Darbhanga,Darbhanga Airport,DBR,India,domestic
+Gaya,Gaya International Airport,GAY,India,domestic
+Sri Vijaya Puram,Veer Savarkar International Airport,IXZ,India,domestic
+Rajahmundry,Rajahmundry Airport,RJA,India,domestic
+Kadapa,Kadapa Airport,CDP,India,domestic
+Kurnool,Kurnool Airport,KJB,India,domestic
+Hubli,Hubli Airport,HBX,India,domestic
+Belagavi,Belgaum Airport,IXG,India,domestic
+Mysore,Mysore Airport,MYQ,India,domestic
+Shivamogga,Shivamogga Airport,RQY,India,domestic
+Jabalpur,Jabalpur Airport,JLR,India,domestic
+Gwalior,Gwalior Airport,GWL,India,domestic
+Khajuraho,Khajuraho Airport,HJR,India,domestic
+Rewa,Rewa Airport,REW,India,domestic
+Kolhapur,Kolhapur Airport,KLH,India,domestic
+Nashik,Nashik Airport,ISK,India,domestic
+Shirdi,Shirdi Airport,SAG,India,domestic
+Gondia,Gondia Airport,GDB,India,domestic
+Agra,Agra Airport,AGR,India,domestic
+Ayodhya,Ayodhya International Airport,AYJ,India,domestic
+Bareilly,Bareilly Airport,BEK,India,domestic
+Ghaziabad,Hindon Airport,HDO,India,domestic
+Gorakhpur,Gorakhpur Airport,GOP,India,domestic
+Kanpur,Kanpur Airport,KNU,India,domestic
+Prayagraj,Prayagraj Airport,IXD,India,domestic
+Ajmer,Kishangarh Airport,KQH,India,domestic
+Bikaner,Bikaner Airport,BKB,India,domestic
+Jaisalmer,Jaisalmer Airport,JSA,India,domestic
+Salem,Salem Airport,SXV,India,domestic
+Thoothukudi,Thoothukudi Airport,TCR,India,domestic
+Pondicherry,Pondicherry Airport,PNY,India,domestic
+Jalandhar,Adampur Airport,AIP,India,domestic
+Deoghar,Deoghar Airport,DGH,India,domestic
+Jharsuguda,Jharsuguda Airport,JRG,India,domestic
+Durgapur,Kazi Nazrul Islam Airport,RDP,India,domestic
+Pantnagar,Pantnagar Airport,PGH,India,domestic
+Itanagar,Itanagar Airport,HGI,India,domestic
+Aizawl,Lengpui Airport,AJL,India,domestic
+Dimapur,Dimapur Airport,DMU,India,domestic
+Shillong,Shillong Airport,SHL,India,domestic
+Agatti,Agatti Airport,AGX,India,domestic
+Diu,Diu Airport,DIU,India,domestic
+Jagdalpur,Jagdalpur Airport,JGB,India,domestic
+Purnea,Purnia Airport,PUI,India,domestic
+Bhavnagar,Bhavnagar Airport,BHU,India,domestic
+Jamnagar,Jamnagar Airport,JGA,India,domestic
+Navi Mumbai,Navi Mumbai International Airport,NMI,India,domestic
+Dubai,Dubai International Airport,DXB,UAE,international
+Abu Dhabi,Zayed International Airport,AUH,UAE,international
+Sharjah,Sharjah International Airport,SHJ,UAE,international
+Ras Al Khaimah,Ras Al Khaimah International Airport,RKT,UAE,international
+Fujairah,Fujairah International Airport,FJR,UAE,international
+Singapore,Changi Airport,SIN,Singapore,international
+Bangkok,Suvarnabhumi Airport,BKK,Thailand,international
+Phuket,Phuket International Airport,HKT,Thailand,international
+Krabi,Krabi International Airport,KBV,Thailand,international
+Kuala Lumpur,Kuala Lumpur International Airport,KUL,Malaysia,international
+Langkawi,Langkawi International Airport,LGK,Malaysia,international
+Penang,Penang International Airport,PEN,Malaysia,international
+Hong Kong,Hong Kong International Airport,HKG,Hong Kong,international
+Doha,Hamad International Airport,DOH,Qatar,international
+Muscat,Muscat International Airport,MCT,Oman,international
+Kuwait City,Kuwait International Airport,KWI,Kuwait,international
+Bahrain,Bahrain International Airport,BAH,Bahrain,international
+Riyadh,King Khalid International Airport,RUH,Saudi Arabia,international
+Jeddah,King Abdulaziz International Airport,JED,Saudi Arabia,international
+Dammam,King Fahd International Airport,DMM,Saudi Arabia,international
+Medina,Prince Mohammad bin Abdulaziz International Airport,MED,Saudi Arabia,international
+Colombo,Bandaranaike International Airport,CMB,Sri Lanka,international
+Jaffna,Jaffna International Airport,JAF,Sri Lanka,international
+Kathmandu,Tribhuvan International Airport,KTM,Nepal,international
+Dhaka,Hazrat Shahjalal International Airport,DAC,Bangladesh,international
+Male,Velana International Airport,MLE,Maldives,international
+Denpasar (Bali),Ngurah Rai International Airport,DPS,Indonesia,international
+Jakarta,Soekarno-Hatta International Airport,CGK,Indonesia,international
+Istanbul,Istanbul Airport,IST,Turkey,international
+Athens,Athens International Airport,ATH,Greece,international
+London,Heathrow Airport,LHR,United Kingdom,international
+Manchester,Manchester Airport,MAN,United Kingdom,international
+Amsterdam,Amsterdam Airport Schiphol,AMS,Netherlands,international
+Nairobi,Jomo Kenyatta International Airport,NBO,Kenya,international
+Mahe (Seychelles),Seychelles International Airport,SEZ,Seychelles,international
+Mauritius,Sir Seewoosagur Ramgoolam International Airport,MRU,Mauritius,international
+Tbilisi,Shota Rustaveli Tbilisi International Airport,TBS,Georgia,international
+Baku,Heydar Aliyev International Airport,GYD,Azerbaijan,international
+Almaty,Almaty International Airport,ALA,Kazakhstan,international
+Tashkent,Islam Karimov Tashkent International Airport,TAS,Uzbekistan,international
+Hanoi,Noi Bai International Airport,HAN,Vietnam,international
+Ho Chi Minh City,Tan Son Nhat International Airport,SGN,Vietnam,international
+Siem Reap,Siem Reap-Angkor International Airport,SAI,Cambodia,international
+Guangzhou,Guangzhou Baiyun International Airport,CAN,China,international
+Shanghai,Shanghai Pudong International Airport,PVG,China,international
+Yangon,Yangon International Airport,RGN,Myanmar,international

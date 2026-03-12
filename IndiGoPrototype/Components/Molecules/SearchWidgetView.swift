@@ -123,15 +123,7 @@ struct SearchWidgetView: View {
     }
 
     private var sixEskaiButton: some View {
-        Button(action: {}) {
-            Image("6eskai-entry")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 32, height: 32)
-                .clipShape(Circle())
-                .shadow(color: Color(hex: "4C5D9E").opacity(0.08), radius: 6)
-        }
-        .buttonStyle(.plain)
+        SixEskaiButton()
     }
 
     private var avatarButton: some View {

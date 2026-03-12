@@ -31,7 +31,7 @@ struct FlightStatusCard: View {
         .clipShape(RoundedRectangle(cornerRadius: IndiGoSpacing.radiusMd))
         .overlay(
             RoundedRectangle(cornerRadius: IndiGoSpacing.radiusMd)
-                .stroke(IndiGoColors.secondaryMedium, lineWidth: 1)
+                .stroke(IndiGoColors.secondaryBright, lineWidth: 1)
         )
     }
 
