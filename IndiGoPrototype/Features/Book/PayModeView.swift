@@ -91,6 +91,9 @@ struct PayModeView: View {
                 .navigationBarBackButtonHidden()
         }
         .ignoresSafeArea(.container, edges: [.top, .bottom])
+        #if UT_VARIANT
+        .utInstrumented(screenId: "PayModeView")
+        #endif
         .navigationBarHidden(true)
         .onAppear {
             paymentMethod = bookingState.paymentMethod
@@ -587,6 +590,9 @@ struct PayModeView: View {
         bookingState.paymentMethod = paymentMethod
         bookingState.useBluChipBalance = useBluChipBalance
         bookingState.selectedCurrency = selectedCurrency
+        #if UT_VARIANT
+        UTTrackingService.shared.markJourneyComplete()
+        #endif
         navigateToSRP = true
     }
 

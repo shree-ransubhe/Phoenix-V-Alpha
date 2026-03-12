@@ -17,6 +17,8 @@ struct SRPView: View {
     @State private var compareAppeared = false
     @State private var cardsAppeared = false
     @State private var shimmerActive = true
+    @State private var fareWasSelected = false
+    @State private var showJourneyComplete = false
 
     private let flights = MockFlights.sample
 
@@ -72,11 +74,22 @@ struct SRPView: View {
                             flightResultsList
                                 .opacity(cardsAppeared ? 1 : 0)
                         }
+
                     }
                     .padding(.bottom, 40)
                 }
             }
+
+            #if UT_VARIANT
+            if showJourneyComplete {
+                UTJourneyCompleteOverlay()
+                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
+            }
+            #endif
         }
+        #if UT_VARIANT
+        .utInstrumented(screenId: "SRPView")
+        #endif
         .navigationBarBackButtonHidden(true)
         .onAppear { runEntranceAnimations() }
         .sheet(isPresented: $showCompareFares) {
@@ -93,7 +106,8 @@ struct SRPView: View {
                 isPresented: .init(
                     get: { selectedFlightForStretch != nil },
                     set: { if !$0 { selectedFlightForStretch = nil } }
-                )
+                ),
+                onFareSelected: { fareWasSelected = true }
             )
             .presentationDetents([.height(580)])
             .presentationDragIndicator(.hidden)
@@ -107,12 +121,24 @@ struct SRPView: View {
                 isPresented: .init(
                     get: { selectedFlightForEconomy != nil },
                     set: { if !$0 { selectedFlightForEconomy = nil } }
-                )
+                ),
+                onFareSelected: { fareWasSelected = true }
             )
             .presentationDetents([.height(580)])
             .presentationDragIndicator(.hidden)
             .presentationCornerRadius(23)
             .presentationBackgroundInteraction(.enabled(upThrough: .height(580)))
+        }
+        .onChange(of: fareWasSelected) { _, selected in
+            if selected {
+                #if UT_VARIANT
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                    withAnimation(.spring(response: 0.5, dampingFraction: 0.85)) {
+                        showJourneyComplete = true
+                    }
+                }
+                #endif
+            }
         }
     }
 
@@ -322,6 +348,7 @@ private struct ShimmerCardPlaceholder: View {
         )
         .frame(width: 150)
     }
+
 }
 
 #Preview {

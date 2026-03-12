@@ -71,6 +71,9 @@ struct BookPassengerView: View {
             }
         }
         .ignoresSafeArea(.container, edges: [.top, .bottom])
+        #if UT_VARIANT
+        .utInstrumented(screenId: "BookPassengerView")
+        #endif
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $navigateToPayMode) {
             PayModeView()

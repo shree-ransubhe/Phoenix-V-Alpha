@@ -9,6 +9,7 @@ struct FareFamilyBottomSheet: View {
     let flight: MockFlight
     let initialFareType: FareSheetType
     @Binding var isPresented: Bool
+    var onFareSelected: (() -> Void)?
     @State private var fareType: FareSheetType = .economy
     @State private var selectedIndex: Int = 1
     @State private var dragOffset: CGFloat = 0
@@ -195,7 +196,11 @@ struct FareFamilyBottomSheet: View {
                     isStretch: fareType == .stretch,
                     accentColor: fareType == .stretch ? IndiGoColors.stretchGold : IndiGoColors.secondaryBright,
                     badgeBg: badgeBgColor(for: option.fareFamily),
-                    badgeTextColor: badgeTextColor(for: option.fareFamily)
+                    badgeTextColor: badgeTextColor(for: option.fareFamily),
+                    onSelect: {
+                        isPresented = false
+                        onFareSelected?()
+                    }
                 )
                 .frame(width: cardWidth)
                 .scaleEffect(isActive ? 1.0 : 0.88 - normalizedDist * 0.04)
@@ -265,6 +270,7 @@ private struct FareSelectorCard: View {
     let accentColor: Color
     let badgeBg: Color
     let badgeTextColor: Color
+    var onSelect: (() -> Void)?
 
     private var borderColor: Color {
         if isStretch {
@@ -406,7 +412,7 @@ private struct FareSelectorCard: View {
     }
 
     private var selectButton: some View {
-        Button(action: {}) {
+        Button(action: { onSelect?() }) {
             Text("Select")
                 .font(IndiGoFonts.buttonMobile())
                 .foregroundStyle(.white)

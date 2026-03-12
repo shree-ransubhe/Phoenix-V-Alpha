@@ -113,6 +113,9 @@ struct HomeView: View {
             }
         }
         .background(IndiGoColors.background)
+        #if UT_VARIANT
+        .utInstrumented(screenId: "HomeView")
+        #endif
         .ignoresSafeArea(edges: .top)
         .navigationDestination(isPresented: $showSearchJourney) {
             FromToView()

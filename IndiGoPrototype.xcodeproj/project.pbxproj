@@ -7,82 +7,173 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		002EA65C34A7E65CD8EAAA62 /* PayModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C415C768C8FCE54576960C /* PayModeView.swift */; };
+		026DA011A530937B3CA41FB3 /* cabs@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FEF061FEFAEDABC41CF42B /* cabs@1.5x.png */; };
+		02C7115621501432E16F972C /* MockCities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BD966524F6B04D73393C1C /* MockCities.swift */; };
 		030C63651CB91144EA5148A1 /* nofilter-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5618929C076DE016D885D3C /* nofilter-logo@2x.png */; };
+		03F995C5F0B04E6B9257BA54 /* BestOffersSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA21F376D12EE03D8B35EE4D /* BestOffersSection.swift */; };
 		03FA81055B94D859ED393B8F /* ChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E16FD2428D9A2D1D0488355 /* ChipView.swift */; };
 		04725AF97E618F70C9F29D65 /* OfferListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1D409219C28D2C0F327C90 /* OfferListItem.swift */; };
 		04A8CDB8F4BEA95ECC23E75C /* SRPReferenceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7830639184F68D4C2DE1BAC1 /* SRPReferenceCard.swift */; };
+		04E398E70A98AA2E38778877 /* nofilter-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5618929C076DE016D885D3C /* nofilter-logo@2x.png */; };
 		0577D4F556B517DC60826378 /* FlightStatusCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9096CC3AC78CFBC923E49D41 /* FlightStatusCard.swift */; };
+		078B857713C699A81876A109 /* 6Eskai-entry@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB53ECA6F64349B405851742 /* 6Eskai-entry@1x.png */; };
+		07CFE601F2E503F88A8BDF1E /* BookPassengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A6C4777FCD113E4E1D1A8 /* BookPassengerView.swift */; };
 		0AF00C3039EAF7567B469B3B /* cabs@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77A7AA839DC5305F6B6AB2B9 /* cabs@3x.png */; };
+		0B3327006F5E70BEB757923F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF94814CCC52CF737D56A78D /* HomeView.swift */; };
+		0C33BCD06041539224BA5466 /* FarePerkIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733B43324E0E49EF5BBCDC61 /* FarePerkIcons.swift */; };
+		0C3CC48C93CFB6A816827239 /* Offers Cards -  Style A@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 312464E095367F3CD910A83F /* Offers Cards -  Style A@3x.png */; };
 		0D6EBE3006B65180115CDCD0 /* IndiGoFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5720F16D15CA66FA5BD87F0 /* IndiGoFonts.swift */; };
+		0FB32E36A7AB016196A0E26A /* OfferDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62655B4A47C9FC457E4F370A /* OfferDetailView.swift */; };
+		101D6AB4E096087BDA72E809 /* Offers Cards -  Style C@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB14C319054674DCAD151E9F /* Offers Cards -  Style C@3x.png */; };
+		123103BEDF478086E70D09BF /* dotted plane@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66033DFF12BBD9C68F5E84AA /* dotted plane@1x.png */; };
 		1311159E116D289406CE462A /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002F40D8ABCB255176F2D9DF /* IconButton.swift */; };
 		1551D15E3CEA75669364234E /* 6eskai@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B6E611E73C4F9B0624A0908 /* 6eskai@3x.png */; };
+		156B16E997E71A166AE863A3 /* UTDemographicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA036FF2BBA33298957371F /* UTDemographicsView.swift */; };
+		15A0410DF000934B3FC1434F /* 6Eskai-entry@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3636E81B75651E160B8A21FB /* 6Eskai-entry@3x.png */; };
+		15C3E945BEF20DE819339534 /* dotted plane@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5F057DC7F080B4E3E7E08B1 /* dotted plane@4x.png */; };
 		15C6A08E32771E7F4A8B1B43 /* img-community3@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = B8E94DD153ADFB23AFB72261 /* img-community3@1.5x.png */; };
+		15D01BFDC2D7ED7F955874CC /* img-community3@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = B8E94DD153ADFB23AFB72261 /* img-community3@1.5x.png */; };
+		185F687AD4EAF4C933688B8E /* BG@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = BCF04A7D71CC283F288D8D89 /* BG@1.5x.png */; };
 		19394E2AFFEC72437191A891 /* light-BG@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = ED9129F38D733FEE954AF08C /* light-BG@1.5x.png */; };
+		19BBC21FDB2223021C2745E3 /* OfferHighlighterCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86675892C5EDF5C69BB7D318 /* OfferHighlighterCard.swift */; };
 		1B46C4EEFB8224D69E8DFAF5 /* 6Eskai-entry@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB53ECA6F64349B405851742 /* 6Eskai-entry@1x.png */; };
 		1BDA8868F68DAACC20055306 /* Offers Cards -  Style C@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15800EE780580ABA1939EE1D /* Offers Cards -  Style C@2x.png */; };
+		1C7E8589EE45368ECB111AA9 /* img-community2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6AFAD8873939BD3CF98CAA3 /* img-community2@2x.png */; };
+		1D3E8D5E31C5CEF9387B01F8 /* nofilter-logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58E43F7E689DBCC064C5F400 /* nofilter-logo@3x.png */; };
+		1DE7A2D436148E344D69EE49 /* Offers Cards -  Style B@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA055A153C129B85B5DFBBB8 /* Offers Cards -  Style B@2x.png */; };
+		209BD1BEAA19CA05225119F2 /* 6eskai@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA443F93CE29DE7BD41D92C /* 6eskai@1x.png */; };
+		215935667C9A036513804201 /* BauhausStd-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B192329BF732F0607D6D7CA5 /* BauhausStd-Medium.ttf */; };
 		21D807F71461520F297C8E1C /* img-nofilter@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 252FF722689AF18A585073E8 /* img-nofilter@1x.png */; };
+		2353391DA5562292C4AA4A1B /* Offers Cards -  Style C@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0371DFA2F1548447804F7279 /* Offers Cards -  Style C@1x.png */; };
 		26198BE98030FAA3DFCC087C /* SixEPickCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0225B91C94D08E98DC5A0807 /* SixEPickCard.swift */; };
 		26BAB13DB5C5489101EDE354 /* shop@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FF3853D1C7E4194BABD81253 /* shop@1x.png */; };
+		283B71C510C6C6A32B1EE344 /* UTJourneyCompleteOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5335FC461DBC7312B4B15 /* UTJourneyCompleteOverlay.swift */; };
 		29876207D2336AB233F46D7D /* Offers Cards -  Style A@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F0637A07046A14C3BC2F2D /* Offers Cards -  Style A@1x.png */; };
+		2A234D82573AF8C0DAEE4AC4 /* light-BG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 125C94EF53D239EDD5F8D313 /* light-BG@2x.png */; };
 		2B860A0AC240C3A3E3F643D6 /* hotels@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = B635BAE6B7A992772332E0A5 /* hotels@4x.png */; };
 		2CCFCABAA0ED2EF09909DE96 /* 6eskai@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C4F629317E3FFDD788C8CD91 /* 6eskai@2x.png */; };
 		2F683C73B1C973814CD7CE7D /* img-nofilter@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1109D657B8DCF5FE4F9B723E /* img-nofilter@1.5x.png */; };
+		2F720317710A57303B183943 /* Offers Cards -  Style B@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = F56A48B4C2064967B20BE846 /* Offers Cards -  Style B@1x.png */; };
 		3076C99D87EBF9B320FF488C /* SRPIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597E81AE61F6AFD00EF4900C /* SRPIcons.swift */; };
+		30A2135E8EAED9F2AE9B4895 /* ChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E16FD2428D9A2D1D0488355 /* ChipView.swift */; };
+		30EBEE07818D4E5E7230B8C8 /* FareFamilyBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAFD3B04EFE942A96A253BE /* FareFamilyBottomSheet.swift */; };
 		3157D31FCF6472CA3808951B /* light-BG@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9313784AAA45C274D42CA2D /* light-BG@4x.png */; };
 		32242C109BFB4E9F2492E48D /* FareFamilyBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAFD3B04EFE942A96A253BE /* FareFamilyBottomSheet.swift */; };
+		33E3260CC520BFF2CAA05B06 /* ForYouSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5634A852250D4726E6674CBD /* ForYouSection.swift */; };
+		35DA0A0F03C3686C146B38BF /* img-nofilter@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1109D657B8DCF5FE4F9B723E /* img-nofilter@1.5x.png */; };
+		37109E1F31B69D4423E0A4A4 /* indigo_airports.csv in Resources */ = {isa = PBXBuildFile; fileRef = FBBAD41D8002375E6CC5557C /* indigo_airports.csv */; };
+		38767F0E20A8D3F0D42C6D8D /* nofilter-logo@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CDD01B53B766FC27FD71916 /* nofilter-logo@4x.png */; };
 		38C3A8AE303F51300EA250BB /* SearchWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD38B27CFE1E7C5FD8217D0 /* SearchWidgetView.swift */; };
+		39E89E6FDC208B14BAC37291 /* OneClickAwaySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCC1BC981072D76D0FCBA28 /* OneClickAwaySection.swift */; };
+		3A1C983DBAF7F21FA1D75334 /* hotels@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A943AEDC5263AFBD48F49FBA /* hotels@2x.png */; };
+		3A2F92E117DA16D84CA6A583 /* shop@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5877911A2825FDCA202EFBCB /* shop@3x.png */; };
 		3D56EEAEDED8830867EFB074 /* IBC-coin@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A8ECA71B32A991063541139E /* IBC-coin@3x.png */; };
+		3E933C0B47A9A3243F169312 /* IBC-coin@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 744C60F5C631945A3ACEA3A3 /* IBC-coin@1.5x.png */; };
+		3F23E484E819F8EA5BE5B1A1 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 99BB5BCADCB4EE130C323139 /* Poppins-SemiBold.ttf */; };
+		4025779D7770C806DD6187E6 /* sight seeing@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0705C872703853EC66A9AB58 /* sight seeing@1.5x.png */; };
 		416CA0F75E9D3F66E7C95F5C /* Offers Cards -  Style B@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EE0A1195AD1608171503C80 /* Offers Cards -  Style B@3x.png */; };
+		4171A4729C64F3FB8EBF8A46 /* dotted plane@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E5DA71E0C989EEB65D279E /* dotted plane@1.5x.png */; };
+		42F4C04D301170A982A705D8 /* IBC-coin@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7700B81C43DFD12DE40FFBFB /* IBC-coin@1x.png */; };
 		43B22F2F6E984FA590E914F5 /* 6Eskai-entry@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A96D2C34BD8B75A89354EC9 /* 6Eskai-entry@4x.png */; };
+		43ED55D393D105FE55DC1E4D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D8B0AA933A1FCC3470B806B9 /* Lottie */; };
+		44003715BC56977B28FF18B6 /* IBC-coin@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A8ECA71B32A991063541139E /* IBC-coin@3x.png */; };
 		443C7B22E76D78BF25C39985 /* experience@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD8DC044D83EF0C46E8C8F57 /* experience@4x.png */; };
+		45BCC51C2A3C78B34B73E950 /* IBC-coin@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF79FE1FCDDCCEF673359FF4 /* IBC-coin@4x.png */; };
+		45D195E0A3D6016987047F74 /* IndiGoFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5720F16D15CA66FA5BD87F0 /* IndiGoFonts.swift */; };
+		4720251334E0EB1476014B3C /* Offers Cards -  Style C@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15800EE780580ABA1939EE1D /* Offers Cards -  Style C@2x.png */; };
+		476468F166E24AAE159D75CF /* UTJourneyCompleteOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B5335FC461DBC7312B4B15 /* UTJourneyCompleteOverlay.swift */; };
 		488F12865E5E6C666B176F12 /* img-community2@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C78AF562C5585F24FED8BCC /* img-community2@1x.png */; };
+		490245E56ACC1EE52879E3E7 /* sight seeing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C06A5552B1045286F9EE06AB /* sight seeing@2x.png */; };
+		49ED0642813A99C4441F28A6 /* FromToView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB075753C061B9BA972B35B8 /* FromToView.swift */; };
 		4A806715F0D82B006C45D29A /* light-BG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 125C94EF53D239EDD5F8D313 /* light-BG@2x.png */; };
+		4AD0C90360005C4055051C02 /* SixEPickCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0225B91C94D08E98DC5A0807 /* SixEPickCard.swift */; };
 		4B01477B7FC90A356CEB45BE /* img-nofilter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 321A779E0033B4B2AE76315B /* img-nofilter@2x.png */; };
 		4BC587D6C047D43E561674FF /* LottieAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D72593953A72FDA5FF6F679 /* LottieAnimationView.swift */; };
+		4CE4F3F0409F45ADC90F10E2 /* profile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A421CD529E755E22CBA3EFB3 /* profile@2x.png */; };
 		4D5031C79351D8740AF059C2 /* FromToView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB075753C061B9BA972B35B8 /* FromToView.swift */; };
+		4D74981925C67C1A66C88CBA /* IndiGoPrototypeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F07B2CEF8C424316E89439 /* IndiGoPrototypeApp.swift */; };
+		4DC32B8AC9D3ED496EC35D42 /* shop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 07A863560B5A32F837AA7FFB /* shop@2x.png */; };
+		4E6298A639D4F0DA7AA5E739 /* 6eskai@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5952D3BA219636E3541E0093 /* 6eskai@1.5x.png */; };
 		501583CB650302B3B11BE18B /* View+Transitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9F3181A5C305B42A75465 /* View+Transitions.swift */; };
 		5059A0452056F5D54C0447BB /* shop@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5877911A2825FDCA202EFBCB /* shop@3x.png */; };
 		50B4AA919A20A12F489D74AC /* profile@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 31312D1E2AAF59A07D9F686E /* profile@4x.png */; };
 		5177E671369B88339C470C71 /* IndiGoAirports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC6903CA42EEC29DACE7261 /* IndiGoAirports.swift */; };
 		523835E7179788FB4E5E03CD /* SRPCompareClassesCTA.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCAD053406AC4F694AFED9E7 /* SRPCompareClassesCTA.swift */; };
+		52E6034787EDF9C0BE6026D4 /* cabs@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77A7AA839DC5305F6B6AB2B9 /* cabs@3x.png */; };
+		5452EC42A307C97F61A5F9EE /* LocationPromoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71484EAD67E48DBED00CFEE3 /* LocationPromoCard.swift */; };
 		547DEEF0A54DA32AA4B0F24E /* 6eskai@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5952D3BA219636E3541E0093 /* 6eskai@1.5x.png */; };
+		54C351B89B2A2EC640790E38 /* hotels@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451A1B5E54A977ADCAD40440 /* hotels@1x.png */; };
 		55A00E656594FB51CC92F471 /* cabs@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7092C656A5DBB6096886D23 /* cabs@4x.png */; };
 		5706A515D1320320C4F9FA7C /* profile@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = DEC97ED0E36CE6502CAB3A0E /* profile@1x.png */; };
 		58798822B95B46CB42A87B6B /* Offers Cards -  Style B@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = F56A48B4C2064967B20BE846 /* Offers Cards -  Style B@1x.png */; };
+		5900E2B0F71E091A600ACD6C /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002F40D8ABCB255176F2D9DF /* IconButton.swift */; };
 		59BB2EAD1C37CAE9A5B981F9 /* sight seeing@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 282A65ED3CBDD6FAC3A8CA9C /* sight seeing@1x.png */; };
 		5A90CE2AE3D8D8FBA04E3DBC /* nofilter-logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58E43F7E689DBCC064C5F400 /* nofilter-logo@3x.png */; };
+		5A92B2806AEDE367088E05CC /* hotels@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B289C3DB06EC6C0DD1FA53D /* hotels@3x.png */; };
 		5BDB07BAB959C543027651F0 /* hotels@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451A1B5E54A977ADCAD40440 /* hotels@1x.png */; };
 		5C8E3E64F0FD21E396F39A48 /* dotted plane@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66033DFF12BBD9C68F5E84AA /* dotted plane@1x.png */; };
 		5D5054D2536A78F7AA6A523C /* MyBookingsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0084F1AE043ED2C6C78AADF1 /* MyBookingsCard.swift */; };
 		5D5832F0CA538436F7616E7F /* ForYouSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5634A852250D4726E6674CBD /* ForYouSection.swift */; };
+		5D5E1871F5913369D7587C2C /* FarePerkIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733B43324E0E49EF5BBCDC61 /* FarePerkIcons.swift */; };
+		5F88BC8971C6893C777DEACA /* nofilter-indigo-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = FDB904F92947FD85BE97DB31 /* nofilter-indigo-logo.png */; };
+		5FC01B6562126C481552FEAC /* profile@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB3C4F5CEE4F17C036B6AAC0 /* profile@1.5x.png */; };
+		6123869322EF6608478F970F /* SRPQuickFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E6CB8525997A1F6E703001 /* SRPQuickFilters.swift */; };
 		628128CCBA28039639F96F1F /* BookingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708A2D4345383D316493F35C /* BookingState.swift */; };
+		62BD6B1745E4C2D3B219A47F /* BookLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260A921D115719BC1BE7EBE9 /* BookLocationView.swift */; };
+		64A6B7A64BF72BE38C702B6C /* 6eskai@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C4F629317E3FFDD788C8CD91 /* 6eskai@2x.png */; };
 		65534B27CF9C2739467BD694 /* sight seeing@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0212C156F4AB9751470AA190 /* sight seeing@3x.png */; };
+		66D2B843916C25A2D98DDA57 /* OfferListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1D409219C28D2C0F327C90 /* OfferListItem.swift */; };
+		67473192C0ED48D6B1EDC933 /* img-nofilter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 321A779E0033B4B2AE76315B /* img-nofilter@2x.png */; };
+		67CEA63C221F64C294CE7C7D /* experience@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26D133E766CBA4ABB9AB043D /* experience@2x.png */; };
 		68011C3D7F4F0E8AFD170829 /* app icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 33CD1079658D8213BBE337A3 /* app icon.png */; };
+		6883C6EC81544B4B61E5CEAC /* cabs@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BEA1CC8583A0A4CC004BF1C /* cabs@1x.png */; };
 		6902406481C860F506D4E65E /* CompareFaresBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC399D6D5295578F1F5EA65E /* CompareFaresBottomSheet.swift */; };
 		696BDF124E3852C3D75273F0 /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AA14F69B4CA42BD93807EC /* HomeHeaderView.swift */; };
+		6A043803AA412F20B116EC7A /* img-community2@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C78AF562C5585F24FED8BCC /* img-community2@1x.png */; };
 		6E017AA8B0D8297022F834A0 /* FareSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40845FEC4C49D0DA17AD2ED /* FareSelectionView.swift */; };
+		6E2BF19BAF71F2799FB2B27F /* nofilter-logo@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4156F0CBC9716D2261621D8F /* nofilter-logo@1x.png */; };
 		6F5917C1AF37803485BD4481 /* dotted plane@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86767A00FB252C09BC7A3E7F /* dotted plane@3x.png */; };
 		6F806A9022F747B3A8F2F667 /* img-community2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6AFAD8873939BD3CF98CAA3 /* img-community2@2x.png */; };
+		73E4A069CB671F617BE41A87 /* app icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 33CD1079658D8213BBE337A3 /* app icon.png */; };
 		7411B09DFA54B68F6DB78BA5 /* BG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10A7AABDEDF9448D311C3228 /* BG@2x.png */; };
+		745A5E01804B39E7DD97EF68 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF7C1341BC01D9E35476A8FB /* Poppins-Regular.ttf */; };
+		747E17624A5670CA87827158 /* experience@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD8DC044D83EF0C46E8C8F57 /* experience@4x.png */; };
 		759EEE6BEA7BC3E3CD4C8E19 /* light-BG@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 819ADF5689F9DC776F364084 /* light-BG@3x.png */; };
 		75C5517532738A27B20F07B8 /* img-community2@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 670243DE3D9D91BE40F6D7EA /* img-community2@1.5x.png */; };
+		7662F17F2F4A15C318F1476D /* 6eskai@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D085B571ACF0DDF97864577 /* 6eskai@4x.png */; };
 		7695CFC1BC4FB119D6FCC20E /* Offers Cards -  Style B@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DC4A5C81E1FF1BCDF2F3DE5 /* Offers Cards -  Style B@1.5x.png */; };
+		77B6C7873DFC5CB5239A3BF7 /* light-BG@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = ED9129F38D733FEE954AF08C /* light-BG@1.5x.png */; };
+		783A03A078A1CEC7DA579701 /* BG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10A7AABDEDF9448D311C3228 /* BG@2x.png */; };
+		78B099410415FFC0F8D45797 /* shop@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3174885D1C553E1AC8945D52 /* shop@1.5x.png */; };
 		7A6464A5A2689ECD8FF4F886 /* nofilter-logo@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7402E134B46983328F384BAC /* nofilter-logo@1.5x.png */; };
 		7A719921610B5DA643CBB35C /* 6Eskai-entry@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB42F924B15E08B65A0D81AA /* 6Eskai-entry@2x.png */; };
 		7AF076C974E26E6F7FE26F1C /* dotted plane@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5608CE34E524BDF4337494E /* dotted plane@2x.png */; };
+		7AFDE8F611CCAAA416BB1A66 /* BookDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC82D052AABF231596D6506E /* BookDateView.swift */; };
+		7B8595CC6825174932F96E99 /* Offers Cards -  Style B@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = D166B3D18BE5D5F844DDE690 /* Offers Cards -  Style B@4x.png */; };
+		7DB4218F615634EF7C551C31 /* OneClickAwayCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7F13505A095257F6C0A575 /* OneClickAwayCard.swift */; };
 		7E3D2027C5532604EB18C56F /* BookPassengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A6C4777FCD113E4E1D1A8 /* BookPassengerView.swift */; };
 		7F47C9C3932EB3E1210C9489 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C2E63AB51D347EB8DADE2B5 /* Assets.xcassets */; };
+		8080E2A934E1DFA95789C83E /* IndiGoAirports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC6903CA42EEC29DACE7261 /* IndiGoAirports.swift */; };
 		80BE13BDF0E633AC448777D2 /* 6eskai@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D085B571ACF0DDF97864577 /* 6eskai@4x.png */; };
 		80D0A164D2DFC6649CE51D5C /* hotels@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B289C3DB06EC6C0DD1FA53D /* hotels@3x.png */; };
 		80EA873E506AEE350D525D0E /* img-community3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9189E682DB84CCCE89F93078 /* img-community3@2x.png */; };
+		811761B93BCD9A734E0A7C7A /* SearchWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD38B27CFE1E7C5FD8217D0 /* SearchWidgetView.swift */; };
 		834326993B7EE4CD15E86010 /* cabs@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BEA1CC8583A0A4CC004BF1C /* cabs@1x.png */; };
 		83FB3EA45567A17024B40511 /* IndiGoColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178BCCB373AD5E8C58E6EE06 /* IndiGoColors.swift */; };
+		85177B97C612F3F6A0A1EE62 /* MockFlights.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76378FFBCCC4D1625FF44858 /* MockFlights.swift */; };
 		856C47D14B9E133798DEA5E0 /* light-BG@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DE2514F6C807329726A2EE /* light-BG@1x.png */; };
+		86461585D5DB237D2935609C /* IndiGoColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178BCCB373AD5E8C58E6EE06 /* IndiGoColors.swift */; };
+		8761B26267E0A1B5A6D397D9 /* Offers Cards -  Style C@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 265F21E19EC4BC0E7749AFBA /* Offers Cards -  Style C@1.5x.png */; };
+		8B2F4AA14A1552E80D945028 /* light-BG@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DE2514F6C807329726A2EE /* light-BG@1x.png */; };
 		8CF02617FA2EA0780D7B4A81 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A334CB4B30322C2C37810A54 /* ContentView.swift */; };
+		8D29098F940C77375CFAC4E4 /* img-community3@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C345FB39F805543F9D75535 /* img-community3@4x.png */; };
 		8D2FAD9B191A3840F2EBA018 /* Offers Cards -  Style A@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FFA2F5743CB40659F9EAB51 /* Offers Cards -  Style A@4x.png */; };
 		8DA1991E029B7584A5C4521C /* Offers Cards -  Style B@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA055A153C129B85B5DFBBB8 /* Offers Cards -  Style B@2x.png */; };
 		8ED6D538BBFA128220B7C5F6 /* Offers Cards -  Style C@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB14C319054674DCAD151E9F /* Offers Cards -  Style C@3x.png */; };
+		8F085FB502BC73BD2C9AAE90 /* SixEskaiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CD4DEA85D3EB2827B127BB /* SixEskaiButton.swift */; };
 		8FACF06FE9F82DB65E3341D2 /* BG@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = E93814D90B5FF7AE4DD3F056 /* BG@4x.png */; };
+		909DA644AC9AAE2CE1797F90 /* profile@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = DEC97ED0E36CE6502CAB3A0E /* profile@1x.png */; };
 		90A97C97E3ADACC40531C83D /* SRPCalendarStrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BEA1855CA3D91A8414B1D2 /* SRPCalendarStrip.swift */; };
 		9208282ED3A5F89E8D041ABB /* BookLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260A921D115719BC1BE7EBE9 /* BookLocationView.swift */; };
 		921D391752B5640BDA9CC71C /* OfferDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62655B4A47C9FC457E4F370A /* OfferDetailView.swift */; };
@@ -90,80 +181,158 @@
 		92D00DC026364864C7A25EB2 /* cabs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FCDDF10A0C105CA0C68DC92 /* cabs@2x.png */; };
 		92E78F9ADC00CDBE0C4E6F1B /* 6Eskai-entry@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = C388DD469A8C86C0235E4D9F /* 6Eskai-entry@1.5x.png */; };
 		930D08686E611698656515BE /* BG@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AEFCEA6CB00FE0A5E893B80 /* BG@1x.png */; };
+		95244B92A6CEEFA047526937 /* SRPCalendarStrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BEA1855CA3D91A8414B1D2 /* SRPCalendarStrip.swift */; };
 		959D2B740D7CB9FDFB6A73E8 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 99BB5BCADCB4EE130C323139 /* Poppins-SemiBold.ttf */; };
 		95D8EA9494DB69964531C2FA /* Offers Cards -  Style C@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 265F21E19EC4BC0E7749AFBA /* Offers Cards -  Style C@1.5x.png */; };
+		961028DAEBD24358197D1286 /* UTSessionCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E87C949CF775008A5ED1DD /* UTSessionCompleteView.swift */; };
 		961B24352F632324B92DB3E1 /* img-nofilter@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 713D30FBC8F865AAE3BE63B1 /* img-nofilter@3x.png */; };
 		96DA1EC192182C7374B14927 /* MockDestinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA139DB4D492C5DFC2A7F1E1 /* MockDestinations.swift */; };
+		996A3844780ABA113C87D523 /* nofilter-logo@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7402E134B46983328F384BAC /* nofilter-logo@1.5x.png */; };
+		99FEB4AF09D8DD2D6E977AB9 /* profile@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 31312D1E2AAF59A07D9F686E /* profile@4x.png */; };
+		9B2F862FA60A554B7962D9A3 /* Offers Cards -  Style A@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04436AC20F163A1B4FF7B476 /* Offers Cards -  Style A@2x.png */; };
 		9BA8F064CD785B3F63C885DD /* hotels@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A943AEDC5263AFBD48F49FBA /* hotels@2x.png */; };
+		9D466BE045B5C2F630BDE044 /* UTTrackingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB8D3B88772E52CCD35717 /* UTTrackingService.swift */; };
+		9D7BCF854D7E0A06B76EE56A /* img-community3@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD512EF71AC685AC32404EF6 /* img-community3@1x.png */; };
 		9F46F719803876BEBE6E0E0D /* BG@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA9C4DD48D81FB017D2FC60B /* BG@3x.png */; };
+		9F9F6CD874E7B9C17ABF1388 /* UTTrackingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB8D3B88772E52CCD35717 /* UTTrackingService.swift */; };
 		A01BECF01AD87E331509C48F /* OneClickAwaySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCC1BC981072D76D0FCBA28 /* OneClickAwaySection.swift */; };
 		A024451361E820A7FFBB09F8 /* profile@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB3C4F5CEE4F17C036B6AAC0 /* profile@1.5x.png */; };
+		A0BE68EB30B111ACEF8B96E3 /* IBC-coin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB957ACDBCF295EA6373CFBB /* IBC-coin@2x.png */; };
 		A111E78EC51F493CF57DD1D8 /* nofilter-logo@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4156F0CBC9716D2261621D8F /* nofilter-logo@1x.png */; };
+		A193F251A711CE0ACAA7A5D6 /* FlightStatusCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9096CC3AC78CFBC923E49D41 /* FlightStatusCard.swift */; };
 		A276DF293B8957B5091097E3 /* sight seeing@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A4B43413858ADB2AA470E1B /* sight seeing@4x.png */; };
+		A2D63822C4321B39D098CBF0 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41349616A98946EE4369726D /* PrimaryButton.swift */; };
 		A4348F2A182632BA581DB7F9 /* experience@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F4231FAB55AA5C46571653 /* experience@3x.png */; };
 		A4416295E79259B79703E532 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 8F8141C23763D818C28C516D /* Lottie */; };
 		A442128799D44C118235332E /* BG@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = BCF04A7D71CC283F288D8D89 /* BG@1.5x.png */; };
+		A5408A6D183D0A7280EA96E7 /* SRPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB064482DF357C803F08CE85 /* SRPView.swift */; };
+		A570E8DB45E904BF16FB49F7 /* img-nofilter@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 252FF722689AF18A585073E8 /* img-nofilter@1x.png */; };
+		A5E357CE8C2ADB28DD268A20 /* img-community3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9189E682DB84CCCE89F93078 /* img-community3@2x.png */; };
 		A6313FA51F4053E46370ABA3 /* shop@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3174885D1C553E1AC8945D52 /* shop@1.5x.png */; };
 		A6815B346E6CE1210D345C29 /* BauhausStd-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B192329BF732F0607D6D7CA5 /* BauhausStd-Medium.ttf */; };
+		A6CC954CA91B63AD9E9F909F /* BookingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708A2D4345383D316493F35C /* BookingState.swift */; };
+		A6DEC1F8C1FE378A11FB2A63 /* 6Eskai-entry@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB42F924B15E08B65A0D81AA /* 6Eskai-entry@2x.png */; };
 		A94CEC0ADF5C936CFBAA377D /* PayModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C415C768C8FCE54576960C /* PayModeView.swift */; };
+		AA6216BF399C25AB7912BA58 /* shop@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C5527119BD500B5B663FA94 /* shop@4x.png */; };
+		AA77D5826226F6332AF5AE7A /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AA14F69B4CA42BD93807EC /* HomeHeaderView.swift */; };
 		AA7EF29881C10511871CA584 /* LocationPromoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71484EAD67E48DBED00CFEE3 /* LocationPromoCard.swift */; };
 		AACE2AE51D3C323D37A35EB5 /* cabs@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FEF061FEFAEDABC41CF42B /* cabs@1.5x.png */; };
 		AB60411B4FF3BCFECB1AF81D /* CommunitySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2510D6E97D2C1EC764E4F4E1 /* CommunitySection.swift */; };
+		AD17A591583E996D2C3ABE60 /* img-community3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B29BF7F19DBB777F6D546F19 /* img-community3@3x.png */; };
+		AD9BC38246026F297243ED5F /* sight seeing@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0212C156F4AB9751470AA190 /* sight seeing@3x.png */; };
+		ADC586B16AD9D1BA484DCA37 /* SixEPickSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAC1E858B96669A329E2015 /* SixEPickSection.swift */; };
 		ADD3BD5067E29A187D9E5466 /* IndiGoPrototypeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F07B2CEF8C424316E89439 /* IndiGoPrototypeApp.swift */; };
 		AE4BA9526EEE46897AACF309 /* img-community2@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 32AB15025539AE7920ADEF8E /* img-community2@4x.png */; };
 		AEE399C68883DEF8196BF103 /* BottomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB17BF57A131DBFDEE5CBC0 /* BottomNavBar.swift */; };
+		B0754E5A9F58EDCB9585CA2B /* SRPCompareClassesCTA.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCAD053406AC4F694AFED9E7 /* SRPCompareClassesCTA.swift */; };
 		B15107AC13920A938DADBB5C /* Offers Cards -  Style A@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 56866B0001248C1E229A71E4 /* Offers Cards -  Style A@1.5x.png */; };
+		B17BC4A87B75F85CB335EA2D /* img-community2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E55D4129FD49EEACF8FB8AD2 /* img-community2@3x.png */; };
+		B1A54ACEED4CF4F222EAB82B /* FareSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40845FEC4C49D0DA17AD2ED /* FareSelectionView.swift */; };
+		B1BF5FB367F80A9F7199DE82 /* img-community2@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 32AB15025539AE7920ADEF8E /* img-community2@4x.png */; };
+		B28CE1E2BF022122CD0A98DF /* experience@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F4231FAB55AA5C46571653 /* experience@3x.png */; };
+		B2DE412E4E517363CDB575EB /* BG@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA9C4DD48D81FB017D2FC60B /* BG@3x.png */; };
 		B41BEF1481E65A8BAEB0E8CD /* experience@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26D133E766CBA4ABB9AB043D /* experience@2x.png */; };
+		B45C96CE708E0F8C00F8A6A4 /* AllOffersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A103AEE16BABBDA44424F762 /* AllOffersView.swift */; };
 		B5A516B927DF1A83D5918D8F /* img-nofilter@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA77EC54D8DAF4C6FDC67958 /* img-nofilter@4x.png */; };
+		B5D13D21FB8748C74DFD1E41 /* Offers Cards -  Style A@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F0637A07046A14C3BC2F2D /* Offers Cards -  Style A@1x.png */; };
 		B6C580E99266C1FE0A244697 /* IBC-coin@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = AF79FE1FCDDCCEF673359FF4 /* IBC-coin@4x.png */; };
 		B7830DC7C5E08784EA1E27C9 /* img-community3@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C345FB39F805543F9D75535 /* img-community3@4x.png */; };
+		B8DB19DC5918BAD0E829E6D7 /* CompareFaresBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC399D6D5295578F1F5EA65E /* CompareFaresBottomSheet.swift */; };
+		B8E37696A33B93E8CE241D9D /* hotels@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = B635BAE6B7A992772332E0A5 /* hotels@4x.png */; };
 		B927772C5171E818EDE6C73A /* Offers Cards -  Style A@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04436AC20F163A1B4FF7B476 /* Offers Cards -  Style A@2x.png */; };
+		BA9BE8DCA761DFAAECF4B013 /* sight seeing@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 282A65ED3CBDD6FAC3A8CA9C /* sight seeing@1x.png */; };
+		BAF01C7401D2F9E3AB13B511 /* 6eskai@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B6E611E73C4F9B0624A0908 /* 6eskai@3x.png */; };
 		BB5C98EDC76CE4AC02331785 /* SixEPickSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAC1E858B96669A329E2015 /* SixEPickSection.swift */; };
 		BBEBD256C0044B9A07C69995 /* sight seeing@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0705C872703853EC66A9AB58 /* sight seeing@1.5x.png */; };
 		BC40E3F49CECBD7457B72ADD /* img-community2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E55D4129FD49EEACF8FB8AD2 /* img-community2@3x.png */; };
 		BCA24B2A68365926EFBE82EC /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF7C1341BC01D9E35476A8FB /* Poppins-Regular.ttf */; };
 		BCD27BA3BE0DFD8C9CB931E3 /* profile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A421CD529E755E22CBA3EFB3 /* profile@2x.png */; };
 		BFC1F1B858D22893CF337B4A /* MockCities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BD966524F6B04D73393C1C /* MockCities.swift */; };
+		BFD0C773C62FDC6530BBBB99 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 83DD9127B9285F09A93DDC72 /* README.md */; };
 		BFE387D735ADAB90D1D3E9D5 /* IBC-coin@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7700B81C43DFD12DE40FFBFB /* IBC-coin@1x.png */; };
 		C0317A9AB336B698569589FC /* BluChipBalanceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D67E78EBB49325161A6904 /* BluChipBalanceCard.swift */; };
 		C045030690B5DE345F3B94F3 /* SixEskaiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CD4DEA85D3EB2827B127BB /* SixEskaiButton.swift */; };
+		C0CA6A08E89D355209B356E5 /* UTModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E22231E1EAC397C960B94 /* UTModifiers.swift */; };
+		C15D8E06B42AE8F6685D1B53 /* FlightResultCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B02E435B1EA453A1047D0E /* FlightResultCard.swift */; };
 		C1CC76ADE77BA935FF7AE499 /* FlightOffersFooterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DCE347B12ACAEC522DE0F /* FlightOffersFooterSection.swift */; };
+		C62332833389CBC4BA9D3C4A /* 6Eskai-entry@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = C388DD469A8C86C0235E4D9F /* 6Eskai-entry@1.5x.png */; };
 		C6F0575746988895D0A08ECD /* dotted plane@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5F057DC7F080B4E3E7E08B1 /* dotted plane@4x.png */; };
+		C772EB292868C433106B78B7 /* SRPReferenceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7830639184F68D4C2DE1BAC1 /* SRPReferenceCard.swift */; };
 		C79BAB22B69310BF10C4036F /* AllOffersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A103AEE16BABBDA44424F762 /* AllOffersView.swift */; };
 		C805ECAFD503D5BD11D2F370 /* img-community3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B29BF7F19DBB777F6D546F19 /* img-community3@3x.png */; };
+		C87F44E7598BC3ECB75982F4 /* SRPIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597E81AE61F6AFD00EF4900C /* SRPIcons.swift */; };
+		C8BB078D46A58A4F6C3C0E0F /* BottomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB17BF57A131DBFDEE5CBC0 /* BottomNavBar.swift */; };
+		C8DDE07B00F6384D9CF08E2B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A334CB4B30322C2C37810A54 /* ContentView.swift */; };
 		CB11018ED0D4E7F87AD90E53 /* Offers Cards -  Style C@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22306DE50232889E3592BE4A /* Offers Cards -  Style C@4x.png */; };
+		CB328242C1E0E98045B019D3 /* MockDestinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA139DB4D492C5DFC2A7F1E1 /* MockDestinations.swift */; };
+		CB4ED21ECC65685A6BF508C6 /* FlightOffersFooterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376DCE347B12ACAEC522DE0F /* FlightOffersFooterSection.swift */; };
+		CCD4CD20A7A2C0CF9099F88B /* BG@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AEFCEA6CB00FE0A5E893B80 /* BG@1x.png */; };
 		CEF492AA6D0A1CD77DECECFA /* FlightResultCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B02E435B1EA453A1047D0E /* FlightResultCard.swift */; };
+		D07667384F889F3B0ECDBCB4 /* experience@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0DF87AFC62EA1C923FB6F99A /* experience@1.5x.png */; };
+		D17EF86BC130349E0AAECAA8 /* img-nofilter@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA77EC54D8DAF4C6FDC67958 /* img-nofilter@4x.png */; };
+		D20AE589108E0C8E8BD748BB /* light-BG@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 819ADF5689F9DC776F364084 /* light-BG@3x.png */; };
+		D21DC117D0C78C2D0D7159A4 /* UTDemographicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA036FF2BBA33298957371F /* UTDemographicsView.swift */; };
 		D254314F20E8201256943B2C /* 6Eskai-entry@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3636E81B75651E160B8A21FB /* 6Eskai-entry@3x.png */; };
 		D28CFE51B2FDA66248AA60E6 /* OneClickAwayCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7F13505A095257F6C0A575 /* OneClickAwayCard.swift */; };
 		D2CD41242EE99A307D6BB2D8 /* dotted plane@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E5DA71E0C989EEB65D279E /* dotted plane@1.5x.png */; };
+		D337FD93272C238C808AD927 /* MyBookingsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0084F1AE043ED2C6C78AADF1 /* MyBookingsCard.swift */; };
+		D38D051FD1EDA31445334DFD /* HeaderBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633AB52AE6D1439F5DB783C0 /* HeaderBarView.swift */; };
 		D6FC405FC5DE3DCE85B61619 /* nofilter-logo@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CDD01B53B766FC27FD71916 /* nofilter-logo@4x.png */; };
+		D72161862DA877445667F536 /* Offers Cards -  Style A@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 56866B0001248C1E229A71E4 /* Offers Cards -  Style A@1.5x.png */; };
+		D732944D77717D4A3325E5FE /* UTSessionCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E87C949CF775008A5ED1DD /* UTSessionCompleteView.swift */; };
+		D7C5D5C8A3CBA114B1F0E126 /* UTModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E22231E1EAC397C960B94 /* UTModifiers.swift */; };
+		D809118A5CD53ABBC7818988 /* dotted plane@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5608CE34E524BDF4337494E /* dotted plane@2x.png */; };
 		D8901F95A3C0117D79454104 /* HeaderBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633AB52AE6D1439F5DB783C0 /* HeaderBarView.swift */; };
 		D8ACFEEF42A3142AECAAEB0C /* MockFlights.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76378FFBCCC4D1625FF44858 /* MockFlights.swift */; };
+		D912FD7BB82D5BA8CAE2A5C6 /* shop@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FF3853D1C7E4194BABD81253 /* shop@1x.png */; };
+		D9DAB8C7DC5E94782357A6DD /* LottieAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D72593953A72FDA5FF6F679 /* LottieAnimationView.swift */; };
+		DA5AC2C912CB3C0D698DB266 /* Offers Cards -  Style C@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22306DE50232889E3592BE4A /* Offers Cards -  Style C@4x.png */; };
 		DB93EB47193AB9F2CCBFAF74 /* BestOffersSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA21F376D12EE03D8B35EE4D /* BestOffersSection.swift */; };
+		DC0C7F66DA39490AE835F178 /* Offers Cards -  Style B@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DC4A5C81E1FF1BCDF2F3DE5 /* Offers Cards -  Style B@1.5x.png */; };
+		DC9292B14404C2222460E6EA /* sight seeing@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A4B43413858ADB2AA470E1B /* sight seeing@4x.png */; };
 		DCC065ECDAF3A99077C51CF4 /* hotels@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C07CFA4E0EACFF2441581 /* hotels@1.5x.png */; };
 		DDCDF6CBCE5C09A2AC44C19C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 83DD9127B9285F09A93DDC72 /* README.md */; };
+		DEA932AEB16F4DA8EAF54546 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C2E63AB51D347EB8DADE2B5 /* Assets.xcassets */; };
+		E0028F21A63763264003DE23 /* BluChipBalanceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D67E78EBB49325161A6904 /* BluChipBalanceCard.swift */; };
+		E025714EFE323236DF1AA25F /* img-community2@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 670243DE3D9D91BE40F6D7EA /* img-community2@1.5x.png */; };
 		E06BD47A2FD20DAE909D0336 /* SRPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB064482DF357C803F08CE85 /* SRPView.swift */; };
+		E0DD3110B0628CB550083DF2 /* BG@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = E93814D90B5FF7AE4DD3F056 /* BG@4x.png */; };
 		E146F2D0BB6ADFC86C8B78F6 /* sight seeing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C06A5552B1045286F9EE06AB /* sight seeing@2x.png */; };
 		E1B5691D6D9500E191EC1794 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF94814CCC52CF737D56A78D /* HomeView.swift */; };
 		E282708576DEA187A21F8978 /* SRPQuickFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E6CB8525997A1F6E703001 /* SRPQuickFilters.swift */; };
 		E3BB81697F8070E0C8035EF6 /* Offers Cards -  Style B@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = D166B3D18BE5D5F844DDE690 /* Offers Cards -  Style B@4x.png */; };
+		E48C393D1DA3FCA79E1DC52F /* Offers Cards -  Style A@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FFA2F5743CB40659F9EAB51 /* Offers Cards -  Style A@4x.png */; };
+		E5293FE511C2C2C104EE3BB3 /* experience@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D055C3A691585D3A4424BF8 /* experience@1x.png */; };
+		E52A6FA6DBDFE40BAE79EF8D /* light-BG@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9313784AAA45C274D42CA2D /* light-BG@4x.png */; };
+		E53AD9F8A2465AC70F5FF813 /* Offers Cards -  Style B@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EE0A1195AD1608171503C80 /* Offers Cards -  Style B@3x.png */; };
+		E59070F38EB2064319C01B2F /* View+Transitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A9F3181A5C305B42A75465 /* View+Transitions.swift */; };
 		E5DF8ACD9C8535566CA5D1CF /* shop@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C5527119BD500B5B663FA94 /* shop@4x.png */; };
+		E6B5B326FA8B7046F23D9400 /* hotels@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C07CFA4E0EACFF2441581 /* hotels@1.5x.png */; };
 		E757D670EF60AF664366B6B2 /* BookDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC82D052AABF231596D6506E /* BookDateView.swift */; };
+		E8A3E3B6A5F96F04CDE6A55C /* IndiGoSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9518211887EF3E529B31D1 /* IndiGoSpacing.swift */; };
+		EA123CD719728E0C4547BD7D /* profile@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5C8A744EEC40A7FD2329687 /* profile@3x.png */; };
 		EA47D8E21F62C7552DADC8D1 /* IBC-coin@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 744C60F5C631945A3ACEA3A3 /* IBC-coin@1.5x.png */; };
+		EB4F2C0323E0DBEDAD3D7387 /* 6Eskai-entry@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A96D2C34BD8B75A89354EC9 /* 6Eskai-entry@4x.png */; };
+		EB72E27A062F77E472D38C52 /* img-nofilter@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 713D30FBC8F865AAE3BE63B1 /* img-nofilter@3x.png */; };
+		EB791183D8C4DB3D2F6E6248 /* cabs@4x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7092C656A5DBB6096886D23 /* cabs@4x.png */; };
 		EE0D6B709DCB5C51D8366AF8 /* experience@1.5x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0DF87AFC62EA1C923FB6F99A /* experience@1.5x.png */; };
 		EF5B7124093C40E3AB557BD0 /* 6eskai@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA443F93CE29DE7BD41D92C /* 6eskai@1x.png */; };
 		F326832D35FF353349C279DC /* indigo_airports.csv in Resources */ = {isa = PBXBuildFile; fileRef = FBBAD41D8002375E6CC5557C /* indigo_airports.csv */; };
+		F4190005A511871090F962A2 /* CommunitySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2510D6E97D2C1EC764E4F4E1 /* CommunitySection.swift */; };
 		F4903A61D7F7D9709FB9140E /* Offers Cards -  Style C@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0371DFA2F1548447804F7279 /* Offers Cards -  Style C@1x.png */; };
 		F50773D5FF185B695300F3AC /* experience@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D055C3A691585D3A4424BF8 /* experience@1x.png */; };
+		F53D2DA8DB47B310B784E380 /* UTAnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F7CDCC2B8F73E3504873DA /* UTAnnouncementView.swift */; };
 		F5924FEAB0EC040D8B75B8E0 /* OfferHighlighterCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86675892C5EDF5C69BB7D318 /* OfferHighlighterCard.swift */; };
 		F60E5FCFE81F2910A8AC5A93 /* IBC-coin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB957ACDBCF295EA6373CFBB /* IBC-coin@2x.png */; };
+		F956EA0FFF593D8DCD13476A /* dotted plane@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86767A00FB252C09BC7A3E7F /* dotted plane@3x.png */; };
 		FA592831BC881E289C5AF9D3 /* nofilter-indigo-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = FDB904F92947FD85BE97DB31 /* nofilter-indigo-logo.png */; };
+		FB8A95C385094F8C9FAE4722 /* UTAnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F7CDCC2B8F73E3504873DA /* UTAnnouncementView.swift */; };
 		FB934D81BEE2F76943236254 /* shop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 07A863560B5A32F837AA7FFB /* shop@2x.png */; };
 		FD66CC7C622F0C9F86B164BD /* img-community3@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD512EF71AC685AC32404EF6 /* img-community3@1x.png */; };
 		FDCB0353148BF06FD5B4931B /* IndiGoSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9518211887EF3E529B31D1 /* IndiGoSpacing.swift */; };
-		FDP3RK1C0N5A1B2C3D4E5F6G /* FarePerkIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDP3RK1C0N5F1L3R3F4A5B6C /* FarePerkIcons.swift */; };
 		FE8609E0975E231DE04901A3 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41349616A98946EE4369726D /* PrimaryButton.swift */; };
 		FE8ACFD04CC267F52FCC51C7 /* profile@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5C8A744EEC40A7FD2329687 /* profile@3x.png */; };
+		FEF5EB0898EEAAA224F426DB /* cabs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FCDDF10A0C105CA0C68DC92 /* cabs@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -173,7 +342,7 @@
 		0225B91C94D08E98DC5A0807 /* SixEPickCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SixEPickCard.swift; sourceTree = "<group>"; };
 		0371DFA2F1548447804F7279 /* Offers Cards -  Style C@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Offers Cards -  Style C@1x.png"; sourceTree = "<group>"; };
 		04436AC20F163A1B4FF7B476 /* Offers Cards -  Style A@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Offers Cards -  Style A@2x.png"; sourceTree = "<group>"; };
-		050695611116765704289496 /* IndiGoPrototype.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IndiGoPrototype.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		050695611116765704289496 /* IndiGoPrototype.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = IndiGoPrototype.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0705C872703853EC66A9AB58 /* sight seeing@1.5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sight seeing@1.5x.png"; sourceTree = "<group>"; };
 		07A863560B5A32F837AA7FFB /* shop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shop@2x.png"; sourceTree = "<group>"; };
 		0BC6903CA42EEC29DACE7261 /* IndiGoAirports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndiGoAirports.swift; sourceTree = "<group>"; };
@@ -186,6 +355,7 @@
 		125C94EF53D239EDD5F8D313 /* light-BG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light-BG@2x.png"; sourceTree = "<group>"; };
 		15800EE780580ABA1939EE1D /* Offers Cards -  Style C@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Offers Cards -  Style C@2x.png"; sourceTree = "<group>"; };
 		178BCCB373AD5E8C58E6EE06 /* IndiGoColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndiGoColors.swift; sourceTree = "<group>"; };
+		180E22231E1EAC397C960B94 /* UTModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UTModifiers.swift; sourceTree = "<group>"; };
 		1A96D2C34BD8B75A89354EC9 /* 6Eskai-entry@4x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6Eskai-entry@4x.png"; sourceTree = "<group>"; };
 		1C2E63AB51D347EB8DADE2B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1C78AF562C5585F24FED8BCC /* img-community2@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img-community2@1x.png"; sourceTree = "<group>"; };
@@ -213,7 +383,9 @@
 		41349616A98946EE4369726D /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		4156F0CBC9716D2261621D8F /* nofilter-logo@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nofilter-logo@1x.png"; sourceTree = "<group>"; };
 		451A1B5E54A977ADCAD40440 /* hotels@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hotels@1x.png"; sourceTree = "<group>"; };
+		50B5335FC461DBC7312B4B15 /* UTJourneyCompleteOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UTJourneyCompleteOverlay.swift; sourceTree = "<group>"; };
 		52F07B2CEF8C424316E89439 /* IndiGoPrototypeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndiGoPrototypeApp.swift; sourceTree = "<group>"; };
+		54507A2DADD8D8D49C2B3A3B /* IndiGoPrototype-UT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IndiGoPrototype-UT.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5634A852250D4726E6674CBD /* ForYouSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForYouSection.swift; sourceTree = "<group>"; };
 		56866B0001248C1E229A71E4 /* Offers Cards -  Style A@1.5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Offers Cards -  Style A@1.5x.png"; sourceTree = "<group>"; };
 		5877911A2825FDCA202EFBCB /* shop@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shop@3x.png"; sourceTree = "<group>"; };
@@ -235,6 +407,7 @@
 		70A9F3181A5C305B42A75465 /* View+Transitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Transitions.swift"; sourceTree = "<group>"; };
 		713D30FBC8F865AAE3BE63B1 /* img-nofilter@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img-nofilter@3x.png"; sourceTree = "<group>"; };
 		71484EAD67E48DBED00CFEE3 /* LocationPromoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPromoCard.swift; sourceTree = "<group>"; };
+		733B43324E0E49EF5BBCDC61 /* FarePerkIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarePerkIcons.swift; sourceTree = "<group>"; };
 		7402E134B46983328F384BAC /* nofilter-logo@1.5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nofilter-logo@1.5x.png"; sourceTree = "<group>"; };
 		744C60F5C631945A3ACEA3A3 /* IBC-coin@1.5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IBC-coin@1.5x.png"; sourceTree = "<group>"; };
 		76378FFBCCC4D1625FF44858 /* MockFlights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFlights.swift; sourceTree = "<group>"; };
@@ -255,9 +428,11 @@
 		9096CC3AC78CFBC923E49D41 /* FlightStatusCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightStatusCard.swift; sourceTree = "<group>"; };
 		90F4231FAB55AA5C46571653 /* experience@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "experience@3x.png"; sourceTree = "<group>"; };
 		9189E682DB84CCCE89F93078 /* img-community3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img-community3@2x.png"; sourceTree = "<group>"; };
+		91F7CDCC2B8F73E3504873DA /* UTAnnouncementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UTAnnouncementView.swift; sourceTree = "<group>"; };
 		92E6CB8525997A1F6E703001 /* SRPQuickFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRPQuickFilters.swift; sourceTree = "<group>"; };
 		98DE2514F6C807329726A2EE /* light-BG@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light-BG@1x.png"; sourceTree = "<group>"; };
 		99BB5BCADCB4EE130C323139 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
+		9ABB8D3B88772E52CCD35717 /* UTTrackingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UTTrackingService.swift; sourceTree = "<group>"; };
 		9B289C3DB06EC6C0DD1FA53D /* hotels@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hotels@3x.png"; sourceTree = "<group>"; };
 		9B6E611E73C4F9B0624A0908 /* 6eskai@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6eskai@3x.png"; sourceTree = "<group>"; };
 		9F1D409219C28D2C0F327C90 /* OfferListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferListItem.swift; sourceTree = "<group>"; };
@@ -308,12 +483,14 @@
 		DEC97ED0E36CE6502CAB3A0E /* profile@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile@1x.png"; sourceTree = "<group>"; };
 		DF94814CCC52CF737D56A78D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		DFAFD3B04EFE942A96A253BE /* FareFamilyBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareFamilyBottomSheet.swift; sourceTree = "<group>"; };
+		E1E87C949CF775008A5ED1DD /* UTSessionCompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UTSessionCompleteView.swift; sourceTree = "<group>"; };
 		E55D4129FD49EEACF8FB8AD2 /* img-community2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img-community2@3x.png"; sourceTree = "<group>"; };
 		E5608CE34E524BDF4337494E /* dotted plane@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dotted plane@2x.png"; sourceTree = "<group>"; };
 		E5618929C076DE016D885D3C /* nofilter-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nofilter-logo@2x.png"; sourceTree = "<group>"; };
 		E6AFAD8873939BD3CF98CAA3 /* img-community2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img-community2@2x.png"; sourceTree = "<group>"; };
 		E93814D90B5FF7AE4DD3F056 /* BG@4x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BG@4x.png"; sourceTree = "<group>"; };
 		EA21F376D12EE03D8B35EE4D /* BestOffersSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestOffersSection.swift; sourceTree = "<group>"; };
+		EBA036FF2BBA33298957371F /* UTDemographicsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UTDemographicsView.swift; sourceTree = "<group>"; };
 		ED9129F38D733FEE954AF08C /* light-BG@1.5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light-BG@1.5x.png"; sourceTree = "<group>"; };
 		F1C415C768C8FCE54576960C /* PayModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayModeView.swift; sourceTree = "<group>"; };
 		F56A48B4C2064967B20BE846 /* Offers Cards -  Style B@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Offers Cards -  Style B@1x.png"; sourceTree = "<group>"; };
@@ -322,7 +499,6 @@
 		FB53ECA6F64349B405851742 /* 6Eskai-entry@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "6Eskai-entry@1x.png"; sourceTree = "<group>"; };
 		FBBAD41D8002375E6CC5557C /* indigo_airports.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = indigo_airports.csv; sourceTree = "<group>"; };
 		FDB904F92947FD85BE97DB31 /* nofilter-indigo-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nofilter-indigo-logo.png"; sourceTree = "<group>"; };
-		FDP3RK1C0N5F1L3R3F4A5B6C /* FarePerkIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarePerkIcons.swift; sourceTree = "<group>"; };
 		FF3853D1C7E4194BABD81253 /* shop@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shop@1x.png"; sourceTree = "<group>"; };
 		FF5A6C4777FCD113E4E1D1A8 /* BookPassengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookPassengerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -333,6 +509,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A4416295E79259B79703E532 /* Lottie in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C695A9F60EF74A647FC93820 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43ED55D393D105FE55DC1E4D /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,10 +578,10 @@
 		30F3D327FD6703105A64418B /* Design */ = {
 			isa = PBXGroup;
 			children = (
+				733B43324E0E49EF5BBCDC61 /* FarePerkIcons.swift */,
 				178BCCB373AD5E8C58E6EE06 /* IndiGoColors.swift */,
 				D5720F16D15CA66FA5BD87F0 /* IndiGoFonts.swift */,
 				DE9518211887EF3E529B31D1 /* IndiGoSpacing.swift */,
-				FDP3RK1C0N5F1L3R3F4A5B6C /* FarePerkIcons.swift */,
 			);
 			path = Design;
 			sourceTree = "<group>";
@@ -405,6 +589,7 @@
 		41BACEE80FEEB51C9BB3CAD9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				54507A2DADD8D8D49C2B3A3B /* IndiGoPrototype-UT.app */,
 				050695611116765704289496 /* IndiGoPrototype.app */,
 			);
 			name = Products;
@@ -550,6 +735,7 @@
 				B34C9FB5348EE07FDC1A0279 /* Extensions */,
 				C64EE766FC3AA1B43BF73737 /* Features */,
 				89D868DF1F2A6CB5550C313E /* Resources */,
+				CD9ADFFDF19A98112F80618E /* UT */,
 				7FE6E83AAF2AFCDDF63B93D9 /* Info.plist */,
 			);
 			path = IndiGoPrototype;
@@ -573,6 +759,19 @@
 				0D673CEDD67EB8A9B0A0203D /* SRP */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+		CD9ADFFDF19A98112F80618E /* UT */ = {
+			isa = PBXGroup;
+			children = (
+				91F7CDCC2B8F73E3504873DA /* UTAnnouncementView.swift */,
+				EBA036FF2BBA33298957371F /* UTDemographicsView.swift */,
+				50B5335FC461DBC7312B4B15 /* UTJourneyCompleteOverlay.swift */,
+				180E22231E1EAC397C960B94 /* UTModifiers.swift */,
+				E1E87C949CF775008A5ED1DD /* UTSessionCompleteView.swift */,
+				9ABB8D3B88772E52CCD35717 /* UTTrackingService.swift */,
+			);
+			path = UT;
 			sourceTree = "<group>";
 		};
 		DA841BB73D07FA174DC048E5 /* Home */ = {
@@ -710,6 +909,26 @@
 			productReference = 050695611116765704289496 /* IndiGoPrototype.app */;
 			productType = "com.apple.product-type.application";
 		};
+		E7CABB4E8E8663C2D3E7550A /* IndiGoPrototype-UT */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 19FEAAD74A3D189A132D78F5 /* Build configuration list for PBXNativeTarget "IndiGoPrototype-UT" */;
+			buildPhases = (
+				AAABEF5AEB7AC5B41DE4C8FC /* Sources */,
+				F25F1C476824371A4E893F8F /* Resources */,
+				C695A9F60EF74A647FC93820 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "IndiGoPrototype-UT";
+			packageProductDependencies = (
+				D8B0AA933A1FCC3470B806B9 /* Lottie */,
+			);
+			productName = "IndiGoPrototype-UT";
+			productReference = 54507A2DADD8D8D49C2B3A3B /* IndiGoPrototype-UT.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -718,6 +937,11 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					E7CABB4E8E8663C2D3E7550A = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = B62E140D88229EA994196B8C /* Build configuration list for PBXProject "IndiGoPrototype" */;
 			developmentRegion = en;
@@ -737,11 +961,122 @@
 			projectRoot = "";
 			targets = (
 				662D7654E1BE1E0BA7C11047 /* IndiGoPrototype */,
+				E7CABB4E8E8663C2D3E7550A /* IndiGoPrototype-UT */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		F25F1C476824371A4E893F8F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C62332833389CBC4BA9D3C4A /* 6Eskai-entry@1.5x.png in Resources */,
+				078B857713C699A81876A109 /* 6Eskai-entry@1x.png in Resources */,
+				A6DEC1F8C1FE378A11FB2A63 /* 6Eskai-entry@2x.png in Resources */,
+				15A0410DF000934B3FC1434F /* 6Eskai-entry@3x.png in Resources */,
+				EB4F2C0323E0DBEDAD3D7387 /* 6Eskai-entry@4x.png in Resources */,
+				4E6298A639D4F0DA7AA5E739 /* 6eskai@1.5x.png in Resources */,
+				209BD1BEAA19CA05225119F2 /* 6eskai@1x.png in Resources */,
+				64A6B7A64BF72BE38C702B6C /* 6eskai@2x.png in Resources */,
+				BAF01C7401D2F9E3AB13B511 /* 6eskai@3x.png in Resources */,
+				7662F17F2F4A15C318F1476D /* 6eskai@4x.png in Resources */,
+				DEA932AEB16F4DA8EAF54546 /* Assets.xcassets in Resources */,
+				185F687AD4EAF4C933688B8E /* BG@1.5x.png in Resources */,
+				CCD4CD20A7A2C0CF9099F88B /* BG@1x.png in Resources */,
+				783A03A078A1CEC7DA579701 /* BG@2x.png in Resources */,
+				B2DE412E4E517363CDB575EB /* BG@3x.png in Resources */,
+				E0DD3110B0628CB550083DF2 /* BG@4x.png in Resources */,
+				215935667C9A036513804201 /* BauhausStd-Medium.ttf in Resources */,
+				3E933C0B47A9A3243F169312 /* IBC-coin@1.5x.png in Resources */,
+				42F4C04D301170A982A705D8 /* IBC-coin@1x.png in Resources */,
+				A0BE68EB30B111ACEF8B96E3 /* IBC-coin@2x.png in Resources */,
+				44003715BC56977B28FF18B6 /* IBC-coin@3x.png in Resources */,
+				45BCC51C2A3C78B34B73E950 /* IBC-coin@4x.png in Resources */,
+				D72161862DA877445667F536 /* Offers Cards -  Style A@1.5x.png in Resources */,
+				B5D13D21FB8748C74DFD1E41 /* Offers Cards -  Style A@1x.png in Resources */,
+				9B2F862FA60A554B7962D9A3 /* Offers Cards -  Style A@2x.png in Resources */,
+				0C3CC48C93CFB6A816827239 /* Offers Cards -  Style A@3x.png in Resources */,
+				E48C393D1DA3FCA79E1DC52F /* Offers Cards -  Style A@4x.png in Resources */,
+				DC0C7F66DA39490AE835F178 /* Offers Cards -  Style B@1.5x.png in Resources */,
+				2F720317710A57303B183943 /* Offers Cards -  Style B@1x.png in Resources */,
+				1DE7A2D436148E344D69EE49 /* Offers Cards -  Style B@2x.png in Resources */,
+				E53AD9F8A2465AC70F5FF813 /* Offers Cards -  Style B@3x.png in Resources */,
+				7B8595CC6825174932F96E99 /* Offers Cards -  Style B@4x.png in Resources */,
+				8761B26267E0A1B5A6D397D9 /* Offers Cards -  Style C@1.5x.png in Resources */,
+				2353391DA5562292C4AA4A1B /* Offers Cards -  Style C@1x.png in Resources */,
+				4720251334E0EB1476014B3C /* Offers Cards -  Style C@2x.png in Resources */,
+				101D6AB4E096087BDA72E809 /* Offers Cards -  Style C@3x.png in Resources */,
+				DA5AC2C912CB3C0D698DB266 /* Offers Cards -  Style C@4x.png in Resources */,
+				745A5E01804B39E7DD97EF68 /* Poppins-Regular.ttf in Resources */,
+				3F23E484E819F8EA5BE5B1A1 /* Poppins-SemiBold.ttf in Resources */,
+				BFD0C773C62FDC6530BBBB99 /* README.md in Resources */,
+				73E4A069CB671F617BE41A87 /* app icon.png in Resources */,
+				026DA011A530937B3CA41FB3 /* cabs@1.5x.png in Resources */,
+				6883C6EC81544B4B61E5CEAC /* cabs@1x.png in Resources */,
+				FEF5EB0898EEAAA224F426DB /* cabs@2x.png in Resources */,
+				52E6034787EDF9C0BE6026D4 /* cabs@3x.png in Resources */,
+				EB791183D8C4DB3D2F6E6248 /* cabs@4x.png in Resources */,
+				4171A4729C64F3FB8EBF8A46 /* dotted plane@1.5x.png in Resources */,
+				123103BEDF478086E70D09BF /* dotted plane@1x.png in Resources */,
+				D809118A5CD53ABBC7818988 /* dotted plane@2x.png in Resources */,
+				F956EA0FFF593D8DCD13476A /* dotted plane@3x.png in Resources */,
+				15C3E945BEF20DE819339534 /* dotted plane@4x.png in Resources */,
+				D07667384F889F3B0ECDBCB4 /* experience@1.5x.png in Resources */,
+				E5293FE511C2C2C104EE3BB3 /* experience@1x.png in Resources */,
+				67CEA63C221F64C294CE7C7D /* experience@2x.png in Resources */,
+				B28CE1E2BF022122CD0A98DF /* experience@3x.png in Resources */,
+				747E17624A5670CA87827158 /* experience@4x.png in Resources */,
+				E6B5B326FA8B7046F23D9400 /* hotels@1.5x.png in Resources */,
+				54C351B89B2A2EC640790E38 /* hotels@1x.png in Resources */,
+				3A1C983DBAF7F21FA1D75334 /* hotels@2x.png in Resources */,
+				5A92B2806AEDE367088E05CC /* hotels@3x.png in Resources */,
+				B8E37696A33B93E8CE241D9D /* hotels@4x.png in Resources */,
+				E025714EFE323236DF1AA25F /* img-community2@1.5x.png in Resources */,
+				6A043803AA412F20B116EC7A /* img-community2@1x.png in Resources */,
+				1C7E8589EE45368ECB111AA9 /* img-community2@2x.png in Resources */,
+				B17BC4A87B75F85CB335EA2D /* img-community2@3x.png in Resources */,
+				B1BF5FB367F80A9F7199DE82 /* img-community2@4x.png in Resources */,
+				15D01BFDC2D7ED7F955874CC /* img-community3@1.5x.png in Resources */,
+				9D7BCF854D7E0A06B76EE56A /* img-community3@1x.png in Resources */,
+				A5E357CE8C2ADB28DD268A20 /* img-community3@2x.png in Resources */,
+				AD17A591583E996D2C3ABE60 /* img-community3@3x.png in Resources */,
+				8D29098F940C77375CFAC4E4 /* img-community3@4x.png in Resources */,
+				35DA0A0F03C3686C146B38BF /* img-nofilter@1.5x.png in Resources */,
+				A570E8DB45E904BF16FB49F7 /* img-nofilter@1x.png in Resources */,
+				67473192C0ED48D6B1EDC933 /* img-nofilter@2x.png in Resources */,
+				EB72E27A062F77E472D38C52 /* img-nofilter@3x.png in Resources */,
+				D17EF86BC130349E0AAECAA8 /* img-nofilter@4x.png in Resources */,
+				37109E1F31B69D4423E0A4A4 /* indigo_airports.csv in Resources */,
+				77B6C7873DFC5CB5239A3BF7 /* light-BG@1.5x.png in Resources */,
+				8B2F4AA14A1552E80D945028 /* light-BG@1x.png in Resources */,
+				2A234D82573AF8C0DAEE4AC4 /* light-BG@2x.png in Resources */,
+				D20AE589108E0C8E8BD748BB /* light-BG@3x.png in Resources */,
+				E52A6FA6DBDFE40BAE79EF8D /* light-BG@4x.png in Resources */,
+				5F88BC8971C6893C777DEACA /* nofilter-indigo-logo.png in Resources */,
+				996A3844780ABA113C87D523 /* nofilter-logo@1.5x.png in Resources */,
+				6E2BF19BAF71F2799FB2B27F /* nofilter-logo@1x.png in Resources */,
+				04E398E70A98AA2E38778877 /* nofilter-logo@2x.png in Resources */,
+				1D3E8D5E31C5CEF9387B01F8 /* nofilter-logo@3x.png in Resources */,
+				38767F0E20A8D3F0D42C6D8D /* nofilter-logo@4x.png in Resources */,
+				5FC01B6562126C481552FEAC /* profile@1.5x.png in Resources */,
+				909DA644AC9AAE2CE1797F90 /* profile@1x.png in Resources */,
+				4CE4F3F0409F45ADC90F10E2 /* profile@2x.png in Resources */,
+				EA123CD719728E0C4547BD7D /* profile@3x.png in Resources */,
+				99FEB4AF09D8DD2D6E977AB9 /* profile@4x.png in Resources */,
+				78B099410415FFC0F8D45797 /* shop@1.5x.png in Resources */,
+				D912FD7BB82D5BA8CAE2A5C6 /* shop@1x.png in Resources */,
+				4DC32B8AC9D3ED496EC35D42 /* shop@2x.png in Resources */,
+				3A2F92E117DA16D84CA6A583 /* shop@3x.png in Resources */,
+				AA6216BF399C25AB7912BA58 /* shop@4x.png in Resources */,
+				4025779D7770C806DD6187E6 /* sight seeing@1.5x.png in Resources */,
+				BA9BE8DCA761DFAAECF4B013 /* sight seeing@1x.png in Resources */,
+				490245E56ACC1EE52879E3E7 /* sight seeing@2x.png in Resources */,
+				AD9BC38246026F297243ED5F /* sight seeing@3x.png in Resources */,
+				DC9292B14404C2222460E6EA /* sight seeing@4x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FE500C16126EA35C998F966C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -872,6 +1207,7 @@
 				6902406481C860F506D4E65E /* CompareFaresBottomSheet.swift in Sources */,
 				8CF02617FA2EA0780D7B4A81 /* ContentView.swift in Sources */,
 				32242C109BFB4E9F2492E48D /* FareFamilyBottomSheet.swift in Sources */,
+				5D5E1871F5913369D7587C2C /* FarePerkIcons.swift in Sources */,
 				6E017AA8B0D8297022F834A0 /* FareSelectionView.swift in Sources */,
 				C1CC76ADE77BA935FF7AE499 /* FlightOffersFooterSection.swift in Sources */,
 				CEF492AA6D0A1CD77DECECFA /* FlightResultCard.swift in Sources */,
@@ -887,7 +1223,6 @@
 				0D6EBE3006B65180115CDCD0 /* IndiGoFonts.swift in Sources */,
 				ADD3BD5067E29A187D9E5466 /* IndiGoPrototypeApp.swift in Sources */,
 				FDCB0353148BF06FD5B4931B /* IndiGoSpacing.swift in Sources */,
-				FDP3RK1C0N5A1B2C3D4E5F6G /* FarePerkIcons.swift in Sources */,
 				AA7EF29881C10511871CA584 /* LocationPromoCard.swift in Sources */,
 				4BC587D6C047D43E561674FF /* LottieAnimationView.swift in Sources */,
 				BFC1F1B858D22893CF337B4A /* MockCities.swift in Sources */,
@@ -911,13 +1246,111 @@
 				26198BE98030FAA3DFCC087C /* SixEPickCard.swift in Sources */,
 				BB5C98EDC76CE4AC02331785 /* SixEPickSection.swift in Sources */,
 				C045030690B5DE345F3B94F3 /* SixEskaiButton.swift in Sources */,
+				FB8A95C385094F8C9FAE4722 /* UTAnnouncementView.swift in Sources */,
+				156B16E997E71A166AE863A3 /* UTDemographicsView.swift in Sources */,
+				476468F166E24AAE159D75CF /* UTJourneyCompleteOverlay.swift in Sources */,
+				C0CA6A08E89D355209B356E5 /* UTModifiers.swift in Sources */,
+				D732944D77717D4A3325E5FE /* UTSessionCompleteView.swift in Sources */,
+				9D466BE045B5C2F630BDE044 /* UTTrackingService.swift in Sources */,
 				501583CB650302B3B11BE18B /* View+Transitions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAABEF5AEB7AC5B41DE4C8FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B45C96CE708E0F8C00F8A6A4 /* AllOffersView.swift in Sources */,
+				03F995C5F0B04E6B9257BA54 /* BestOffersSection.swift in Sources */,
+				E0028F21A63763264003DE23 /* BluChipBalanceCard.swift in Sources */,
+				7AFDE8F611CCAAA416BB1A66 /* BookDateView.swift in Sources */,
+				62BD6B1745E4C2D3B219A47F /* BookLocationView.swift in Sources */,
+				07CFE601F2E503F88A8BDF1E /* BookPassengerView.swift in Sources */,
+				A6CC954CA91B63AD9E9F909F /* BookingState.swift in Sources */,
+				C8BB078D46A58A4F6C3C0E0F /* BottomNavBar.swift in Sources */,
+				30A2135E8EAED9F2AE9B4895 /* ChipView.swift in Sources */,
+				F4190005A511871090F962A2 /* CommunitySection.swift in Sources */,
+				B8DB19DC5918BAD0E829E6D7 /* CompareFaresBottomSheet.swift in Sources */,
+				C8DDE07B00F6384D9CF08E2B /* ContentView.swift in Sources */,
+				30EBEE07818D4E5E7230B8C8 /* FareFamilyBottomSheet.swift in Sources */,
+				0C33BCD06041539224BA5466 /* FarePerkIcons.swift in Sources */,
+				B1A54ACEED4CF4F222EAB82B /* FareSelectionView.swift in Sources */,
+				CB4ED21ECC65685A6BF508C6 /* FlightOffersFooterSection.swift in Sources */,
+				C15D8E06B42AE8F6685D1B53 /* FlightResultCard.swift in Sources */,
+				A193F251A711CE0ACAA7A5D6 /* FlightStatusCard.swift in Sources */,
+				33E3260CC520BFF2CAA05B06 /* ForYouSection.swift in Sources */,
+				49ED0642813A99C4441F28A6 /* FromToView.swift in Sources */,
+				D38D051FD1EDA31445334DFD /* HeaderBarView.swift in Sources */,
+				AA77D5826226F6332AF5AE7A /* HomeHeaderView.swift in Sources */,
+				0B3327006F5E70BEB757923F /* HomeView.swift in Sources */,
+				5900E2B0F71E091A600ACD6C /* IconButton.swift in Sources */,
+				8080E2A934E1DFA95789C83E /* IndiGoAirports.swift in Sources */,
+				86461585D5DB237D2935609C /* IndiGoColors.swift in Sources */,
+				45D195E0A3D6016987047F74 /* IndiGoFonts.swift in Sources */,
+				4D74981925C67C1A66C88CBA /* IndiGoPrototypeApp.swift in Sources */,
+				E8A3E3B6A5F96F04CDE6A55C /* IndiGoSpacing.swift in Sources */,
+				5452EC42A307C97F61A5F9EE /* LocationPromoCard.swift in Sources */,
+				D9DAB8C7DC5E94782357A6DD /* LottieAnimationView.swift in Sources */,
+				02C7115621501432E16F972C /* MockCities.swift in Sources */,
+				CB328242C1E0E98045B019D3 /* MockDestinations.swift in Sources */,
+				85177B97C612F3F6A0A1EE62 /* MockFlights.swift in Sources */,
+				D337FD93272C238C808AD927 /* MyBookingsCard.swift in Sources */,
+				0FB32E36A7AB016196A0E26A /* OfferDetailView.swift in Sources */,
+				19BBC21FDB2223021C2745E3 /* OfferHighlighterCard.swift in Sources */,
+				66D2B843916C25A2D98DDA57 /* OfferListItem.swift in Sources */,
+				7DB4218F615634EF7C551C31 /* OneClickAwayCard.swift in Sources */,
+				39E89E6FDC208B14BAC37291 /* OneClickAwaySection.swift in Sources */,
+				002EA65C34A7E65CD8EAAA62 /* PayModeView.swift in Sources */,
+				A2D63822C4321B39D098CBF0 /* PrimaryButton.swift in Sources */,
+				95244B92A6CEEFA047526937 /* SRPCalendarStrip.swift in Sources */,
+				B0754E5A9F58EDCB9585CA2B /* SRPCompareClassesCTA.swift in Sources */,
+				C87F44E7598BC3ECB75982F4 /* SRPIcons.swift in Sources */,
+				6123869322EF6608478F970F /* SRPQuickFilters.swift in Sources */,
+				C772EB292868C433106B78B7 /* SRPReferenceCard.swift in Sources */,
+				A5408A6D183D0A7280EA96E7 /* SRPView.swift in Sources */,
+				811761B93BCD9A734E0A7C7A /* SearchWidgetView.swift in Sources */,
+				4AD0C90360005C4055051C02 /* SixEPickCard.swift in Sources */,
+				ADC586B16AD9D1BA484DCA37 /* SixEPickSection.swift in Sources */,
+				8F085FB502BC73BD2C9AAE90 /* SixEskaiButton.swift in Sources */,
+				F53D2DA8DB47B310B784E380 /* UTAnnouncementView.swift in Sources */,
+				D21DC117D0C78C2D0D7159A4 /* UTDemographicsView.swift in Sources */,
+				283B71C510C6C6A32B1EE344 /* UTJourneyCompleteOverlay.swift in Sources */,
+				D7C5D5C8A3CBA114B1F0E126 /* UTModifiers.swift in Sources */,
+				961028DAEBD24358197D1286 /* UTSessionCompleteView.swift in Sources */,
+				9F9F6CD874E7B9C17ABF1388 /* UTTrackingService.swift in Sources */,
+				E59070F38EB2064319C01B2F /* View+Transitions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		0D0A7FEAD7D3BBFADFBB19E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HWML965M99;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IndiGoPrototype/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "IndiGo Prototype UT";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.indigo.prototype.ut;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) UT_VARIANT";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
 		3065D3C9ACAA7DE5A22E54DB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -979,7 +1412,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = HWML965M99;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IndiGoPrototype/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1002,7 +1434,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = HWML965M99;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IndiGoPrototype/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1083,9 +1514,44 @@
 			};
 			name = Debug;
 		};
+		AF4664EAC1548CA1E13D24E5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HWML965M99;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IndiGoPrototype/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "IndiGo Prototype UT";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.indigo.prototype.ut;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) UT_VARIANT";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		19FEAAD74A3D189A132D78F5 /* Build configuration list for PBXNativeTarget "IndiGoPrototype-UT" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D0A7FEAD7D3BBFADFBB19E0 /* Debug */,
+				AF4664EAC1548CA1E13D24E5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		569CBED61C3B114F166DF33E /* Build configuration list for PBXNativeTarget "IndiGoPrototype" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1119,6 +1585,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		8F8141C23763D818C28C516D /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5A396C83CB9B761607A74A7 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		D8B0AA933A1FCC3470B806B9 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B5A396C83CB9B761607A74A7 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;

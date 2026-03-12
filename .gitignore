@@ -22,3 +22,9 @@ Build/
 
 # Cursor IDE
 .cursor/
+
+# Node.js (ut-backend)
+node_modules/
+
+# UT session data (generated at runtime)
+ut-backend/sessions/

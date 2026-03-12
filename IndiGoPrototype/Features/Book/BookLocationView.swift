@@ -73,6 +73,9 @@ struct BookLocationView: View {
             }
         }
         .ignoresSafeArea(.container, edges: .top)
+        #if UT_VARIANT
+        .utInstrumented(screenId: "BookLocationView")
+        #endif
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $navigateToDate) {
             BookDateView()

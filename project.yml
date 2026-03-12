@@ -37,3 +37,31 @@ targets:
     dependencies:
       - package: Lottie
         product: Lottie
+
+  IndiGoPrototype-UT:
+    type: application
+    platform: iOS
+    sources:
+      - path: IndiGoPrototype
+        name: IndiGoPrototype
+        excludes:
+          - "**/Lottie"
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: 7XMV37UXV4
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_FILE: IndiGoPrototype/Info.plist
+        INFOPLIST_KEY_CFBundleDisplayName: "IndiGo Prototype UT"
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        PRODUCT_BUNDLE_IDENTIFIER: com.indigo.prototype.ut
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: "$(inherited) UT_VARIANT"
+        SWIFT_EMIT_LOC_STRINGS: YES
+        TARGETED_DEVICE_FAMILY: "1"
+    dependencies:
+      - package: Lottie
+        product: Lottie
