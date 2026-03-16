@@ -342,7 +342,7 @@
 		0225B91C94D08E98DC5A0807 /* SixEPickCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SixEPickCard.swift; sourceTree = "<group>"; };
 		0371DFA2F1548447804F7279 /* Offers Cards -  Style C@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Offers Cards -  Style C@1x.png"; sourceTree = "<group>"; };
 		04436AC20F163A1B4FF7B476 /* Offers Cards -  Style A@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Offers Cards -  Style A@2x.png"; sourceTree = "<group>"; };
-		050695611116765704289496 /* IndiGoPrototype.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = IndiGoPrototype.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		050695611116765704289496 /* IndiGoPrototype.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IndiGoPrototype.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0705C872703853EC66A9AB58 /* sight seeing@1.5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sight seeing@1.5x.png"; sourceTree = "<group>"; };
 		07A863560B5A32F837AA7FFB /* shop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shop@2x.png"; sourceTree = "<group>"; };
 		0BC6903CA42EEC29DACE7261 /* IndiGoAirports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndiGoAirports.swift; sourceTree = "<group>"; };
@@ -1335,6 +1335,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IndiGoPrototype/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "IndiGo Prototype UT";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This usability testing session records audio for research documentation. You can opt out on the consent screen.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1412,6 +1413,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = HWML965M99;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IndiGoPrototype/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1434,6 +1436,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = HWML965M99;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IndiGoPrototype/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1524,6 +1527,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IndiGoPrototype/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "IndiGo Prototype UT";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This usability testing session records audio for research documentation. You can opt out on the consent screen.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

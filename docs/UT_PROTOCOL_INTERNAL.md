@@ -1,6 +1,6 @@
 # Usability Testing Protocol -- IndiGo Prototype UT
 
-> **Version:** 1.0  
+> **Version:** 2.0  
 > **Date:** March 2026  
 > **Owner:** Design & Product Team  
 > **Status:** Ready for review
@@ -42,13 +42,17 @@ App Launch
 Announcement Screen
   "Help us improve your experience"
   (consent + what we collect)
+  [Audio recording toggle — ON by default]
     |
     v
 Demographics Form
   Role / Experience / Age band / Device
     |
     v
-Session Starts -- tracking begins
+Session Starts
+  -- Tracking begins (steps, taps, scroll depth)
+  -- Device metadata captured automatically
+  -- Audio recording starts (if consented)
     |
     v
 Home Screen (Explore tab)
@@ -62,17 +66,19 @@ Booking Flow
     |
     v
 Search Results (SRP)
-  "End UT Session" button
+  Fare selection triggers journey-complete overlay
     |
     v
 Post-Session Questionnaire
   Ease / Frustration ratings
   Community questions
   Free-text feedback
+  -- Audio recording stops automatically
     |
     v
 Export Session Data
-  Share via Email / WhatsApp / AirDrop / Files
+  Share JSON + audio file via Email / WhatsApp / AirDrop / Files
+  [Facilitator MUST export every session]
 ```
 
 ---
@@ -178,17 +184,47 @@ If data shows most users discover multiple stories and don't report confusion, t
 | `sessionId` | UUID | Unique session identifier |
 | `sessionTitle` | String | Auto-generated: `UT_YYYY-MM-DD_HHmm_{role}_{experience}` |
 | `demographics` | Object | Role, experience, age band, device |
+| `deviceMetadata` | Object | Auto-captured: `deviceModel`, `screenSize`, `osVersion`, `appVersion` |
 | `createdAt` / `endedAt` | ISO8601 | Session timestamps |
 | `steps[]` | Array | `{ screenId, enteredAt, leftAt }` per screen visited |
 | `taps[]` | Array | `{ screenId, x, y, timestamp }` -- normalised 0-1 coordinates |
+| `scrollDepths[]` | Array | `{ screenId, maxDepth, timestamp }` -- 0.0 (top) to 1.0 (bottom) per screen |
 | `journeyCompleted` | Boolean | True when user reaches SRP |
 | `completedAt` | ISO8601 | Timestamp of journey completion |
 | `rating` | Int 1-5 | Post-session ease rating |
 | `frustration` | Int 1-5 | Post-session frustration rating |
 | `feedback` | String | Free-text feedback |
 | `postTaskAnswers[]` | Array | Community section post-task answers |
+| `audioConsent` | Boolean | Whether participant opted in to audio recording |
+| `audioFileName` | String | Filename of the recorded audio (M4A), null if opted out |
 
-**Storage:** One JSON file per session in `ut-backend/sessions/`. Backend also supports CSV export per session or bulk.
+**Storage:** One JSON file per session in `ut-backend/sessions/`. Audio files are stored on-device and included in the export bundle. Backend also supports CSV export per session or bulk.
+
+### Device Metadata (auto-captured)
+
+| Field | Example | Notes |
+|-------|---------|-------|
+| `deviceModel` | `iPhone15,2` | Hardware model identifier |
+| `screenSize` | `393x852` | Logical points (width x height) |
+| `osVersion` | `iOS 17.4` | OS name and version |
+| `appVersion` | `1.0` | CFBundleShortVersionString |
+
+### Scroll Depth Tracking
+
+Scroll depth is captured per screen as a normalised value (0.0 = no scroll, 1.0 = scrolled to bottom). Tracked on all 6 instrumented screens:
+
+- HomeView, BookLocationView, BookDateView, BookPassengerView, PayModeView, SRPView
+
+This helps identify which screens users explore fully vs. which they skim or abandon early.
+
+### Audio Recording
+
+- **Format:** M4A (AAC, 22kHz mono, medium quality) -- small file size, good for voice
+- **Consent:** Toggle on the announcement screen, ON by default. Participant can turn it off.
+- **Lifecycle:** Recording starts with the session and stops automatically when the session ends
+- **Export:** Audio file is included alongside the JSON when the facilitator taps "Export Session Data"
+- **Cross-reference:** `audioFileName` in the session JSON/CSV links to the audio file
+- **Permissions:** iOS will prompt for microphone access on first session (handled gracefully if denied)
 
 ---
 
@@ -225,43 +261,55 @@ The app will show as "IndiGo Prototype UT" on the device home screen.
 ### Step 4 -- Conduct the session
 
 Follow the session flow in Section 3. The facilitator should:
-1. Let the participant read the announcement and fill demographics
-2. Guide through the three checkpoints using the scripts above
-3. After SRP, tap "End UT Session" or let the participant finish naturally
-4. Ensure the participant completes the post-session questionnaire
-5. **Export the session data** immediately via the share button (Email/WhatsApp/Files)
+1. Let the participant read the announcement screen
+2. **Verify audio consent toggle** -- ON by default, participant may opt out
+3. Let the participant fill demographics
+4. Guide through the three checkpoints using the scripts above
+5. After fare selection, the journey-complete overlay appears automatically
+6. Ensure the participant completes the post-session questionnaire
+7. **CRITICAL: Export the session data immediately** via the share button (Email/WhatsApp/Files) -- this includes both the JSON and audio file
 
 ### Step 5 -- Retrieve data
 
-**From the device:** Use "Export Session Data" on the completion screen. Share via Email, WhatsApp, AirDrop, or Save to Files.
+**From the device (preferred):** Use "Export Session Data" on the completion screen. This shares both the session JSON and the audio recording (if consented) via Email, WhatsApp, AirDrop, or Save to Files.
 
-**From the backend:**
+**From the backend (secondary):**
 - All sessions: `GET http://localhost:3100/sessions`
 - Single session JSON: `GET http://localhost:3100/sessions/{id}`
 - Single session CSV: `GET http://localhost:3100/sessions/{id}/csv`
 - All sessions CSV: `GET http://localhost:3100/export/csv`
 
+> **Note:** Audio files are only available via on-device export. The backend stores JSON data only.
+
 ---
 
 ## 7. Export and Data Safety
 
-**Every session should be exported immediately** to avoid data loss.
+**Every session MUST be exported immediately** to avoid data loss. The facilitator is the last line of defence.
 
 After each session, the facilitator should:
 1. Tap "Export Session Data" on the completion screen
-2. Choose Email, WhatsApp, AirDrop, or Save to Files
-3. Send to the team inbox or save to the shared drive
+2. This exports the session JSON **and** the audio recording (if consented) as a bundle
+3. Choose Email, WhatsApp, AirDrop, or Save to Files
+4. Send to the team inbox or save to the shared drive
+5. Verify the export was received before starting the next session
 
-This on-device export works **even when offline or when the backend is down**. The backend is a secondary store.
+**Skip option:** A "Skip for now" button is available with a data-loss warning. Use only if export is not immediately possible -- but return and re-export later.
+
+This on-device export works **even when offline or when the backend is down**. The backend is a secondary store for JSON only (no audio).
 
 ---
 
 ## 8. Data Handling and Privacy
 
 - **No PII collected:** Demographics are limited to role, experience, age band, and device type. No names, emails, or phone numbers.
-- **Consent:** Participant must read and accept the announcement screen before any tracking begins.
-- **Retention:** Session data should be retained for the duration of the study plus 90 days, then deleted.
-- **Access:** Only the design and product team should have access to raw session files.
+- **Consent:** Participant must read and accept the announcement screen before any tracking begins. Audio recording has a separate opt-in toggle (ON by default).
+- **Audio privacy:** Audio recordings may contain identifiable voice data. Handle with extra care:
+  - Store audio files in a restricted shared drive (not public channels)
+  - Delete audio after transcription and analysis is complete
+  - Never share raw audio in presentations or reports
+- **Retention:** Session data should be retained for the duration of the study plus 90 days, then deleted. Audio files should be deleted after transcription.
+- **Access:** Only the design and product team should have access to raw session files and audio recordings.
 - **Anonymisation:** In any shared reports or presentations, use session IDs or titles only -- never attribute findings to identifiable individuals.
 
 ---
@@ -284,20 +332,43 @@ This on-device export works **even when offline or when the backend is down**. T
 1. Open the session JSON (from export or backend)
 2. Check `steps[]` for time-on-step and drop-off points
 3. Check `taps[]` for heatmap analysis (aggregate by screenId)
-4. Review `postTaskAnswers` for qualitative Community feedback
+4. Check `scrollDepths[]` to see how far users scrolled on each screen
+5. Review `postTaskAnswers` for qualitative Community feedback
+6. Listen to audio recording (if available) for verbal cues, confusion, and think-aloud commentary
 
-### Aggregate analysis
+### Aggregate analysis (enhanced CSV)
 1. Export all sessions via `GET /export/csv`
 2. Open in Excel, Google Sheets, or any BI tool
-3. Key metrics:
-   - **For You:** First-tap target distribution, tap cluster analysis
-   - **Community:** Discovery rate (% who advanced past card 1), "1/3 understood" rate
-   - **Booking:** Median time per step, completion rate, average ease/frustration
+3. The CSV now includes **comparative columns** for cross-session analysis:
+
+| Column | Description |
+|--------|-------------|
+| `deviceModel` / `screenSize` / `osVersion` / `appVersion` | Device context for each session |
+| `audioConsent` / `audioFileName` | Audio recording status and file cross-reference |
+| `avgTimePerStepSec` | Average time across all steps in the session |
+| `longestStep` / `longestStepDurationSec` | Which screen took the most time (friction indicator) |
+| `timeToFirstTapSec` | Seconds from session start to first interaction |
+| `scrollDepth_{screen}` | Max scroll depth per screen (0.0-1.0) |
+| `stepTimeSec_{screen}` | Total time spent on each screen |
+| `tapCount_{screen}` | Number of taps per screen (density indicator) |
+
+4. Key metrics:
+   - **For You:** First-tap target distribution, tap cluster analysis, `tapCount_HomeView`
+   - **Community:** Discovery rate (% who advanced past card 1), "1/3 understood" rate, `scrollDepth_HomeView`
+   - **Booking:** Median time per step, completion rate, average ease/frustration, `longestStep` distribution
+   - **Engagement:** `timeToFirstTapSec` (hesitation), scroll depth patterns, tap density per screen
+   - **Qualitative:** Audio transcripts correlated with quantitative data via `audioFileName`
 
 ### Heatmap generation (optional)
 Use the tap data (normalised x,y per screenId) with a visualisation tool:
 - Python (matplotlib + scipy gaussian_kde)
 - Any web-based heatmap library
+
+### Audio transcription (optional)
+Recorded M4A files can be transcribed using:
+- Apple's built-in transcription (share to Notes app)
+- Any speech-to-text service (Whisper, Otter.ai, etc.)
+- Correlate transcript timestamps with session events for rich documentation
 
 ---
 
@@ -309,9 +380,12 @@ The following text is shown in-app before the session begins:
 >
 > This is a usability testing version of the IndiGo app. We'll record:
 > - Which screens you visit and how long you spend
-> - Where you tap to understand usage patterns
+> - Where you tap and how far you scroll to understand usage patterns
 >
 > Your data is anonymous and used only for this research. No real bookings or payments will be made. You can stop at any time.
+>
+> **[Toggle] Record audio during session** (ON by default)
+> Voice recording helps us capture verbal feedback. The audio stays on this device and is included in the session export.
 >
 > **[I'm Ready]**
 

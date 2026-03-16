@@ -119,11 +119,24 @@ app.get("/sessions/:id/csv", (req, res) => {
 
 // ── Export ALL sessions as CSV ────────────────────────────────────────────────
 
+const TRACKED_SCREENS = [
+  "HomeView",
+  "BookLocationView",
+  "BookDateView",
+  "BookPassengerView",
+  "PayModeView",
+  "SRPView",
+];
+
 app.get("/export/csv", (_req, res) => {
   const files = fs.readdirSync(SESSIONS_DIR).filter((f) => f.endsWith(".json"));
   if (files.length === 0) {
     return res.status(404).json({ error: "No sessions found" });
   }
+
+  const scrollDepthCols = TRACKED_SCREENS.map((s) => `scrollDepth_${s}`);
+  const stepTimeCols = TRACKED_SCREENS.map((s) => `stepTimeSec_${s}`);
+  const tapCountCols = TRACKED_SCREENS.map((s) => `tapCount_${s}`);
 
   const header = [
     "sessionId",
@@ -132,6 +145,12 @@ app.get("/export/csv", (_req, res) => {
     "experience",
     "ageBand",
     "device",
+    "deviceModel",
+    "screenSize",
+    "osVersion",
+    "appVersion",
+    "audioConsent",
+    "audioFileName",
     "createdAt",
     "endedAt",
     "journeyCompleted",
@@ -142,41 +161,126 @@ app.get("/export/csv", (_req, res) => {
     "totalSteps",
     "totalTaps",
     "totalDurationSec",
+    "avgTimePerStepSec",
+    "longestStep",
+    "longestStepDurationSec",
+    "timeToFirstTapSec",
+    ...scrollDepthCols,
+    ...stepTimeCols,
+    ...tapCountCols,
     "postTaskAnswers",
   ].join(",");
 
   const rows = files.map((f) => {
     const s = JSON.parse(fs.readFileSync(path.join(SESSIONS_DIR, f), "utf-8"));
-    const d = s.demographics || {};
-    const dur = durationSeconds(s.createdAt, s.endedAt);
-    const ptAnswers = (s.postTaskAnswers || [])
-      .map((a) => `${a.question}: ${a.answer}`)
-      .join(" | ");
-    return [
-      csvEscape(s.sessionId),
-      csvEscape(s.sessionTitle),
-      csvEscape(d.role),
-      csvEscape(d.experience),
-      csvEscape(d.ageBand),
-      csvEscape(d.device),
-      csvEscape(s.createdAt),
-      csvEscape(s.endedAt),
-      s.journeyCompleted || false,
-      csvEscape(s.completedAt),
-      s.rating ?? "",
-      s.frustration ?? "",
-      csvEscape(s.feedback),
-      (s.steps || []).length,
-      (s.taps || []).length,
-      dur ?? "",
-      csvEscape(ptAnswers),
-    ].join(",");
+    return sessionToRow(s);
   });
 
   res.setHeader("Content-Type", "text/csv");
   res.setHeader("Content-Disposition", 'attachment; filename="ut_sessions_all.csv"');
   res.send([header, ...rows].join("\n"));
 });
+
+function sessionToRow(s) {
+  const d = s.demographics || {};
+  const dm = s.deviceMetadata || {};
+  const dur = durationSeconds(s.createdAt, s.endedAt);
+  const ptAnswers = (s.postTaskAnswers || [])
+    .map((a) => `${a.question}: ${a.answer}`)
+    .join(" | ");
+
+  const stepDurations = computeStepDurations(s.steps || []);
+  const allDurations = Object.values(stepDurations);
+  const avgTime =
+    allDurations.length > 0
+      ? (allDurations.reduce((a, b) => a + b, 0) / allDurations.length).toFixed(1)
+      : "";
+
+  let longestStep = "";
+  let longestStepDur = "";
+  if (allDurations.length > 0) {
+    const maxDur = Math.max(...allDurations);
+    longestStep = Object.keys(stepDurations).find(
+      (k) => stepDurations[k] === maxDur
+    );
+    longestStepDur = maxDur.toFixed(1);
+  }
+
+  const timeToFirstTap = computeTimeToFirstTap(s);
+
+  const scrollMap = {};
+  for (const sd of s.scrollDepths || []) {
+    scrollMap[sd.screenId] = Math.max(scrollMap[sd.screenId] || 0, sd.maxDepth);
+  }
+
+  const tapCountMap = {};
+  for (const tap of s.taps || []) {
+    tapCountMap[tap.screenId] = (tapCountMap[tap.screenId] || 0) + 1;
+  }
+
+  const scrollDepthVals = TRACKED_SCREENS.map((scr) =>
+    scrollMap[scr] != null ? scrollMap[scr].toFixed(2) : ""
+  );
+  const stepTimeVals = TRACKED_SCREENS.map((scr) =>
+    stepDurations[scr] != null ? stepDurations[scr].toFixed(1) : ""
+  );
+  const tapCountVals = TRACKED_SCREENS.map((scr) =>
+    tapCountMap[scr] != null ? tapCountMap[scr] : ""
+  );
+
+  return [
+    csvEscape(s.sessionId),
+    csvEscape(s.sessionTitle),
+    csvEscape(d.role),
+    csvEscape(d.experience),
+    csvEscape(d.ageBand),
+    csvEscape(d.device),
+    csvEscape(dm.deviceModel),
+    csvEscape(dm.screenSize),
+    csvEscape(dm.osVersion),
+    csvEscape(dm.appVersion),
+    s.audioConsent != null ? s.audioConsent : "",
+    csvEscape(s.audioFileName),
+    csvEscape(s.createdAt),
+    csvEscape(s.endedAt),
+    s.journeyCompleted || false,
+    csvEscape(s.completedAt),
+    s.rating ?? "",
+    s.frustration ?? "",
+    csvEscape(s.feedback),
+    (s.steps || []).length,
+    (s.taps || []).length,
+    dur ?? "",
+    avgTime,
+    csvEscape(longestStep),
+    longestStepDur,
+    timeToFirstTap ?? "",
+    ...scrollDepthVals,
+    ...stepTimeVals,
+    ...tapCountVals,
+    csvEscape(ptAnswers),
+  ].join(",");
+}
+
+function computeStepDurations(steps) {
+  const durations = {};
+  for (const step of steps) {
+    const d = durationSeconds(step.enteredAt, step.leftAt);
+    if (d != null) {
+      const val = parseFloat(d);
+      durations[step.screenId] = (durations[step.screenId] || 0) + val;
+    }
+  }
+  return durations;
+}
+
+function computeTimeToFirstTap(session) {
+  const taps = session.taps || [];
+  if (taps.length === 0 || !session.createdAt) return null;
+  const sessionStart = new Date(session.createdAt);
+  const firstTap = new Date(taps[0].timestamp);
+  return ((firstTap - sessionStart) / 1000).toFixed(1);
+}
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -200,6 +304,7 @@ function durationSeconds(start, end) {
 
 function sessionToCSV(session) {
   const lines = [];
+  const dm = session.deviceMetadata || {};
 
   lines.push("# Session Summary");
   lines.push(`sessionId,${csvEscape(session.sessionId)}`);
@@ -218,6 +323,18 @@ function sessionToCSV(session) {
   lines.push(`device,${csvEscape(d.device)}`);
 
   lines.push("");
+  lines.push("# Device Metadata");
+  lines.push(`deviceModel,${csvEscape(dm.deviceModel)}`);
+  lines.push(`screenSize,${csvEscape(dm.screenSize)}`);
+  lines.push(`osVersion,${csvEscape(dm.osVersion)}`);
+  lines.push(`appVersion,${csvEscape(dm.appVersion)}`);
+
+  lines.push("");
+  lines.push("# Audio Recording");
+  lines.push(`audioConsent,${session.audioConsent != null ? session.audioConsent : ""}`);
+  lines.push(`audioFileName,${csvEscape(session.audioFileName)}`);
+
+  lines.push("");
   lines.push("# Steps");
   lines.push("screenId,enteredAt,leftAt,durationSec");
   for (const step of session.steps || []) {
@@ -225,6 +342,13 @@ function sessionToCSV(session) {
     lines.push(
       `${csvEscape(step.screenId)},${csvEscape(step.enteredAt)},${csvEscape(step.leftAt)},${dur ?? ""}`
     );
+  }
+
+  lines.push("");
+  lines.push("# Scroll Depth (max per screen, 0.0 = top, 1.0 = bottom)");
+  lines.push("screenId,maxDepth");
+  for (const sd of session.scrollDepths || []) {
+    lines.push(`${csvEscape(sd.screenId)},${sd.maxDepth.toFixed(2)}`);
   }
 
   lines.push("");
@@ -242,6 +366,27 @@ function sessionToCSV(session) {
     lines.push("question,answer");
     for (const a of session.postTaskAnswers) {
       lines.push(`${csvEscape(a.question)},${csvEscape(a.answer)}`);
+    }
+  }
+
+  const stepDurations = computeStepDurations(session.steps || []);
+  const allDurations = Object.values(stepDurations);
+  if (allDurations.length > 0) {
+    lines.push("");
+    lines.push("# Comparative Metrics");
+    const avgTime = (
+      allDurations.reduce((a, b) => a + b, 0) / allDurations.length
+    ).toFixed(1);
+    lines.push(`avgTimePerStepSec,${avgTime}`);
+    const maxDur = Math.max(...allDurations);
+    const longestStep = Object.keys(stepDurations).find(
+      (k) => stepDurations[k] === maxDur
+    );
+    lines.push(`longestStep,${csvEscape(longestStep)}`);
+    lines.push(`longestStepDurationSec,${maxDur.toFixed(1)}`);
+    const ttft = computeTimeToFirstTap(session);
+    if (ttft != null) {
+      lines.push(`timeToFirstTapSec,${ttft}`);
     }
   }
 

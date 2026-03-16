@@ -35,17 +35,19 @@ struct UTRootView: View {
 
     enum Phase { case announcement, demographics, session, complete }
     @State private var phase: Phase = .announcement
+    @State private var audioConsent = true
 
     var body: some View {
         switch phase {
         case .announcement:
-            UTAnnouncementView {
+            UTAnnouncementView { consent in
+                audioConsent = consent
                 withAnimation { phase = .demographics }
             }
 
         case .demographics:
             UTDemographicsView { demographics in
-                tracker.startSession(demographics: demographics)
+                tracker.startSession(demographics: demographics, audioConsent: audioConsent)
                 withAnimation { phase = .session }
             }
 

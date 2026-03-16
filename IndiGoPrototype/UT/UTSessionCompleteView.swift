@@ -113,6 +113,20 @@ struct UTSessionCompleteView: View {
                     .foregroundStyle(IndiGoColors.forYouTextSecondary)
                     .multilineTextAlignment(.center)
 
+                if tracker.audioConsent {
+                    HStack(spacing: 8) {
+                        Image(systemName: "mic.badge.xmark")
+                            .font(.system(size: 14))
+                        Text("Audio recording has been stopped and will be included in the export.")
+                            .font(IndiGoFonts.bodyExtraSmall())
+                    }
+                    .foregroundStyle(IndiGoColors.primaryMain)
+                    .padding(10)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(IndiGoColors.secondaryLight)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+
                 Button(action: exportData) {
                     HStack(spacing: 8) {
                         Image(systemName: "square.and.arrow.up")
@@ -130,7 +144,9 @@ struct UTSessionCompleteView: View {
                     )
                 }
 
-                Text("Share via Email, WhatsApp, AirDrop, or save to Files.")
+                Text(tracker.audioConsent
+                     ? "Exports JSON session data + audio file via Email, WhatsApp, AirDrop, or Files."
+                     : "Share via Email, WhatsApp, AirDrop, or save to Files.")
                     .font(IndiGoFonts.bodyExtraSmall())
                     .foregroundStyle(IndiGoColors.forYouTextTertiary)
                     .multilineTextAlignment(.center)
@@ -219,8 +235,10 @@ struct UTSessionCompleteView: View {
     }
 
     private func exportData() {
-        guard let url = tracker.exportFileURL() else { return }
-        let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+        let files = tracker.exportableFiles()
+        guard !files.isEmpty else { return }
+
+        let activityVC = UIActivityViewController(activityItems: files, applicationActivities: nil)
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let rootVC = windowScene.windows.first?.rootViewController
         else { return }

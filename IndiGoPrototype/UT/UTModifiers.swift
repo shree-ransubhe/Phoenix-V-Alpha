@@ -135,6 +135,107 @@ struct UTStepTrackingModifier: ViewModifier {
     }
 }
 
+// MARK: - Scroll depth tracking
+
+struct UTScrollDepthModifier: ViewModifier {
+    let screenId: String
+
+    func body(content: Content) -> some View {
+        content
+            .background(
+                GeometryReader { outer in
+                    Color.clear
+                        .preference(
+                            key: UTScrollViewFrameKey.self,
+                            value: outer.frame(in: .global)
+                        )
+                }
+            )
+            .onPreferenceChange(UTScrollViewFrameKey.self) { frame in
+                guard frame.height > 0 else { return }
+            }
+            .overlay(
+                GeometryReader { proxy in
+                    UTScrollObserverView(screenId: screenId)
+                        .frame(width: 0, height: 0)
+                }
+            )
+    }
+}
+
+private struct UTScrollViewFrameKey: PreferenceKey {
+    static var defaultValue: CGRect = .zero
+    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
+        value = nextValue()
+    }
+}
+
+/// UIKit bridge to observe scroll offset via the nearest UIScrollView ancestor.
+struct UTScrollObserverView: UIViewRepresentable {
+    let screenId: String
+
+    func makeUIView(context: Context) -> UIView {
+        let view = UTScrollProbeView()
+        view.screenId = screenId
+        view.backgroundColor = .clear
+        view.isUserInteractionEnabled = false
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {
+        (uiView as? UTScrollProbeView)?.screenId = screenId
+    }
+}
+
+final class UTScrollProbeView: UIView {
+    var screenId: String = ""
+    private var scrollObservation: NSKeyValueObservation?
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        guard window != nil, scrollObservation == nil else { return }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            self?.attachToScrollView()
+        }
+    }
+
+    private func attachToScrollView() {
+        guard let scrollView = findScrollView(from: self) else { return }
+
+        scrollObservation = scrollView.observe(\.contentOffset, options: [.new]) { [weak self, weak scrollView] _, _ in
+            guard let self, let sv = scrollView else { return }
+            let contentHeight = sv.contentSize.height
+            let frameHeight = sv.bounds.height
+            let insetBottom = sv.adjustedContentInset.bottom
+            let scrollableHeight = contentHeight - frameHeight + insetBottom
+            guard scrollableHeight > 0 else { return }
+
+            let depth = (sv.contentOffset.y + sv.adjustedContentInset.top) / scrollableHeight
+            let clamped = min(max(depth, 0), 1)
+
+            Task { @MainActor in
+                UTTrackingService.shared.updateScrollDepth(screenId: self.screenId, depth: clamped)
+            }
+        }
+    }
+
+    private func findScrollView(from view: UIView?) -> UIScrollView? {
+        var current = view?.superview
+        while let v = current {
+            if let sv = v as? UIScrollView { return sv }
+            current = v.superview
+        }
+        return nil
+    }
+
+    override func removeFromSuperview() {
+        scrollObservation?.invalidate()
+        scrollObservation = nil
+        super.removeFromSuperview()
+    }
+}
+
 // MARK: - View extensions
 
 extension View {
@@ -146,10 +247,15 @@ extension View {
         modifier(UTStepTrackingModifier(screenId: screenId))
     }
 
+    func utScrollDepth(screenId: String) -> some View {
+        modifier(UTScrollDepthModifier(screenId: screenId))
+    }
+
     func utInstrumented(screenId: String) -> some View {
         self
             .utStepTracking(screenId: screenId)
             .utTapCapture(screenId: screenId)
+            .utScrollDepth(screenId: screenId)
     }
 }
 #endif

@@ -9,6 +9,7 @@
 #if UT_VARIANT
 import Foundation
 import UIKit
+import AVFoundation
 
 // MARK: - Data models
 
@@ -37,20 +38,37 @@ struct UTPostTaskAnswer: Codable {
     let answer: String
 }
 
+struct UTScrollDepthEvent: Codable {
+    let screenId: String
+    let maxDepth: Double
+    let timestamp: String
+}
+
+struct UTDeviceMetadata: Codable {
+    let deviceModel: String
+    let screenSize: String
+    let osVersion: String
+    let appVersion: String
+}
+
 struct UTSessionPayload: Codable {
     let sessionId: String
     var sessionTitle: String
     var demographics: UTDemographics?
+    var deviceMetadata: UTDeviceMetadata?
     let createdAt: String
     var endedAt: String?
     var steps: [UTStepEvent]
     var taps: [UTTapEvent]
+    var scrollDepths: [UTScrollDepthEvent]
     var journeyCompleted: Bool
     var completedAt: String?
     var rating: Int?
     var frustration: Int?
     var feedback: String?
     var postTaskAnswers: [UTPostTaskAnswer]
+    var audioConsent: Bool
+    var audioFileName: String?
 }
 
 // MARK: - Service
@@ -63,10 +81,16 @@ final class UTTrackingService: ObservableObject {
     @Published var sessionId: String?
     @Published var sessionStarted = false
     @Published var sessionEnded = false
+    @Published var audioConsent = true
 
     private(set) var payload: UTSessionPayload?
     private var activeScreenId: String?
     private var activeEnteredAt: Date?
+
+    private var scrollDepthTracker: [String: Double] = [:]
+
+    private var audioRecorder: AVAudioRecorder?
+    private var audioFileURL: URL?
 
     private let iso: ISO8601DateFormatter = {
         let f = ISO8601DateFormatter()
@@ -78,9 +102,88 @@ final class UTTrackingService: ObservableObject {
         "http://localhost:3100"
     }
 
+    // MARK: - Device metadata
+
+    private func captureDeviceMetadata() -> UTDeviceMetadata {
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let machine = withUnsafePointer(to: &systemInfo.machine) {
+            $0.withMemoryRebound(to: CChar.self, capacity: 1) {
+                String(validatingUTF8: $0) ?? UIDevice.current.model
+            }
+        }
+
+        let screen = UIScreen.main.bounds
+        let screenSize = "\(Int(screen.width))x\(Int(screen.height))"
+        let osVersion = "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)"
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+            ?? Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+            ?? "unknown"
+
+        return UTDeviceMetadata(
+            deviceModel: machine,
+            screenSize: screenSize,
+            osVersion: osVersion,
+            appVersion: appVersion
+        )
+    }
+
+    // MARK: - Audio recording
+
+    func requestMicrophoneAndStartRecording(sessionTitle: String) {
+        guard audioConsent else { return }
+
+        AVAudioSession.sharedInstance().requestRecordPermission { [weak self] granted in
+            Task { @MainActor in
+                guard granted else {
+                    self?.audioConsent = false
+                    self?.payload?.audioConsent = false
+                    return
+                }
+                self?.startAudioRecording(sessionTitle: sessionTitle)
+            }
+        }
+    }
+
+    private func startAudioRecording(sessionTitle: String) {
+        let fileName = "\(sessionTitle)_audio.m4a"
+        let dir = FileManager.default.temporaryDirectory
+        let fileURL = dir.appendingPathComponent(fileName)
+
+        let settings: [String: Any] = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 22050,
+            AVNumberOfChannelsKey: 1,
+            AVEncoderAudioQualityKey: AVAudioQuality.medium.rawValue
+        ]
+
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker])
+            try session.setActive(true)
+
+            audioRecorder = try AVAudioRecorder(url: fileURL, settings: settings)
+            audioRecorder?.record()
+            audioFileURL = fileURL
+            payload?.audioFileName = fileName
+        } catch {
+            print("[UT Audio] Failed to start recording: \(error)")
+            audioFileURL = nil
+        }
+    }
+
+    func stopAudioRecording() {
+        audioRecorder?.stop()
+        audioRecorder = nil
+        try? AVAudioSession.sharedInstance().setActive(false)
+    }
+
+    var recordedAudioURL: URL? { audioFileURL }
+
     // MARK: - Session lifecycle
 
-    func startSession(demographics: UTDemographics) {
+    func startSession(demographics: UTDemographics, audioConsent: Bool) {
+        self.audioConsent = audioConsent
         let id = UUID().uuidString
         let now = iso.string(from: Date())
         let title = buildTitle(demographics: demographics, date: Date())
@@ -89,21 +192,33 @@ final class UTTrackingService: ObservableObject {
             sessionId: id,
             sessionTitle: title,
             demographics: demographics,
+            deviceMetadata: captureDeviceMetadata(),
             createdAt: now,
             steps: [],
             taps: [],
+            scrollDepths: [],
             journeyCompleted: false,
-            postTaskAnswers: []
+            postTaskAnswers: [],
+            audioConsent: audioConsent,
+            audioFileName: nil
         )
         sessionId = id
         sessionStarted = true
         sessionEnded = false
+        scrollDepthTracker.removeAll()
 
         postToBackend(path: "/sessions", body: payload)
+
+        if audioConsent {
+            requestMicrophoneAndStartRecording(sessionTitle: title)
+        }
     }
 
     func endSession(rating: Int?, frustration: Int?, feedback: String?, postTaskAnswers: [UTPostTaskAnswer] = []) {
         leaveCurrentScreen()
+        flushScrollDepths()
+        stopAudioRecording()
+
         payload?.endedAt = iso.string(from: Date())
         payload?.rating = rating
         payload?.frustration = frustration
@@ -151,7 +266,47 @@ final class UTTrackingService: ObservableObject {
         payload?.taps.append(tap)
     }
 
+    // MARK: - Scroll depth
+
+    func updateScrollDepth(screenId: String, depth: Double) {
+        let clamped = min(max(depth, 0), 1)
+        let current = scrollDepthTracker[screenId] ?? 0
+        if clamped > current {
+            scrollDepthTracker[screenId] = clamped
+        }
+    }
+
+    private func flushScrollDepths() {
+        let now = iso.string(from: Date())
+        for (screenId, depth) in scrollDepthTracker {
+            payload?.scrollDepths.append(
+                UTScrollDepthEvent(screenId: screenId, maxDepth: depth, timestamp: now)
+            )
+        }
+    }
+
     // MARK: - Export
+
+    func exportableFiles() -> [URL] {
+        var files: [URL] = []
+
+        if let payload {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+            if let data = try? encoder.encode(payload) {
+                let jsonURL = FileManager.default.temporaryDirectory
+                    .appendingPathComponent("\(payload.sessionTitle).json")
+                try? data.write(to: jsonURL)
+                files.append(jsonURL)
+            }
+        }
+
+        if let audioURL = audioFileURL, FileManager.default.fileExists(atPath: audioURL.path) {
+            files.append(audioURL)
+        }
+
+        return files
+    }
 
     func exportFileURL() -> URL? {
         guard let payload else { return nil }

@@ -9,7 +9,9 @@
 import SwiftUI
 
 struct UTAnnouncementView: View {
-    let onContinue: () -> Void
+    let onContinue: (_ audioConsent: Bool) -> Void
+
+    @State private var audioConsent = true
 
     var body: some View {
         VStack(spacing: 0) {
@@ -33,7 +35,7 @@ struct UTAnnouncementView: View {
                     )
                     bulletRow(
                         icon: "hand.tap",
-                        text: "Your taps and interactions will be captured to understand usage patterns."
+                        text: "Your taps, scroll depth, and interactions will be captured to understand usage patterns."
                     )
                     bulletRow(
                         icon: "lock.shield",
@@ -45,12 +47,14 @@ struct UTAnnouncementView: View {
                     )
                 }
                 .padding(.horizontal, 8)
+
+                audioConsentToggle
             }
             .padding(24)
 
             Spacer()
 
-            Button(action: onContinue) {
+            Button(action: { onContinue(audioConsent) }) {
                 Text("I'm Ready")
                     .font(IndiGoFonts.buttonMobile())
                     .foregroundStyle(.white)
@@ -63,6 +67,34 @@ struct UTAnnouncementView: View {
             .padding(.bottom, 40)
         }
         .background(IndiGoColors.background.ignoresSafeArea())
+    }
+
+    private var audioConsentToggle: some View {
+        VStack(spacing: 8) {
+            Divider()
+                .padding(.vertical, 4)
+
+            Toggle(isOn: $audioConsent) {
+                HStack(alignment: .top, spacing: 12) {
+                    Image(systemName: "mic.fill")
+                        .font(.system(size: 16))
+                        .foregroundStyle(audioConsent ? IndiGoColors.primaryMain : IndiGoColors.forYouTextTertiary)
+                        .frame(width: 24)
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Record audio during session")
+                            .font(IndiGoFonts.bodySemiBold())
+                            .foregroundStyle(IndiGoColors.forYouTextPrimary)
+
+                        Text("Voice recording helps us capture verbal feedback. The audio stays on this device and is included in the session export.")
+                            .font(IndiGoFonts.bodyExtraSmall())
+                            .foregroundStyle(IndiGoColors.forYouTextTertiary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+            }
+            .toggleStyle(SwitchToggleStyle(tint: IndiGoColors.primaryMain))
+        }
     }
 
     private func bulletRow(icon: String, text: String) -> some View {

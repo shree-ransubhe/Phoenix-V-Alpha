@@ -32,6 +32,19 @@ struct UTJourneyCompleteOverlay: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 8)
 
+                if UTTrackingService.shared.audioConsent {
+                    HStack(spacing: 6) {
+                        Image(systemName: "mic.fill")
+                            .font(.system(size: 11))
+                        Text("Audio recording is still active — it will stop when you continue.")
+                            .font(IndiGoFonts.bodyExtraSmall())
+                    }
+                    .foregroundStyle(IndiGoColors.primaryMain)
+                    .padding(8)
+                    .background(IndiGoColors.secondaryLight)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+
                 Button {
                     UTTrackingService.shared.endSession(
                         rating: nil, frustration: nil, feedback: nil
