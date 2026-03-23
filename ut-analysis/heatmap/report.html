@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>UT Analysis Report — Alpha 4</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,system-ui,'Segoe UI',sans-serif;background:#f5f7fa;color:#1a2332;padding:24px}
+h1{font-size:1.5rem;font-weight:700;margin-bottom:4px}
+.meta{color:#5a6b80;font-size:.82rem;margin-bottom:20px}
+.summary-grid{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.summary-card{background:#fff;border-radius:10px;padding:14px 18px;border:1px solid #e2e8f0;min-width:120px;flex:1}
+.summary-card .label{font-size:.68rem;text-transform:uppercase;letter-spacing:.5px;color:#6b7f96;margin-bottom:4px}
+.summary-card .val{font-size:1.4rem;font-weight:700;color:#1a2332}
+.summary-card .val.green{color:#16a34a}
+.summary-card .val.amber{color:#d97706}
+.summary-card .val-sm{font-size:.82rem;font-weight:500;color:#334155;line-height:1.6}
+.section-title{font-size:1rem;font-weight:700;margin:24px 0 10px;color:#334155}
+.toolbar{display:flex;gap:10px;margin-bottom:16px;align-items:center}
+.btn{padding:8px 18px;border-radius:8px;border:none;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-primary{background:#1d4ed8;color:#fff}.btn-primary:hover{background:#1e40af}
+.btn-outline{background:#fff;color:#334155;border:1px solid #cbd5e1}.btn-outline:hover{background:#f1f5f9}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #e2e8f0;font-size:.72rem}
+th{background:#f1f5f9;color:#475569;font-weight:600;text-transform:uppercase;letter-spacing:.3px;font-size:.62rem;padding:8px 6px;text-align:left;position:sticky;top:0;z-index:2;border-bottom:2px solid #e2e8f0;white-space:nowrap}
+td{padding:6px;border-bottom:1px solid #f1f5f9;vertical-align:top}
+tr:hover td{background:#f8fafc}
+.ut-num{font-weight:700;color:#3b82f6;white-space:nowrap}
+.c{text-align:center}
+.b{display:inline-block;padding:2px 7px;border-radius:10px;font-size:.62rem;font-weight:600}
+.by{background:#dcfce7;color:#16a34a}.bn{background:#fef2f2;color:#991b1b}
+.rt,.fr{font-weight:700;font-size:.82rem}
+.sc{text-align:center;line-height:1.5}
+.sc .t{display:block;font-weight:600;color:#334155;font-size:.72rem}
+.sc .tp{display:block;font-size:.58rem;color:#94a3b8}
+.fb{max-width:160px;font-size:.68rem;color:#475569;white-space:pre-line}
+.li{width:130px;font-size:.62rem;border:1px solid #e2e8f0;border-radius:4px;padding:3px 5px;color:#3b82f6;background:#fafbfc}
+.li:focus{outline:none;border-color:#3b82f6}
+.oi{width:220px;font-size:.65rem;border:1px solid #e2e8f0;border-radius:4px;padding:4px 5px;color:#334155;background:#fafbfc;resize:vertical;font-family:inherit}
+.oi:focus{outline:none;border-color:#3b82f6}
+.screen-summary{max-width:460px}
+.screen-summary td,.screen-summary th{padding:6px 12px}
+.table-wrap{overflow-x:auto;border-radius:10px;border:1px solid #e2e8f0}
+@media print{body{background:#fff;padding:8px}.li,.oi{border:none;background:transparent}th{background:#f1f5f9!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.btn,.toolbar{display:none}}
+</style>
+</head>
+<body>
+<h1>UT Analysis Report — Alpha 4</h1>
+<p class="meta">Generated 2026-03-18 &bull; 5 sessions &bull; Fill in links and notes, then export</p>
+
+<div class="summary-grid">
+  <div class="summary-card"><div class="label">Sessions</div><div class="val">5</div></div>
+  <div class="summary-card"><div class="label">Completion</div><div class="val green">100%</div></div>
+  <div class="summary-card"><div class="label">Avg Rating</div><div class="val">4.0<span style="font-size:.7rem;color:#94a3b8">/5</span></div></div>
+  <div class="summary-card"><div class="label">Avg Frustration</div><div class="val amber">1.4<span style="font-size:.7rem;color:#94a3b8">/5</span></div></div>
+  <div class="summary-card"><div class="label">Avg Duration</div><div class="val">7m 02s</div></div>
+  <div class="summary-card"><div class="label">Total Taps</div><div class="val">441</div></div>
+</div>
+
+<h3 class="section-title">Participant Profile</h3>
+<div class="summary-grid">
+  <div class="summary-card"><div class="label">Travel Frequency</div><div class="val-sm">Occasional&nbsp;<b>4</b> &middot; Frequent&nbsp;<b>1</b></div></div>
+  <div class="summary-card"><div class="label">App Experience</div><div class="val-sm">New&nbsp;<b>2</b> &middot; Comfortable&nbsp;<b>3</b></div></div>
+  <div class="summary-card"><div class="label">Age Bands</div><div class="val-sm">35-44&nbsp;<b>1</b> &middot; 25-34&nbsp;<b>3</b> &middot; 55+&nbsp;<b>1</b></div></div>
+</div>
+
+<h3 class="section-title">Per-Screen Summary</h3>
+<table class="screen-summary"><tr><th>Screen</th><th>Avg Time</th><th>Total Taps</th></tr><tr><td>Home</td><td>179.0s</td><td>196</td></tr>
+<tr><td>Location</td><td>1.8s</td><td>11</td></tr>
+<tr><td>Date</td><td>1.7s</td><td>28</td></tr>
+<tr><td>Passengers</td><td>1.1s</td><td>37</td></tr>
+<tr><td>Payment</td><td>0.6s</td><td>17</td></tr>
+<tr><td>SRP</td><td>0.1s</td><td>152</td></tr>
+</table>
+
+<h3 class="section-title">Session Details</h3>
+<div class="toolbar">
+  <button class="btn btn-primary" onclick="exportXlsx()">Export to Excel (.xlsx)</button>
+  <span style="font-size:.7rem;color:#6b7f96">Includes your filled-in links and notes. Copy last row into your main Excel.</span>
+</div>
+<div class="table-wrap">
+<table id="mainTable">
+  <thead><tr>
+    <th>#</th><th>Date</th><th>Travel Freq.</th><th>App Exp.</th><th>Age</th><th>Device</th><th>OS</th>
+    <th>Audio</th><th>Recording Link</th><th>Transcription Link</th>
+    <th>Rating</th><th>Frust.</th><th>Total Time</th><th>Journey Time</th>
+    <th>Completed</th><th>Longest Screen</th><th>Taps</th>
+    <th>Home</th><th>Location</th><th>Date</th><th>Passengers</th><th>Payment</th><th>SRP</th>
+    <th>Feedback</th><th>Post-Task Answers</th><th>Quick Observations</th><th>Off the Record Notes</th>
+  </tr></thead>
+  <tbody><tr data-idx="0">
+<td class="ut-num">UT-1</td>
+<td>2026-03-12</td>
+<td>Occasional</td>
+<td>New</td>
+<td>35-44</td>
+<td>Provided</td>
+<td></td>
+<td class="c"><span class="b bn">N</span></td>
+<td><input class="li" placeholder="Paste link..." data-key="UT_2026-03-12_2342_Occasional_Comfortable__rec" value=""></td>
+<td><input class="li" placeholder="Paste link..." data-key="UT_2026-03-12_2342_Occasional_Comfortable__trans" value=""></td>
+<td class="c"><span class="rt">3</span></td>
+<td class="c"><span class="fr">2</span></td>
+<td>26s</td>
+<td>19s</td>
+<td class="c"><span class="b by">Y</span></td>
+<td>Location (2s)</td>
+<td class="c">12</td>
+<td class="sc"><span class="t">1.2s</span><span class="tp">1t</span></td><td class="sc"><span class="t">2.5s</span><span class="tp">2t</span></td><td class="sc"><span class="t">1.1s</span><span class="tp">2t</span></td><td class="sc"><span class="t">0.5s</span><span class="tp">2t</span></td><td class="sc"><span class="t">0.0s</span><span class="tp">2t</span></td><td class="sc"><span class="t">0.0s</span><span class="tp">3t</span></td>
+<td class="fb"></td>
+<td class="fb"></td>
+<td><textarea class="oi" rows="3" data-key="UT_2026-03-12_2342_Occasional_Comfortable__obs">1. Dry run in cotrolled enviroment
+2. non assisted</textarea></td>
+<td><textarea class="oi" rows="3" data-key="UT_2026-03-12_2342_Occasional_Comfortable__otr">Category - 
+Name - NA
+Location - Non Assisted mode
+Trav Context - NA</textarea></td>
+</tr>
+<tr data-idx="1">
+<td class="ut-num">UT-2</td>
+<td>2026-03-13</td>
+<td>Frequent</td>
+<td>Comfortable</td>
+<td>25-34</td>
+<td>Provided</td>
+<td></td>
+<td class="c"><span class="b bn">N</span></td>
+<td><input class="li" placeholder="Paste link..." data-key="UT_2026-03-13_1651_Frequent_Comfortable__rec" value=""></td>
+<td><input class="li" placeholder="Paste link..." data-key="UT_2026-03-13_1651_Frequent_Comfortable__trans" value=""></td>
+<td class="c"><span class="rt">5</span></td>
+<td class="c"><span class="fr">1</span></td>
+<td>7m 60s</td>
+<td>3m 36s</td>
+<td class="c"><span class="b by">Y</span></td>
+<td>Home (1m 09s)</td>
+<td class="c">179</td>
+<td class="sc"><span class="t">69.2s</span><span class="tp">43t</span></td><td class="sc"><span class="t">1.2s</span><span class="tp">1t</span></td><td class="sc"><span class="t">1.6s</span><span class="tp">4t</span></td><td class="sc"><span class="t">1.1s</span><span class="tp">16t</span></td><td class="sc"><span class="t">1.6s</span><span class="tp">8t</span></td><td class="sc"><span class="t">0.6s</span><span class="tp">107t</span></td>
+<td class="fb">9699193976 - Abhishek</td>
+<td class="fb"></td>
+<td><textarea class="oi" rows="3" data-key="UT_2026-03-13_1651_Frequent_Comfortable__obs">1. For you section - Not attracted enough to My trips
+2. Liked Fare Family segmentation 
+3. Impressed with simplicity 
+4. Community section - interaction understood 
+5. Offers section - liked keeping offers upfront, mentioned it better for clarity  
+6. During Home - scrolled and interacted with all sections to explore things. 
+7. During Passanger details page shared some of his past experience, but liked to have historic passanger data in the quick selection. </textarea></td>
+<td><textarea class="oi" rows="3" data-key="UT_2026-03-13_1651_Frequent_Comfortable__otr">Category - Tech Savvy, GenZ, Freqent traveller
+Name - Abhishek 
+Location - Delhi IGI T1 
+Trav context - DEL-NMI</textarea></td>
+</tr>
+<tr data-idx="2">
+<td class="ut-num">UT-3</td>
+<td>2026-03-17</td>
+<td>Occasional</td>
+<td>Comfortable</td>
+<td>25-34</td>
+<td>iPhone15,4</td>
+<td>iOS 18.4.1</td>
+<td class="c"><span class="b by">Y</span></td>
+<td><input class="li" placeholder="Paste link..." data-key="UT_2026-03-17_1807_Occasional_Comfortable__rec" value="https://indigoin-my.sharepoint.com/:u:/g/personal/shreenivas_ransubhe_goindigo_in/IQDEgt9Iu8H-Srv4s5dnSPIgAWKkcfp4cmxi4mJqu1OWaDc?e=mgeTLY"></td>
+<td><input class="li" placeholder="Paste link..." data-key="UT_2026-03-17_1807_Occasional_Comfortable__trans" value="N"></td>
+<td class="c"><span class="rt">4</span></td>
+<td class="c"><span class="fr">1</span></td>
+<td>8m 57s</td>
+<td>5m 10s</td>
+<td class="c"><span class="b by">Y</span></td>
+<td>Home (3m 53s)</td>
+<td class="c">101</td>
+<td class="sc"><span class="t">233.1s</span><span class="tp">65t</span></td><td class="sc"><span class="t">1.2s</span><span class="tp">1t</span></td><td class="sc"><span class="t">1.6s</span><span class="tp">6t</span></td><td class="sc"><span class="t">0.5s</span><span class="tp">5t</span></td><td class="sc"><span class="t">0.5s</span><span class="tp">2t</span></td><td class="sc"><span class="t">0.0s</span><span class="tp">22t</span></td>
+<td class="fb">Aghas Shahu aghasshahul08@gmail.com</td>
+<td class="fb"></td>
+<td><textarea class="oi" rows="3" data-key="UT_2026-03-17_1807_Occasional_Comfortable__obs">1. Amazon London employee
+2. Travel once or twice a year. 
+3. Studied and working in London &amp; on family visit.
+4. Do his own booking using Skyscanner app to compare rates
+5. Ensures to get better price &amp; accoridng to time. 
+6. In case of emergency ready to pay more. 
+7. Understands the context of having search, but messaging/lable was not clear
+8. Offers section - first offer was considered as header in first glance.
+9. Loyalty card - for first time &amp; novice users we need better clarity in the communication. 
+10. Community section swipe was observed and after asking user answered that he was exploring... thought some 'art' is there. Pagination number has helped building affordance. 
+11. After asking to book a ticket, the user naturally started the journey by tapping on search widget. 
+12. User was surprised/confused seeing some names already in the passanger selection. Was not able to get which names are there. 
+13. User was able to understand that calendar section on Pay-mode page is tappable, 
+14. User was able to understand the fare family segmentation in initial card. 
+15. User was able to differtiate the offerings in fares &amp; classes. 
+16. Probability to validate in fare class selection -- First seen (Flexi) has primacy effect in selection </textarea></td>
+<td><textarea class="oi" rows="3" data-key="UT_2026-03-17_1807_Occasional_Comfortable__otr">Category - Tech Savvy, GenZ, Occasional traveller
+Name - Aghas
+Location - BOM T2
+Trav Context - London -BOM- Kochi</textarea></td>
+</tr>
+<tr data-idx="3">
+<td class="ut-num">UT-4</td>
+<td>2026-03-17</td>
+<td>Occasional</td>
+<td>Comfortable</td>
+<td>55+</td>
+<td>iPhone15,4</td>
+<td>iOS 18.4.1</td>
+<td class="c"><span class="b bn">N</span></td>
+<td><input class="li" placeholder="Paste link..." data-key="UT_2026-03-17_1842_Occasional_Comfortable__rec" value=""></td>
+<td><input class="li" placeholder="Paste link..." data-key="UT_2026-03-17_1842_Occasional_Comfortable__trans" value=""></td>
+<td class="c"><span class="rt">5</span></td>
+<td class="c"><span class="fr">1</span></td>
+<td>7m 29s</td>
+<td>6m 30s</td>
+<td class="c"><span class="b by">Y</span></td>
+<td>Home (4m 54s)</td>
+<td class="c">50</td>
+<td class="sc"><span class="t">294.4s</span><span class="tp">27t</span></td><td class="sc"><span class="t">1.2s</span><span class="tp">1t</span></td><td class="sc"><span class="t">1.6s</span><span class="tp">6t</span></td><td class="sc"><span class="t">1.6s</span><span class="tp">6t</span></td><td class="sc"><span class="t">0.0s</span><span class="tp">2t</span></td><td class="sc"><span class="t">0.0s</span><span class="tp">8t</span></td>
+<td class="fb"></td>
+<td class="fb"></td>
+<td><textarea class="oi" rows="3" data-key="UT_2026-03-17_1842_Occasional_Comfortable__obs">1. 55+ yrs user, but not Sr sitizen yet. Relatively champion in booking flights
+2. Have used IndiGo app in past, and called out that this is not IndiGo app, are you changing it? 
+3. The reason mentioned for uninstalling IndiGo and AirIndia apps from phone, companies are not able to store historic data. (CDP)
+4. During the homepage the user started talking about his past exp with IndiGo
+5. As per him, after certain age people are not concerned about offers &amp; loyalty points. They prefer easy to book solution. (Chosing ease over offers)
+6. Not particular to design but he mentioned to have easy and quick accessible things handy in the app.
+7. In overall the user percieved the design ok, and better than existing. </textarea></td>
+<td><textarea class="oi" rows="3" data-key="UT_2026-03-17_1842_Occasional_Comfortable__otr">Name - NA 
+Location - Delhi IGI T1 
+Trav context - BOM-DEL</textarea></td>
+</tr>
+<tr data-idx="4">
+<td class="ut-num">UT-5</td>
+<td>2026-03-17</td>
+<td>Occasional</td>
+<td>New</td>
+<td>25-34</td>
+<td>iPhone15,4</td>
+<td>iOS 18.4.1</td>
+<td class="c"><span class="b by">Y</span></td>
+<td><input class="li" placeholder="Paste link..." data-key="UT_2026-03-17_1931_Occasional_Comfortable__rec" value="https://indigoin-my.sharepoint.com/:u:/g/personal/shreenivas_ransubhe_goindigo_in/IQB0GudNBpunRJa_mgjKRnIYAa6FCzm6_F47pd8oySnRkGk?e=iQmuSz"></td>
+<td><input class="li" placeholder="Paste link..." data-key="UT_2026-03-17_1931_Occasional_Comfortable__trans" value=""></td>
+<td class="c"><span class="rt">3</span></td>
+<td class="c"><span class="fr">2</span></td>
+<td>10m 17s</td>
+<td>6m 32s</td>
+<td class="c"><span class="b by">Y</span></td>
+<td>Home (4m 57s)</td>
+<td class="c">99</td>
+<td class="sc"><span class="t">297.4s</span><span class="tp">60t</span></td><td class="sc"><span class="t">3.0s</span><span class="tp">6t</span></td><td class="sc"><span class="t">2.7s</span><span class="tp">10t</span></td><td class="sc"><span class="t">1.6s</span><span class="tp">8t</span></td><td class="sc"><span class="t">0.6s</span><span class="tp">3t</span></td><td class="sc"><span class="t">0.0s</span><span class="tp">12t</span></td>
+<td class="fb">Add focus on flight more for first time user
+Lesser focus on other businesses 
+Only best deal matters</td>
+<td class="fb"></td>
+<td><textarea class="oi" rows="3" data-key="UT_2026-03-17_1931_Occasional_Comfortable__obs">1. Medical scientist, was reading newspaper (and not scrolling phone) 
+2. Novice user, first time flight booker 
+3. Prefers train travel over flights for personal use
+4. Prefers humanly connections than social media usage. 
+5. Mentioned -- he uses the most complext digital devices in health industry, which common people have not heard their names. But have not used mobile app for booking flights. 
+6. Struggeled a lot to relate Search to initiate flight booking. But pointed Flights in the navigation as starting point. 
+7. First fold (for you) section found relevant but wanted bigger in size. Tried tapping on the section also. 'Dubai' is not relatable. 
+8. As per this user, why dont you focus more on Flight related things in the app. For other LOBs there are some apps -- MMT, Ixigo for hotel, Uber for Cabs. 6EPick is stealing attention. 
+9. Got confused with Search widget label and was not able to relate it to booking flight start point. 
+10. This user relied on back button more than tapping on date card in Pay mode page. </textarea></td>
+<td><textarea class="oi" rows="3" data-key="UT_2026-03-17_1931_Occasional_Comfortable__otr">Name - Pradip
+Location - BOM T2
+Trav Context - BOM-DEL</textarea></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<script>
+(function(){
+  document.querySelectorAll('.li,.oi').forEach(function(el){
+    var k='utr__'+el.dataset.key;
+    var stored=localStorage.getItem(k);
+    if(stored && stored!==el.value) el.value=stored;
+    el.addEventListener('input',function(){localStorage.setItem(k,el.value)});
+  });
+})();
+
+function exportXlsx(){
+  var tbl=document.getElementById('mainTable');
+  var headers=[];
+  tbl.querySelectorAll('thead th').forEach(function(th){headers.push(th.textContent.trim())});
+  var data=[headers];
+  tbl.querySelectorAll('tbody tr').forEach(function(tr){
+    var row=[];
+    tr.querySelectorAll('td').forEach(function(td){
+      var inp=td.querySelector('input,textarea');
+      if(inp){row.push(inp.value||'');return}
+      var badge=td.querySelector('.b');
+      if(badge){row.push(badge.textContent.trim());return}
+      var timeEl=td.querySelector('.t');
+      if(timeEl){
+        var taps=td.querySelector('.tp');
+        row.push(timeEl.textContent.trim()+(taps?' / '+taps.textContent.trim():''));
+        return;
+      }
+      row.push(td.textContent.trim());
+    });
+    data.push(row);
+  });
+  var ws=XLSX.utils.aoa_to_sheet(data);
+
+  var colWidths=headers.map(function(h,i){
+    var max=h.length;
+    data.forEach(function(r){if(r[i]&&r[i].length>max)max=r[i].length});
+    return{wch:Math.min(Math.max(max+2,8),40)};
+  });
+  ws['!cols']=colWidths;
+
+  var wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'UT Sessions');
+  XLSX.writeFile(wb,'UT_Analysis_Alpha4_'+new Date().toISOString().slice(0,10)+'.xlsx');
+}
+</script>
+</body>
+</html>

@@ -10,6 +10,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import Speech
 
 // MARK: - Data models
 
@@ -31,6 +32,7 @@ struct UTTapEvent: Codable {
     let x: Double
     let y: Double
     let timestamp: String
+    var contentHeight: Double?
 }
 
 struct UTPostTaskAnswer: Codable {
@@ -69,6 +71,7 @@ struct UTSessionPayload: Codable {
     var postTaskAnswers: [UTPostTaskAnswer]
     var audioConsent: Bool
     var audioFileName: String?
+    var transcript: String?
 }
 
 // MARK: - Service
@@ -91,6 +94,12 @@ final class UTTrackingService: ObservableObject {
 
     private var audioRecorder: AVAudioRecorder?
     private var audioFileURL: URL?
+
+    private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-IN"))
+    private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    private var recognitionTask: SFSpeechRecognitionTask?
+    private var audioEngine = AVAudioEngine()
+    @Published var liveTranscript: String = ""
 
     private let iso: ISO8601DateFormatter = {
         let f = ISO8601DateFormatter()
@@ -133,14 +142,26 @@ final class UTTrackingService: ObservableObject {
     func requestMicrophoneAndStartRecording(sessionTitle: String) {
         guard audioConsent else { return }
 
-        AVAudioSession.sharedInstance().requestRecordPermission { [weak self] granted in
+        AVAudioSession.sharedInstance().requestRecordPermission { [weak self] micGranted in
             Task { @MainActor in
-                guard granted else {
+                guard micGranted else {
                     self?.audioConsent = false
                     self?.payload?.audioConsent = false
                     return
                 }
+                self?.requestSpeechAuth(sessionTitle: sessionTitle)
+            }
+        }
+    }
+
+    private func requestSpeechAuth(sessionTitle: String) {
+        SFSpeechRecognizer.requestAuthorization { [weak self] status in
+            Task { @MainActor in
+                let speechAvailable = (status == .authorized)
                 self?.startAudioRecording(sessionTitle: sessionTitle)
+                if speechAvailable {
+                    self?.startLiveTranscription()
+                }
             }
         }
     }
@@ -172,7 +193,57 @@ final class UTTrackingService: ObservableObject {
         }
     }
 
+    private func startLiveTranscription() {
+        guard let speechRecognizer, speechRecognizer.isAvailable else {
+            print("[UT Speech] Recognizer not available")
+            return
+        }
+
+        recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+        guard let recognitionRequest else { return }
+        recognitionRequest.shouldReportPartialResults = true
+        if speechRecognizer.supportsOnDeviceRecognition {
+            recognitionRequest.requiresOnDeviceRecognition = true
+        }
+
+        recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { [weak self] result, error in
+            Task { @MainActor in
+                if let result {
+                    self?.liveTranscript = result.bestTranscription.formattedString
+                    self?.payload?.transcript = result.bestTranscription.formattedString
+                }
+                if error != nil || (result?.isFinal ?? false) {
+                    self?.stopTranscription()
+                }
+            }
+        }
+
+        let inputNode = audioEngine.inputNode
+        let recordingFormat = inputNode.outputFormat(forBus: 0)
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { [weak self] buffer, _ in
+            self?.recognitionRequest?.append(buffer)
+        }
+
+        do {
+            audioEngine.prepare()
+            try audioEngine.start()
+        } catch {
+            print("[UT Speech] Audio engine failed to start: \(error)")
+            stopTranscription()
+        }
+    }
+
+    private func stopTranscription() {
+        audioEngine.stop()
+        audioEngine.inputNode.removeTap(onBus: 0)
+        recognitionRequest?.endAudio()
+        recognitionRequest = nil
+        recognitionTask?.cancel()
+        recognitionTask = nil
+    }
+
     func stopAudioRecording() {
+        stopTranscription()
         audioRecorder?.stop()
         audioRecorder = nil
         try? AVAudioSession.sharedInstance().setActive(false)
@@ -200,7 +271,8 @@ final class UTTrackingService: ObservableObject {
             journeyCompleted: false,
             postTaskAnswers: [],
             audioConsent: audioConsent,
-            audioFileName: nil
+            audioFileName: nil,
+            transcript: nil
         )
         sessionId = id
         sessionStarted = true
@@ -256,12 +328,13 @@ final class UTTrackingService: ObservableObject {
 
     // MARK: - Tap heatmap
 
-    func recordTap(screenId: String, normalizedX: Double, normalizedY: Double) {
+    func recordTap(screenId: String, normalizedX: Double, normalizedY: Double, contentHeight: Double? = nil) {
         let tap = UTTapEvent(
             screenId: screenId,
             x: normalizedX,
             y: normalizedY,
-            timestamp: iso.string(from: Date())
+            timestamp: iso.string(from: Date()),
+            contentHeight: contentHeight
         )
         payload?.taps.append(tap)
     }

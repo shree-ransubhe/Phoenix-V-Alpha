@@ -1,6 +1,7 @@
 import SwiftUI
 
 /// Quick filter chips row + filter/sort button.
+/// Figma v5.0 node 2382:40281 — white bg, bright blue chip borders, 12px label font, 40px filter icon.
 struct SRPQuickFilters: View {
     let filters: [String]
     @Binding var selectedFilters: Set<String>
@@ -15,32 +16,32 @@ struct SRPQuickFilters: View {
                             title: filter,
                             isSelected: selectedFilters.contains(filter)
                         ) {
-                            if selectedFilters.contains(filter) {
-                                selectedFilters.remove(filter)
-                            } else {
-                                selectedFilters.insert(filter)
+                            withAnimation(.easeInOut(duration: 0.15)) {
+                                if selectedFilters.contains(filter) {
+                                    selectedFilters.remove(filter)
+                                } else {
+                                    selectedFilters.insert(filter)
+                                }
                             }
                         }
                     }
                 }
                 .padding(.leading, IndiGoSpacing.sm)
-                .padding(.trailing, IndiGoSpacing.md)
+                .padding(.trailing, IndiGoSpacing.xxxl)
             }
 
             Button(action: onFilterTap) {
                 Image(systemName: "slider.horizontal.3")
-                    .font(.system(size: 14))
+                    .font(.system(size: 18, weight: .medium))
                     .foregroundStyle(IndiGoColors.forYouTextPrimary)
-                    .frame(width: 32, height: 32)
-                    .background(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: IndiGoSpacing.radiusSm))
-                    .shadow(color: .black.opacity(0.12), radius: 3, x: -6, y: 0)
+                    .frame(width: 40, height: 40)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
         }
-        .padding(IndiGoSpacing.sm)
+        .padding(.leading, IndiGoSpacing.sm)
+        .padding(.vertical, IndiGoSpacing.xs)
         .background(.white)
-        .clipShape(RoundedRectangle(cornerRadius: IndiGoSpacing.radiusMd))
     }
 }
 
@@ -52,15 +53,17 @@ private struct FilterChip: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(IndiGoFonts.bodyExtraSmall())
+                .font(IndiGoFonts.bodySmall())
                 .foregroundStyle(isSelected ? .white : IndiGoColors.forYouTextSecondary)
-                .padding(.horizontal, IndiGoSpacing.sm)
-                .padding(.vertical, 6)
-                .background(isSelected ? IndiGoColors.primaryMain : IndiGoColors.semiWhite)
+                .lineLimit(1)
+                .padding(.horizontal, IndiGoSpacing.md)
+                .padding(.vertical, IndiGoSpacing.xxs)
+                .frame(minWidth: 48, minHeight: 28)
+                .background(isSelected ? IndiGoColors.primaryMain : .white)
                 .clipShape(Capsule())
                 .overlay(
                     Capsule()
-                        .stroke(isSelected ? Color.clear : IndiGoColors.srpCardBorder, lineWidth: 1)
+                        .stroke(isSelected ? Color.clear : IndiGoColors.chipBorderBlue, lineWidth: 1)
                 )
         }
         .buttonStyle(.plain)

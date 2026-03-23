@@ -55,12 +55,69 @@ targets:
         INFOPLIST_FILE: IndiGoPrototype/Info.plist
         INFOPLIST_KEY_CFBundleDisplayName: "IndiGo Prototype UT"
         INFOPLIST_KEY_NSMicrophoneUsageDescription: "This usability testing session records audio for research documentation. You can opt out on the consent screen."
+        INFOPLIST_KEY_NSSpeechRecognitionUsageDescription: "Speech recognition transcribes session audio on-device so observations are captured automatically."
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         PRODUCT_BUNDLE_IDENTIFIER: com.indigo.prototype.ut
         SWIFT_ACTIVE_COMPILATION_CONDITIONS: "$(inherited) UT_VARIANT"
+        SWIFT_EMIT_LOC_STRINGS: YES
+        TARGETED_DEVICE_FAMILY: "1"
+    dependencies:
+      - package: Lottie
+        product: Lottie
+
+  IndiGoPrototype-Alpha5:
+    type: application
+    platform: iOS
+    sources:
+      - path: IndiGoPrototype
+        name: IndiGoPrototype
+        excludes:
+          - "**/Lottie"
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_FILE: IndiGoPrototype/Info.plist
+        INFOPLIST_KEY_CFBundleDisplayName: "IndiGo Alpha 5.0"
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        PRODUCT_BUNDLE_IDENTIFIER: com.indigo.prototype.alpha5
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: "$(inherited) ALPHA_5_0"
+        SWIFT_EMIT_LOC_STRINGS: YES
+        TARGETED_DEVICE_FAMILY: "1"
+    dependencies:
+      - package: Lottie
+        product: Lottie
+
+  IndiGoPrototype-Alpha5-UT:
+    type: application
+    platform: iOS
+    sources:
+      - path: IndiGoPrototype
+        name: IndiGoPrototype
+        excludes:
+          - "**/Lottie"
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: 7XMV37UXV4
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_FILE: IndiGoPrototype/Info.plist
+        INFOPLIST_KEY_CFBundleDisplayName: "IndiGo Alpha 5.0 UT"
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: "This usability testing session records audio for research documentation. You can opt out on the consent screen."
+        INFOPLIST_KEY_NSSpeechRecognitionUsageDescription: "Speech recognition transcribes session audio on-device so observations are captured automatically."
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        PRODUCT_BUNDLE_IDENTIFIER: com.indigo.prototype.alpha5.ut
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: "$(inherited) ALPHA_5_0 UT_VARIANT"
         SWIFT_EMIT_LOC_STRINGS: YES
         TARGETED_DEVICE_FAMILY: "1"
     dependencies:

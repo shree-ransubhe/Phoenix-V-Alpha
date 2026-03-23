@@ -46,7 +46,9 @@ enum IndiGoColors {
     static let headerOverlayBlue = Color(hex: "001B94").opacity(0.3)
 
     // 6E Pick
-    static let sixEPickGreen = Color(hex: "209326")
+    static let sixEPickGreen = Color(hex: "218946")
+    static let sixEPickRowBg = Color(hex: "ECECF9")
+    static let sixEPickBadgeBorder = Color(hex: "000099").opacity(0.4)
 
     // For You cards (Figma: secondary/light, secondary/medium, text tokens)
     static let secondaryLight = Color(hex: "EAF8FF")
@@ -62,6 +64,7 @@ enum IndiGoColors {
     static let disabledBorder = Color(hex: "CDD1DB")
     static let offerPromoBlue = Color(hex: "000099")
     static let offerButtonDark = Color(hex: "1D1D1D")
+    static let offerBorderDeep = Color(hex: "E2EBF2")
 
     // One Click Away section
     static let oneClickBg = Color(hex: "EAF8FF").opacity(0.5)
@@ -96,8 +99,11 @@ enum IndiGoColors {
     static let businessGreenBorder = Color(hex: "CDF1CC")
     static let srpCardShadow = Color(hex: "4C5D9E").opacity(0.15)
     static let srpCardBorder = Color(hex: "E2EBF2")
-    static let calendarSelected = Color(hex: "AFE4FF")
-    static let calendarDefault = Color(hex: "EAF8FF")
+    static let calendarSelected = Color(hex: "D1EFFF")
+    static let calendarDefault = Color.white
+    static let calendarDisabled = Color(hex: "EBECEE")
+    static let calendarShadow = Color(hex: "000099").opacity(0.16)
+    static let chipBorderBlue = Color(hex: "00AEE5")
 }
 
 // MARK: - Color+Hex

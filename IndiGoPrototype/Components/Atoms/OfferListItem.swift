@@ -20,11 +20,12 @@ struct OfferListItem: View {
     let offer: OfferItem
     let showDivider: Bool
     let onTap: () -> Void
+    @Environment(\.alphaTheme) private var theme
 
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 0) {
-                HStack(spacing: IndiGoSpacing.sm) {
+                HStack(spacing: IndiGoSpacing.xs) {
                     offerIcon
                     offerDetails
                     Spacer()
@@ -33,7 +34,7 @@ struct OfferListItem: View {
 
                 if showDivider {
                     dashedDivider
-                        .padding(.top, IndiGoSpacing.sm)
+                        .padding(.top, theme.bestOffersListSpacing)
                 }
             }
         }
@@ -93,7 +94,7 @@ struct OfferListItem: View {
         ZStack {
             Circle()
                 .fill(Color.white)
-                .frame(width: 32, height: 32)
+                .frame(width: theme.bestOffersChevronSize, height: theme.bestOffersChevronSize)
 
             Image("icon-accordion-right")
                 .renderingMode(.template)
@@ -116,7 +117,7 @@ struct OfferListItem: View {
                         path.addLine(to: CGPoint(x: geo.size.width, y: 0))
                     }
                     .stroke(
-                        IndiGoColors.secondaryDeepGrey,
+                        IndiGoColors.offerBorderDeep,
                         style: StrokeStyle(lineWidth: 1, dash: [4, 3])
                     )
                 }

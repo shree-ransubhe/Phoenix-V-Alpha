@@ -27,10 +27,11 @@ import SwiftUI
 struct HomeHeaderView: View {
     let scrollOffset: CGFloat
     var onSearchTap: () -> Void = {}
+    @Environment(\.alphaTheme) private var theme
 
-    static let expandedHeight: CGFloat = 207
-    static let inlineHeight: CGFloat = 139
-    static let collapseRange: CGFloat = expandedHeight - inlineHeight  // 68pt
+    static let expandedHeight: CGFloat = ThemeProvider.current.headerExpandedHeight
+    static let inlineHeight: CGFloat = ThemeProvider.current.headerInlineHeight
+    static let collapseRange: CGFloat = ThemeProvider.current.headerCollapseRange
 
     static func headerHeight(for offset: CGFloat) -> CGFloat {
         let clamped = max(0, offset)
@@ -55,32 +56,32 @@ struct HomeHeaderView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Color.clear.frame(height: 44)
+            Color.clear.frame(height: theme.headerStatusBarHeight)
 
             if !isInlineMode {
-                Spacer().frame(height: 24 * (1 - collapseProgress))
+                Spacer().frame(height: theme.headerTopGap * (1 - collapseProgress))
 
                 greetingRow
-                    .padding(.horizontal, 24)
-                    .frame(height: 44 * (1 - collapseProgress))
+                    .padding(.horizontal, theme.headerHorizontalPadding)
+                    .frame(height: theme.headerGreetingRowHeight * (1 - collapseProgress))
                     .opacity(Double(1 - collapseProgress))
                     .clipped()
 
-                Spacer().frame(height: 16 * (1 - collapseProgress))
+                Spacer().frame(height: theme.headerBottomPadding * (1 - collapseProgress))
             } else {
-                Spacer().frame(height: 16)
+                Spacer().frame(height: theme.headerBottomPadding)
             }
 
             if isInlineMode {
                 SearchWidgetView(mode: .inline, onTap: onSearchTap)
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, theme.headerSearchHorizontalPadding)
             } else if collapseProgress > 0.5 {
                 SearchWidgetView(mode: .inline, onTap: onSearchTap)
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, theme.headerSearchHorizontalPadding)
                     .opacity(Double((collapseProgress - 0.5) / 0.5))
             } else {
                 SearchWidgetView(mode: .expanded, onTap: onSearchTap)
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, theme.headerSearchHorizontalPadding)
             }
 
             Spacer(minLength: 0)
@@ -90,7 +91,7 @@ struct HomeHeaderView: View {
         .background(headerBg)
         .shadow(
             color: showShadow ? .black.opacity(0.25) : .clear,
-            radius: 8, x: 0, y: 4
+            radius: theme.headerShadowRadius, x: 0, y: theme.headerShadowY
         )
     }
 
@@ -153,7 +154,7 @@ struct HomeHeaderView: View {
 
 #Preview("Expanded – 207pt") {
     ZStack {
-        Image("light-header-bg").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea()
+        Image("header-bg").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea()
         VStack(spacing: 0) {
             HomeHeaderView(scrollOffset: 0)
             Spacer()
@@ -164,7 +165,7 @@ struct HomeHeaderView: View {
 
 #Preview("Inline – 139pt") {
     ZStack {
-        Image("light-header-bg").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea()
+        Image("header-bg").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea()
         VStack(spacing: 0) {
             HomeHeaderView(scrollOffset: 100)
             Spacer()

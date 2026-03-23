@@ -121,98 +121,88 @@ struct CalendarDate: Identifiable {
     let isSelected: Bool
 }
 
+/// Flight schedule template: times & pricing that get combined with the user's chosen route.
+private struct FlightTemplate {
+    let index: Int
+    let flightNumberSuffix: String
+    let originTerminal: String
+    let destinationTerminal: String
+    let departureTime: String
+    let arrivalTime: String
+    let duration: String
+    let stops: Int
+    let stretchPrice: Int
+    let economyPrice: Int
+    let stretchBluChips: Int
+    let economyBluChips: Int
+    let cabinClass: CabinClass
+}
+
+private let flightTemplates: [FlightTemplate] = [
+    FlightTemplate(index: 0, flightNumberSuffix: "12347", originTerminal: "T3", destinationTerminal: "T2",
+                   departureTime: "05:00", arrivalTime: "08:10", duration: "3h 10m", stops: 0,
+                   stretchPrice: 28500, economyPrice: 3500, stretchBluChips: 7000, economyBluChips: 7000, cabinClass: .stretch),
+    FlightTemplate(index: 1, flightNumberSuffix: "12348", originTerminal: "T3", destinationTerminal: "T2",
+                   departureTime: "06:30", arrivalTime: "09:20", duration: "3h 10m", stops: 0,
+                   stretchPrice: 27000, economyPrice: 3000, stretchBluChips: 5500, economyBluChips: 6500, cabinClass: .economy),
+    FlightTemplate(index: 2, flightNumberSuffix: "12349", originTerminal: "T3", destinationTerminal: "T2",
+                   departureTime: "07:15", arrivalTime: "10:45", duration: "3h 10m", stops: 0,
+                   stretchPrice: 29000, economyPrice: 4200, stretchBluChips: 7500, economyBluChips: 7500, cabinClass: .stretch),
+    FlightTemplate(index: 3, flightNumberSuffix: "12350", originTerminal: "T3", destinationTerminal: "T2",
+                   departureTime: "08:00", arrivalTime: "11:00", duration: "3h 10m", stops: 0,
+                   stretchPrice: 30500, economyPrice: 4500, stretchBluChips: 8000, economyBluChips: 8000, cabinClass: .economy),
+    FlightTemplate(index: 4, flightNumberSuffix: "12351", originTerminal: "T3", destinationTerminal: "T2",
+                   departureTime: "09:30", arrivalTime: "13:20", duration: "3h 10m", stops: 0,
+                   stretchPrice: 31000, economyPrice: 4800, stretchBluChips: 8500, economyBluChips: 8500, cabinClass: .stretch),
+    FlightTemplate(index: 5, flightNumberSuffix: "12352", originTerminal: "T3", destinationTerminal: "T2",
+                   departureTime: "10:15", arrivalTime: "12:55", duration: "3h 10m", stops: 0,
+                   stretchPrice: 26000, economyPrice: 3800, stretchBluChips: 5000, economyBluChips: 6000, cabinClass: .economy),
+    FlightTemplate(index: 6, flightNumberSuffix: "12353", originTerminal: "T3", destinationTerminal: "T2",
+                   departureTime: "11:00", arrivalTime: "14:20", duration: "3h 10m", stops: 0,
+                   stretchPrice: 28000, economyPrice: 3600, stretchBluChips: 7000, economyBluChips: 7000, cabinClass: .stretch),
+]
+
 enum MockFlights {
     static let calendarDates: [CalendarDate] = [
-        CalendarDate(dayLabel: "Fri", dateLabel: "2 Jan", price: 7400, isCheapest: false, isSelected: false),
         CalendarDate(dayLabel: "Sat", dateLabel: "22 Jan", price: 4200, isCheapest: false, isSelected: true),
         CalendarDate(dayLabel: "Sun", dateLabel: "23 Jan", price: 3900, isCheapest: true, isSelected: false),
         CalendarDate(dayLabel: "Mon", dateLabel: "24 Jan", price: 10400, isCheapest: false, isSelected: false),
         CalendarDate(dayLabel: "Tue", dateLabel: "25 Jan", price: nil, isCheapest: false, isSelected: false),
-        CalendarDate(dayLabel: "Wed", dateLabel: "7 Feb", price: nil, isCheapest: false, isSelected: false),
     ]
 
-    static let sample: [MockFlight] = [
-        MockFlight(
-            id: "f1", flightNumber: "6E 12347",
-            originCode: "DEL", originTerminal: "T3",
-            destinationCode: "BOM", destinationTerminal: "T2",
-            departureTime: "05:00", arrivalTime: "08:10",
-            duration: "3h 10m", stops: 0,
-            stretchPrice: 28500, economyPrice: 3500,
-            stretchBluChips: 7000, economyBluChips: 7000,
-            cabinClass: .stretch
-        ),
-        MockFlight(
-            id: "f2", flightNumber: "6E 12347",
-            originCode: "DEL", originTerminal: "T3",
-            destinationCode: "BOM", destinationTerminal: "T2",
-            departureTime: "05:00", arrivalTime: "08:10",
-            duration: "3h 10m", stops: 0,
-            stretchPrice: 28500, economyPrice: 3500,
-            stretchBluChips: 7000, economyBluChips: 7000,
-            cabinClass: .economy
-        ),
-        MockFlight(
-            id: "f3", flightNumber: "6E 12347",
-            originCode: "DEL", originTerminal: "T3",
-            destinationCode: "BOM", destinationTerminal: "T2",
-            departureTime: "05:00", arrivalTime: "08:10",
-            duration: "3h 10m", stops: 0,
-            stretchPrice: 28500, economyPrice: 3500,
-            stretchBluChips: 7000, economyBluChips: 7000,
-            cabinClass: .stretch
-        ),
-        MockFlight(
-            id: "f4", flightNumber: "6E 12347",
-            originCode: "DEL", originTerminal: "T3",
-            destinationCode: "BOM", destinationTerminal: "T2",
-            departureTime: "05:00", arrivalTime: "08:10",
-            duration: "3h 10m", stops: 0,
-            stretchPrice: 28500, economyPrice: 3500,
-            stretchBluChips: 7000, economyBluChips: 7000,
-            cabinClass: .economy
-        ),
-        MockFlight(
-            id: "f5", flightNumber: "6E 12349",
-            originCode: "DEL", originTerminal: "T1",
-            destinationCode: "BLR", destinationTerminal: "T3",
-            departureTime: "06:30", arrivalTime: "08:25",
-            duration: "1h 55m", stops: 0,
-            stretchPrice: 26000, economyPrice: 5800,
-            stretchBluChips: 7500, economyBluChips: 7500,
-            cabinClass: .business
-        ),
-        MockFlight(
-            id: "f6", flightNumber: "6E 12350",
-            originCode: "DEL", originTerminal: "T3",
-            destinationCode: "BOM", destinationTerminal: "T2",
-            departureTime: "09:15", arrivalTime: "12:20",
-            duration: "3h 05m", stops: 0,
-            stretchPrice: 24000, economyPrice: 4200,
-            stretchBluChips: 6500, economyBluChips: 6500,
-            cabinClass: .economy
-        ),
-        MockFlight(
-            id: "f7", flightNumber: "6E 12351",
-            originCode: "DEL", originTerminal: "T3",
-            destinationCode: "BOM", destinationTerminal: "T2",
-            departureTime: "14:30", arrivalTime: "17:35",
-            duration: "3h 05m", stops: 1,
-            stretchPrice: 19500, economyPrice: 2800,
-            stretchBluChips: 5500, economyBluChips: 5500,
-            cabinClass: .stretch
-        ),
-        MockFlight(
-            id: "f8", flightNumber: "6E 12352",
-            originCode: "DEL", originTerminal: "T3",
-            destinationCode: "BOM", destinationTerminal: "T2",
-            departureTime: "20:00", arrivalTime: "23:10",
-            duration: "3h 10m", stops: 0,
-            stretchPrice: 30000, economyPrice: 5100,
-            stretchBluChips: 8000, economyBluChips: 8000,
-            cabinClass: .economy
-        ),
-    ]
+    /// Generate flights dynamically from the user's selected origin/destination.
+    /// Falls back to DEL→BOM if booking state has no selection.
+    static func flights(
+        originCode: String,
+        originTerminal: String? = nil,
+        destinationCode: String,
+        destinationTerminal: String? = nil
+    ) -> [MockFlight] {
+        flightTemplates.map { t in
+            MockFlight(
+                id: "f\(t.index)",
+                flightNumber: "6E \(t.flightNumberSuffix)",
+                originCode: originCode,
+                originTerminal: originTerminal ?? t.originTerminal,
+                destinationCode: destinationCode,
+                destinationTerminal: destinationTerminal ?? t.destinationTerminal,
+                departureTime: t.departureTime,
+                arrivalTime: t.arrivalTime,
+                duration: t.duration,
+                stops: t.stops,
+                stretchPrice: t.stretchPrice,
+                economyPrice: t.economyPrice,
+                stretchBluChips: t.stretchBluChips,
+                economyBluChips: t.economyBluChips,
+                cabinClass: t.cabinClass
+            )
+        }
+    }
+
+    /// Legacy static accessor for previews and places that don't have BookingState.
+    static let sample: [MockFlight] = flights(
+        originCode: "DEL", destinationCode: "BOM"
+    )
 
     static let quickFilters = ["Non-stop only", "Stretch", "Economy", "Morning flights"]
 }

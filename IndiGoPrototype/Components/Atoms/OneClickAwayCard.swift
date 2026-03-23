@@ -3,9 +3,9 @@
 //  IndiGoPrototype
 //
 //  Atom – destination card for the "One Click Away" carousel.
-//  Tall portrait card with background image, gradient overlay,
-//  destination name, date range, pricing and Explore / Book CTAs.
-//  Figma node: 826:9866
+//  Reads all visual knobs from AlphaTheme so 4.1 and 5.0 render
+//  different layouts from the same view code.
+//  Figma nodes: 826:9866 (4.1), 2440:40859 (5.0)
 //
 
 import SwiftUI
@@ -15,8 +15,10 @@ struct OneClickAwayCard: View {
     var onExplore: () -> Void = {}
     var onBook: () -> Void = {}
 
-    private let cardWidth: CGFloat = 193
-    private let cardHeight: CGFloat = 270
+    @Environment(\.alphaTheme) private var theme
+
+    private var w: CGFloat { theme.oneClickCardWidth }
+    private var h: CGFloat { theme.oneClickCardHeight }
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -24,8 +26,12 @@ struct OneClickAwayCard: View {
             gradientOverlay
             cardContent
         }
-        .frame(width: cardWidth, height: cardHeight)
-        .clipShape(RoundedRectangle(cornerRadius: IndiGoSpacing.radiusLg))
+        .frame(width: w, height: h)
+        .clipShape(RoundedRectangle(cornerRadius: theme.oneClickCardCornerRadius))
+        .shadow(
+            color: theme.oneClickCardShadowColor,
+            radius: theme.oneClickCardShadowRadius
+        )
     }
 
     // MARK: - Background
@@ -41,88 +47,128 @@ struct OneClickAwayCard: View {
             Image(destination.imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: cardWidth, height: cardHeight)
+                .frame(width: w, height: h)
                 .clipped()
         } else {
             let colorIndex = abs(destination.id.hashValue) % Self.fallbackColors.count
             Self.fallbackColors[colorIndex]
-                .frame(width: cardWidth, height: cardHeight)
+                .frame(width: w, height: h)
         }
     }
 
     private var gradientOverlay: some View {
         LinearGradient(
             stops: [
-                .init(color: .clear, location: 0.15),
-                .init(color: Color.black.opacity(0.5), location: 0.87)
+                .init(color: .clear, location: theme.oneClickCardDateFirst ? 0.03 : 0.15),
+                .init(
+                    color: theme.oneClickCardGradientBaseColor
+                        .opacity(theme.oneClickCardGradientBaseOpacity),
+                    location: theme.oneClickCardDateFirst ? 0.95 : 0.87
+                )
             ],
-            startPoint: .topTrailing,
-            endPoint: .bottomLeading
+            startPoint: .top,
+            endPoint: .bottom
         )
     }
 
     // MARK: - Content
 
     private var cardContent: some View {
-        VStack(alignment: .leading, spacing: IndiGoSpacing.sm) {
+        VStack(alignment: .leading, spacing: theme.oneClickCardDateFirst ? IndiGoSpacing.xl : IndiGoSpacing.sm) {
             destinationInfo
             actionButtons
         }
-        .padding(.horizontal, IndiGoSpacing.md)
-        .padding(.bottom, IndiGoSpacing.md)
+        .padding(IndiGoSpacing.md)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
+    @ViewBuilder
     private var destinationInfo: some View {
-        VStack(alignment: .leading, spacing: IndiGoSpacing.xs) {
-            Text(destination.name)
-                .font(IndiGoFonts.subHeading3())
-                .foregroundStyle(.white)
-                .tracking(-0.4)
+        if theme.oneClickCardDateFirst {
+            VStack(alignment: .leading, spacing: IndiGoSpacing.xxs) {
+                Text(destination.dateRange)
+                    .font(IndiGoFonts.bodySmall())
+                    .foregroundStyle(.white)
+                    .padding(.vertical, IndiGoSpacing.xxs)
 
-            Text(destination.dateRange)
-                .font(IndiGoFonts.bodyExtraSmall())
-                .foregroundStyle(.white)
+                Text(destination.name)
+                    .font(theme.oneClickCardNameFont)
+                    .foregroundStyle(.white)
 
-            priceRow
+                Text(destination.discountedPrice)
+                    .font(theme.oneClickCardPriceFont)
+                    .foregroundStyle(.white)
+            }
+        } else {
+            VStack(alignment: .leading, spacing: IndiGoSpacing.xs) {
+                Text(destination.name)
+                    .font(theme.oneClickCardNameFont)
+                    .foregroundStyle(.white)
+                    .tracking(-0.4)
+
+                Text(destination.dateRange)
+                    .font(IndiGoFonts.bodyExtraSmall())
+                    .foregroundStyle(.white)
+
+                priceRow
+            }
         }
     }
 
     private var priceRow: some View {
         HStack(spacing: IndiGoSpacing.xs) {
-            Text(destination.originalPrice)
-                .font(IndiGoFonts.bodySmall())
-                .foregroundStyle(IndiGoColors.secondaryDeepGrey)
-                .strikethrough()
+            if theme.oneClickCardShowsOriginalPrice {
+                Text(destination.originalPrice)
+                    .font(IndiGoFonts.bodySmall())
+                    .foregroundStyle(IndiGoColors.secondaryDeepGrey)
+                    .strikethrough()
+            }
 
             Text(destination.discountedPrice)
-                .font(IndiGoFonts.subHeading3())
+                .font(theme.oneClickCardPriceFont)
                 .foregroundStyle(.white)
                 .tracking(-0.4)
         }
     }
 
+    @ViewBuilder
     private var actionButtons: some View {
-        HStack(spacing: IndiGoSpacing.md) {
+        HStack(spacing: IndiGoSpacing.xs) {
             Button(action: onExplore) {
-                Text("Explore")
-                    .font(IndiGoFonts.buttonMobile())
-                    .foregroundStyle(.white)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 32)
+                HStack(spacing: IndiGoSpacing.xs) {
+                    Text("Explore")
+                        .font(IndiGoFonts.bodySmallMedium())
+                        .foregroundStyle(.white)
+                    if !theme.oneClickCardShowsBookButton {
+                        Image("icon-clickable-link")
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundStyle(.white)
+                            .frame(width: 16, height: 16)
+                    }
+                }
+                .frame(maxWidth: theme.oneClickCardShowsBookButton ? .infinity : nil)
+                .frame(height: 32)
+                .padding(.horizontal, IndiGoSpacing.sm)
             }
-            .background(Color.white.opacity(0.2))
-            .clipShape(Capsule())
-            .overlay(Capsule().stroke(Color.white, lineWidth: 1))
+            .background(Color.white.opacity(0.12))
+            .clipShape(RoundedRectangle(cornerRadius: theme.oneClickCardButtonCornerRadius))
+            .overlay(
+                RoundedRectangle(cornerRadius: theme.oneClickCardButtonCornerRadius)
+                    .stroke(Color.white, lineWidth: 1)
+            )
 
-            Button(action: onBook) {
-                Text("Book")
-                    .font(IndiGoFonts.buttonMobile())
-                    .foregroundStyle(.white)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 32)
+            if theme.oneClickCardShowsBookButton {
+                Button(action: onBook) {
+                    Text("Book")
+                        .font(IndiGoFonts.buttonMobile())
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 32)
+                }
+                .background(IndiGoColors.indigoBlue)
+                .clipShape(Capsule())
             }
-            .background(IndiGoColors.indigoBlue)
-            .clipShape(Capsule())
         }
     }
 }

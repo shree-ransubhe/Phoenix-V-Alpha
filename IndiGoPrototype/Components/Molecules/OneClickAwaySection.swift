@@ -2,22 +2,22 @@
 //  OneClickAwaySection.swift
 //  IndiGoPrototype
 //
-//  Molecule – "One Click Away" section with origin selector,
-//  International / Domestic filter chips, and horizontal carousel
-//  of destination cards.
-//  Figma node: 85:6087
+//  Molecule – "One Click Away" section. Reads from AlphaTheme to
+//  render either the 4.1 layout (From selector, filter chips, tinted bg)
+//  or the 5.0 layout (View all CTA, no controls, card shadow, last card).
+//  Figma nodes: 85:6087 (4.1), 2463:31104 (5.0)
 //
 
 import SwiftUI
 
 struct OneClickAwaySection: View {
     let destinations: [Destination]
+    @Environment(\.alphaTheme) private var theme
 
     @State private var selectedCategory: DestinationCategory? = nil
     @State private var selectedOrigin: String = "Visakhapatnam"
     @State private var showOriginPicker = false
     @State private var visibleIDs: Set<String> = []
-    @Namespace private var cardNamespace
 
     private let origins = [
         "Visakhapatnam", "New Delhi", "Mumbai", "Bengaluru",
@@ -30,13 +30,17 @@ struct OneClickAwaySection: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: IndiGoSpacing.md) {
+        VStack(alignment: .leading, spacing: theme.oneClickSectionSpacing) {
             sectionHeader
-            controlsRow
+
+            if theme.oneClickShowsFromSelector || theme.oneClickShowsFilterChips {
+                controlsRow
+            }
+
             carousel
         }
-        .padding(.vertical, IndiGoSpacing.md)
-        .background(IndiGoColors.oneClickBg)
+        .padding(.vertical, theme.oneClickVerticalPadding)
+        .background(theme.oneClickShowsSectionBg ? IndiGoColors.oneClickBg : Color.clear)
         .confirmationDialog("Select Origin", isPresented: $showOriginPicker, titleVisibility: .visible) {
             ForEach(origins, id: \.self) { origin in
                 Button(origin) { selectedOrigin = origin }
@@ -47,31 +51,68 @@ struct OneClickAwaySection: View {
     // MARK: - Header
 
     private var sectionHeader: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text("One Click")
-                .font(IndiGoFonts.displaySmall())
-                .foregroundStyle(IndiGoColors.accentGreen)
-                .tracking(-0.6)
-            + Text(" Away")
-                .font(IndiGoFonts.displaySmall())
-                .foregroundStyle(IndiGoColors.forYouTextPrimary)
-                .tracking(-0.6)
+        HStack {
+            VStack(alignment: .leading, spacing: 0) {
+                if theme.oneClickTitleUsesGreenSplit {
+                    Text("One Click")
+                        .font(theme.oneClickTitleFont)
+                        .foregroundStyle(IndiGoColors.accentGreen)
+                        .tracking(-0.6)
+                    + Text(" Away")
+                        .font(theme.oneClickTitleFont)
+                        .foregroundStyle(theme.oneClickTitleColor)
+                        .tracking(-0.6)
+                } else {
+                    Text("One Click Away")
+                        .font(theme.oneClickTitleFont)
+                        .foregroundStyle(theme.oneClickTitleColor)
+                }
 
-            Text("find flights at lowest fare")
-                .font(IndiGoFonts.bodySmall())
-                .foregroundStyle(IndiGoColors.forYouTextSecondary)
+                Text("find flights at lowest fare")
+                    .font(theme.oneClickSubtitleFont)
+                    .foregroundStyle(IndiGoColors.forYouTextSecondary)
+            }
+
+            Spacer()
+
+            if theme.oneClickShowsViewAll {
+                viewAllButton
+            }
         }
-        .padding(.horizontal, IndiGoSpacing.lg)
+        .padding(.horizontal, theme.oneClickHorizontalPadding)
     }
 
-    // MARK: - Controls (From selector + filter chips)
+    private var viewAllButton: some View {
+        Button {} label: {
+            HStack(spacing: IndiGoSpacing.xxs) {
+                Text("View all")
+                    .font(IndiGoFonts.bodySmallMedium())
+                    .foregroundStyle(IndiGoColors.indigoBlue)
+
+                Image("icon-clickable-link")
+                    .resizable()
+                    .renderingMode(.template)
+                    .foregroundStyle(IndiGoColors.indigoBlue)
+                    .frame(width: 16, height: 16)
+            }
+            .frame(height: 32)
+            .padding(.horizontal, IndiGoSpacing.sm)
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: - Controls (From selector + filter chips) — 4.1 only
 
     private var controlsRow: some View {
         HStack(spacing: IndiGoSpacing.xs) {
-            fromSelector
-            filterChips
+            if theme.oneClickShowsFromSelector {
+                fromSelector
+            }
+            if theme.oneClickShowsFilterChips {
+                filterChips
+            }
         }
-        .padding(.horizontal, IndiGoSpacing.lg)
+        .padding(.horizontal, theme.oneClickHorizontalPadding)
     }
 
     private var fromSelector: some View {
@@ -109,7 +150,7 @@ struct OneClickAwaySection: View {
     }
 
     private var filterChips: some View {
-        HStack(spacing: IndiGoSpacing.xxs) {
+        HStack(spacing: theme.oneClickChipSpacing) {
             ForEach(DestinationCategory.allCases, id: \.self) { category in
                 filterChip(for: category)
             }
@@ -162,8 +203,8 @@ struct OneClickAwaySection: View {
     private var carousel: some View {
         ScrollViewReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: IndiGoSpacing.xl) {
-                    ForEach(Array(filteredDestinations.enumerated()), id: \.element.id) { index, destination in
+                HStack(spacing: theme.oneClickCarouselSpacing) {
+                    ForEach(Array(filteredDestinations.enumerated()), id: \.element.id) { _, destination in
                         let isVisible = visibleIDs.contains(destination.id)
                         OneClickAwayCard(destination: destination)
                             .scaleEffect(isVisible ? 1 : 0.85)
@@ -171,8 +212,12 @@ struct OneClickAwaySection: View {
                             .offset(y: isVisible ? 0 : 20)
                             .id(destination.id)
                     }
+
+                    if theme.oneClickShowsViewAllCard {
+                        viewAllCard
+                    }
                 }
-                .padding(.horizontal, IndiGoSpacing.lg)
+                .padding(.horizontal, theme.oneClickHorizontalPadding)
                 .padding(.vertical, IndiGoSpacing.xs)
             }
             .onChange(of: selectedCategory) { _ in
@@ -194,13 +239,79 @@ struct OneClickAwaySection: View {
             }
         }
     }
+
+    // MARK: - "View all +200 destinations" last card (5.0)
+
+    private var viewAllCard: some View {
+        ZStack(alignment: .bottom) {
+            if let lastDest = filteredDestinations.last,
+               UIImage(named: lastDest.imageName) != nil {
+                Image(lastDest.imageName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: theme.oneClickCardWidth, height: theme.oneClickCardHeight)
+                    .clipped()
+            } else {
+                Color(hex: "25304B")
+            }
+
+            Color.black.opacity(0.7)
+
+            VStack(alignment: .leading, spacing: theme.oneClickCardDateFirst ? IndiGoSpacing.xl : IndiGoSpacing.sm) {
+                Spacer()
+
+                Text("View all +200 destinations")
+                    .font(theme.oneClickCardNameFont)
+                    .foregroundStyle(.white)
+
+                Button {} label: {
+                    HStack(spacing: IndiGoSpacing.xxs) {
+                        Text("Explore more")
+                            .font(IndiGoFonts.bodySmallMedium())
+                            .foregroundStyle(.white)
+
+                        Image("icon-clickable-link")
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundStyle(.white)
+                            .frame(width: 20, height: 20)
+                    }
+                    .frame(height: 36)
+                    .padding(.horizontal, IndiGoSpacing.sm)
+                }
+                .background(Color.white.opacity(0.12))
+                .clipShape(RoundedRectangle(cornerRadius: theme.oneClickCardButtonCornerRadius))
+                .overlay(
+                    RoundedRectangle(cornerRadius: theme.oneClickCardButtonCornerRadius)
+                        .stroke(Color.white, lineWidth: 1)
+                )
+            }
+            .padding(IndiGoSpacing.md)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .frame(width: theme.oneClickCardWidth, height: theme.oneClickCardHeight)
+        .clipShape(RoundedRectangle(cornerRadius: theme.oneClickCardCornerRadius))
+        .shadow(
+            color: theme.oneClickCardShadowColor,
+            radius: theme.oneClickCardShadowRadius
+        )
+    }
 }
 
 // MARK: - Preview
 
-#Preview {
+#Preview("Alpha 4.1") {
     ScrollView {
         OneClickAwaySection(destinations: MockDestinations.all)
+            .alphaTheme(Alpha41Theme())
+    }
+    .background(Color(hex: "F5F5F5"))
+}
+
+#Preview("Alpha 5.0") {
+    ScrollView {
+        OneClickAwaySection(destinations: MockDestinations.all)
+            .alphaTheme(Alpha50Theme())
     }
     .background(Color(hex: "F5F5F5"))
 }

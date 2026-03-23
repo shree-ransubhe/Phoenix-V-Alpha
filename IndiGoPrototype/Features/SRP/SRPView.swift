@@ -20,7 +20,20 @@ struct SRPView: View {
     @State private var fareWasSelected = false
     @State private var showJourneyComplete = false
 
-    private let flights = MockFlights.sample
+    private var originCode: String {
+        bookingState.origin?.code ?? "DEL"
+    }
+
+    private var destinationCode: String {
+        bookingState.destination?.code ?? "BOM"
+    }
+
+    private var flights: [MockFlight] {
+        MockFlights.flights(
+            originCode: originCode,
+            destinationCode: destinationCode
+        )
+    }
 
     private var originName: String {
         bookingState.origin?.name ?? "Delhi"
@@ -76,7 +89,7 @@ struct SRPView: View {
                         }
 
                     }
-                    .padding(.bottom, 40)
+                    .padding(.bottom, IndiGoSpacing.md)
                 }
             }
 
@@ -99,35 +112,31 @@ struct SRPView: View {
                 .presentationCornerRadius(23)
                 .presentationBackgroundInteraction(.enabled(upThrough: .height(440)))
         }
-        .sheet(item: $selectedFlightForStretch) { flight in
-            FareFamilyBottomSheet(
-                flight: flight,
-                initialFareType: .stretch,
-                isPresented: .init(
-                    get: { selectedFlightForStretch != nil },
-                    set: { if !$0 { selectedFlightForStretch = nil } }
-                ),
-                onFareSelected: { fareWasSelected = true }
-            )
-            .presentationDetents([.height(580)])
-            .presentationDragIndicator(.hidden)
-            .presentationCornerRadius(23)
-            .presentationBackgroundInteraction(.enabled(upThrough: .height(580)))
+        .overlay {
+            if let flight = selectedFlightForStretch {
+                FareFamilyOverlay(
+                    flight: flight,
+                    fareType: .stretch,
+                    onDismiss: { selectedFlightForStretch = nil },
+                    onFareSelected: {
+                        selectedFlightForStretch = nil
+                        fareWasSelected = true
+                    }
+                )
+            }
         }
-        .sheet(item: $selectedFlightForEconomy) { flight in
-            FareFamilyBottomSheet(
-                flight: flight,
-                initialFareType: .economy,
-                isPresented: .init(
-                    get: { selectedFlightForEconomy != nil },
-                    set: { if !$0 { selectedFlightForEconomy = nil } }
-                ),
-                onFareSelected: { fareWasSelected = true }
-            )
-            .presentationDetents([.height(580)])
-            .presentationDragIndicator(.hidden)
-            .presentationCornerRadius(23)
-            .presentationBackgroundInteraction(.enabled(upThrough: .height(580)))
+        .overlay {
+            if let flight = selectedFlightForEconomy {
+                FareFamilyOverlay(
+                    flight: flight,
+                    fareType: .economy,
+                    onDismiss: { selectedFlightForEconomy = nil },
+                    onFareSelected: {
+                        selectedFlightForEconomy = nil
+                        fareWasSelected = true
+                    }
+                )
+            }
         }
         .onChange(of: fareWasSelected) { _, selected in
             if selected {
@@ -170,7 +179,6 @@ struct SRPView: View {
                 filters: MockFlights.quickFilters,
                 selectedFilters: $selectedFilters
             )
-            .padding(.horizontal, IndiGoSpacing.md)
             .opacity(filtersAppeared ? 1 : 0)
             .offset(y: filtersAppeared ? 0 : 15)
         }
@@ -189,7 +197,8 @@ struct SRPView: View {
                     .blendMode(.softLight)
             }
         )
-        .shadow(color: Color(hex: "4C5D9E").opacity(0.08), radius: 6, x: 0, y: 4)
+        .clipped()
+        .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
     }
 
     // MARK: - Entrance Animations
@@ -349,6 +358,86 @@ private struct ShimmerCardPlaceholder: View {
         .frame(width: 150)
     }
 
+}
+
+// MARK: - Fare Family Overlay (translucent scrim + slide-up sheet)
+
+private struct FareFamilyOverlay: View {
+    let flight: MockFlight
+    let fareType: FareFamilyBottomSheet.FareSheetType
+    let onDismiss: () -> Void
+    let onFareSelected: () -> Void
+
+    @State private var appeared = false
+    @State private var dragOffset: CGFloat = 0
+
+    private let sheetHeight: CGFloat = 560
+
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            Color.black
+                .opacity(appeared ? 0.35 : 0)
+                .ignoresSafeArea()
+                .onTapGesture { dismissWithAnimation() }
+
+            VStack(spacing: 0) {
+                FareFamilyBottomSheet(
+                    flight: flight,
+                    initialFareType: fareType,
+                    isPresented: .init(
+                        get: { appeared },
+                        set: { if !$0 { dismissWithAnimation() } }
+                    ),
+                    onFareSelected: onFareSelected
+                )
+                .frame(height: sheetHeight)
+            }
+            .frame(maxWidth: .infinity)
+            .background(.white)
+            .clipShape(
+                UnevenRoundedRectangle(
+                    topLeadingRadius: 23,
+                    bottomLeadingRadius: 0,
+                    bottomTrailingRadius: 0,
+                    topTrailingRadius: 23,
+                    style: .continuous
+                )
+            )
+            .ignoresSafeArea(.all, edges: .bottom)
+            .offset(y: appeared ? dragOffset : sheetHeight + 60)
+            .gesture(
+                DragGesture()
+                    .onChanged { value in
+                        if value.translation.height > 0 {
+                            dragOffset = value.translation.height
+                        }
+                    }
+                    .onEnded { value in
+                        if value.translation.height > 120 || value.predictedEndTranslation.height > 300 {
+                            dismissWithAnimation()
+                        } else {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.85)) {
+                                dragOffset = 0
+                            }
+                        }
+                    }
+            )
+            .transition(.move(edge: .bottom))
+        }
+        .animation(.spring(response: 0.35, dampingFraction: 0.85), value: appeared)
+        .onAppear {
+            appeared = true
+        }
+    }
+
+    private func dismissWithAnimation() {
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.85)) {
+            appeared = false
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            onDismiss()
+        }
+    }
 }
 
 #Preview {

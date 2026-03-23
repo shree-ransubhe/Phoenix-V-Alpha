@@ -20,9 +20,11 @@ struct IndiGoPrototypeApp: App {
             UTRootView()
                 .environmentObject(bookingState)
                 .environmentObject(tracker)
+                .alphaTheme(ThemeProvider.current)
             #else
             ContentView()
                 .environmentObject(bookingState)
+                .alphaTheme(ThemeProvider.current)
             #endif
         }
     }

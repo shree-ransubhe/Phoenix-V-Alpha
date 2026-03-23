@@ -250,11 +250,23 @@ struct BookPassengerView: View {
             .frame(maxWidth: .infinity)
 
             VStack(alignment: .leading, spacing: 16) {
-                savedTravellersRow
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Existing passenger from History")
+                        .font(IndiGoFonts.bodySmall())
+                        .foregroundStyle(IndiGoColors.forYouTextPrimary)
+
+                    savedTravellersRow
+                }
 
                 passengerCounters
 
-                discountChips
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Passenger Cohort Offers")
+                        .font(IndiGoFonts.bodySmall())
+                        .foregroundStyle(IndiGoColors.forYouTextPrimary)
+
+                    discountChips
+                }
             }
             .padding(.horizontal, 12)
         }

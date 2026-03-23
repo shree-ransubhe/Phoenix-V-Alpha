@@ -28,3 +28,7 @@ node_modules/
 
 # UT session data (generated at runtime)
 ut-backend/sessions/
+
+# UT analysis: avoid committing large/private audio
+ut-analysis/raw/*.m4a
+ut-analysis/raw/*.mp4

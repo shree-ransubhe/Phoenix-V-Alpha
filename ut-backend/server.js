@@ -151,6 +151,7 @@ app.get("/export/csv", (_req, res) => {
     "appVersion",
     "audioConsent",
     "audioFileName",
+    "transcript",
     "createdAt",
     "endedAt",
     "journeyCompleted",
@@ -241,6 +242,7 @@ function sessionToRow(s) {
     csvEscape(dm.appVersion),
     s.audioConsent != null ? s.audioConsent : "",
     csvEscape(s.audioFileName),
+    csvEscape(s.transcript),
     csvEscape(s.createdAt),
     csvEscape(s.endedAt),
     s.journeyCompleted || false,
@@ -330,9 +332,10 @@ function sessionToCSV(session) {
   lines.push(`appVersion,${csvEscape(dm.appVersion)}`);
 
   lines.push("");
-  lines.push("# Audio Recording");
+  lines.push("# Audio Recording & Transcript");
   lines.push(`audioConsent,${session.audioConsent != null ? session.audioConsent : ""}`);
   lines.push(`audioFileName,${csvEscape(session.audioFileName)}`);
+  lines.push(`transcript,${csvEscape(session.transcript)}`);
 
   lines.push("");
   lines.push("# Steps");

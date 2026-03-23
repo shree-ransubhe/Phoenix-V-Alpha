@@ -1,0 +1,161 @@
+{
+  "completedAt" : "2026-03-12T18:13:03.052Z",
+  "createdAt" : "2026-03-12T18:12:44.148Z",
+  "demographics" : {
+    "ageBand" : "25-34",
+    "device" : "Provided",
+    "experience" : "Comfortable",
+    "role" : "Occasional"
+  },
+  "endedAt" : "2026-03-12T18:13:10.174Z",
+  "frustration" : 2,
+  "journeyCompleted" : true,
+  "postTaskAnswers" : [
+    {
+      "answer" : "",
+      "question" : "Community stories noticed"
+    },
+    {
+      "answer" : "",
+      "question" : "Tried to see more"
+    },
+    {
+      "answer" : "",
+      "question" : "1\/3 indicator clear"
+    }
+  ],
+  "rating" : 3,
+  "sessionId" : "B5614E78-823D-46C4-9C9C-926EED4FA79A",
+  "sessionTitle" : "UT_2026-03-12_2342_Occasional_Comfortable",
+  "steps" : [
+    {
+      "enteredAt" : "2026-03-12T18:12:45.023Z",
+      "leftAt" : "2026-03-12T18:12:46.195Z",
+      "screenId" : "HomeView"
+    },
+    {
+      "enteredAt" : "2026-03-12T18:12:46.195Z",
+      "leftAt" : "2026-03-12T18:12:48.145Z",
+      "screenId" : "BookLocationView"
+    },
+    {
+      "enteredAt" : "2026-03-12T18:12:52.000Z",
+      "leftAt" : "2026-03-12T18:12:52.551Z",
+      "screenId" : "BookDateView"
+    },
+    {
+      "enteredAt" : "2026-03-12T18:12:54.075Z",
+      "leftAt" : "2026-03-12T18:12:54.095Z",
+      "screenId" : "BookPassengerView"
+    },
+    {
+      "enteredAt" : "2026-03-12T18:12:54.095Z",
+      "leftAt" : "2026-03-12T18:12:54.617Z",
+      "screenId" : "BookLocationView"
+    },
+    {
+      "enteredAt" : "2026-03-12T18:12:56.651Z",
+      "leftAt" : "2026-03-12T18:12:56.666Z",
+      "screenId" : "PayModeView"
+    },
+    {
+      "enteredAt" : "2026-03-12T18:12:56.666Z",
+      "leftAt" : "2026-03-12T18:12:57.195Z",
+      "screenId" : "BookDateView"
+    },
+    {
+      "enteredAt" : "2026-03-12T18:13:03.146Z",
+      "leftAt" : "2026-03-12T18:13:03.158Z",
+      "screenId" : "SRPView"
+    },
+    {
+      "enteredAt" : "2026-03-12T18:13:03.158Z",
+      "leftAt" : "2026-03-12T18:13:03.684Z",
+      "screenId" : "BookPassengerView"
+    },
+    {
+      "enteredAt" : "2026-03-12T18:13:07.503Z",
+      "leftAt" : "2026-03-12T18:13:07.503Z",
+      "screenId" : "HomeView"
+    },
+    {
+      "enteredAt" : "2026-03-12T18:13:08.416Z",
+      "leftAt" : "2026-03-12T18:13:08.418Z",
+      "screenId" : "SRPView"
+    }
+  ],
+  "taps" : [
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-12T18:12:46.567Z",
+      "x" : 0.6929601227660822,
+      "y" : 0.18663405439381495
+    },
+    {
+      "screenId" : "BookLocationView",
+      "timestamp" : "2026-03-12T18:12:50.227Z",
+      "x" : 0.6717557251908397,
+      "y" : 0.5499635191401976
+    },
+    {
+      "screenId" : "BookLocationView",
+      "timestamp" : "2026-03-12T18:12:51.262Z",
+      "x" : 0.42154365520137566,
+      "y" : 0.7724288840262582
+    },
+    {
+      "screenId" : "BookDateView",
+      "timestamp" : "2026-03-12T18:12:53.308Z",
+      "x" : 0.746395237269899,
+      "y" : 0.6021080368906456
+    },
+    {
+      "screenId" : "BookDateView",
+      "timestamp" : "2026-03-12T18:12:54.094Z",
+      "x" : 0.6972010178117048,
+      "y" : 0.9560825513756793
+    },
+    {
+      "screenId" : "BookPassengerView",
+      "timestamp" : "2026-03-12T18:12:55.866Z",
+      "x" : 0.6819338422391857,
+      "y" : 0.3715415019762846
+    },
+    {
+      "screenId" : "BookPassengerView",
+      "timestamp" : "2026-03-12T18:12:56.663Z",
+      "x" : 0.7065309325550652,
+      "y" : 0.9499341238471674
+    },
+    {
+      "screenId" : "PayModeView",
+      "timestamp" : "2026-03-12T18:13:01.744Z",
+      "x" : 0.8261238078731313,
+      "y" : 0.3675889328063241
+    },
+    {
+      "screenId" : "PayModeView",
+      "timestamp" : "2026-03-12T18:13:03.157Z",
+      "x" : 0.6878710642419092,
+      "y" : 0.9653052127722538
+    },
+    {
+      "screenId" : "SRPView",
+      "timestamp" : "2026-03-12T18:13:04.797Z",
+      "x" : 0.7243426373896708,
+      "y" : 0.6499780345811204
+    },
+    {
+      "screenId" : "SRPView",
+      "timestamp" : "2026-03-12T18:13:05.912Z",
+      "x" : 0.5275657207304588,
+      "y" : 0.8353096179183136
+    },
+    {
+      "screenId" : "SRPView",
+      "timestamp" : "2026-03-12T18:13:07.518Z",
+      "x" : 0.652247654572698,
+      "y" : 0.6293368333256135
+    }
+  ]
+}

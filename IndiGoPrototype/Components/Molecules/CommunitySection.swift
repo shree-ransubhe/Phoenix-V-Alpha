@@ -3,16 +3,23 @@
 //  IndiGoPrototype
 //
 //  Molecule – Community carousel section with expand/collapse card transitions.
-//  Figma node: 85:6085
+//  Figma node: 85:6085 (4.1), 2463:31397 (5.0)
 //
-//  Always exactly 2 cards visible — one expanded (300pt), one collapsed strip (36pt).
-//  Every card lives in a single ForEach; widths animate between expanded ↔ collapsed.
+//  Always exactly 2 cards visible — one expanded, one collapsed strip.
+//  All items live in a single ForEach so SwiftUI animates width changes.
 //
-//  Companion placement follows the user's travel direction:
+//  Companion placement follows user's travel direction:
 //    – Going forward  → collapsed companion on RHS (peek next).
-//                        On the last card it flips to LHS (peek previous).
+//                        On last card it flips to LHS (peek previous).
 //    – Going backward → collapsed companion on LHS (peek previous).
-//                        On the first card it flips to RHS (peek next).
+//                        On first card it flips to RHS (peek next).
+//
+//  Alpha 5.0 changes:
+//    – Section title "What's new" + subtitle "Explore our communities"
+//    – NoFilter logo removed from expanded overlay
+//    – Expanded card radius 8pt, collapsed card radius 24pt
+//    – Heading font 16pt (was 20pt), badge font Poppins 8pt
+//    – Collapsed card gets 40% black overlay
 //
 
 import SwiftUI
@@ -29,19 +36,15 @@ struct CommunityItem: Identifiable {
 
 struct CommunitySection: View {
     let items: [CommunityItem]
+    @Environment(\.alphaTheme) private var theme
 
     @State private var currentIndex: Int = 0
     @State private var movingForward: Bool = true
 
-    private let expandedWidth: CGFloat = 300
-    private let collapsedWidth: CGFloat = 36
-    private let cardHeight: CGFloat = 213
-    private let cardSpacing: CGFloat = 7
-    private let cornerRadius: CGFloat = 12
-
-    private var totalWidth: CGFloat {
-        expandedWidth + cardSpacing + collapsedWidth
-    }
+    private var collapsedWidth: CGFloat { theme.communityCollapsedWidth }
+    private var cardHeight: CGFloat { theme.communityCardHeight }
+    private var cardSpacing: CGFloat { theme.communityCardSpacing }
+    private var hPad: CGFloat { theme.communityHorizontalPadding }
 
     private var isFirstItem: Bool { currentIndex == 0 }
     private var isLastItem: Bool { currentIndex >= items.count - 1 }
@@ -63,62 +66,98 @@ struct CommunitySection: View {
         currentIndex = newIndex
     }
 
+    private func expandedWidth(in totalWidth: CGFloat) -> CGFloat {
+        totalWidth - collapsedWidth - cardSpacing
+    }
+
     var body: some View {
-        carousel
-            .padding(.horizontal, IndiGoSpacing.lg)
-            .padding(.bottom, IndiGoSpacing.lg)
+        VStack(alignment: .leading, spacing: IndiGoSpacing.xs) {
+            if theme.communityShowsTitle {
+                sectionHeader
+                    .padding(.horizontal, hPad)
+            }
+            carouselContainer
+        }
+    }
+
+    // MARK: - Section header (Alpha 5.0)
+
+    private var sectionHeader: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("What's new")
+                .font(IndiGoFonts.displayXS())
+                .foregroundStyle(IndiGoColors.forYouTextPrimary)
+
+            Text("Explore our communities")
+                .font(IndiGoFonts.bodyExtraSmall())
+                .foregroundStyle(IndiGoColors.forYouTextPrimary)
+        }
     }
 
     // MARK: - Carousel
 
-    private var carousel: some View {
-        HStack(spacing: cardSpacing) {
-            ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
-                let role = cardRole(at: index)
+    private var carouselContainer: some View {
+        GeometryReader { geo in
+            let availableWidth = geo.size.width - hPad * 2
+            let expWidth = expandedWidth(in: availableWidth)
 
-                communityCard(item: item, index: index, isExpanded: role == .expanded)
-                    .frame(
-                        width: role.width(
-                            expanded: expandedWidth,
-                            collapsed: collapsedWidth
-                        ),
-                        height: cardHeight
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
-                    .shadow(
-                        color: role != .hidden
-                            ? Color(hex: "4C5D9E").opacity(0.08)
-                            : .clear,
-                        radius: 6
-                    )
-                    .opacity(role != .hidden ? 1 : 0)
-                    .allowsHitTesting(role == .collapsed)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        guard role == .collapsed else { return }
-                        withAnimation(.easeInOut(duration: 0.35)) {
-                            advance(to: index)
+            HStack(spacing: cardSpacing) {
+                ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
+                    let role = cardRole(at: index)
+                    let isExpanded = role == .expanded
+
+                    communityCard(item: item, index: index, isExpanded: isExpanded)
+                        .frame(
+                            width: role.width(
+                                expanded: expWidth,
+                                collapsed: collapsedWidth
+                            ),
+                            height: cardHeight
+                        )
+                        .clipShape(
+                            RoundedRectangle(
+                                cornerRadius: isExpanded
+                                    ? theme.communityCornerRadius
+                                    : theme.communityCollapsedCornerRadius
+                            )
+                        )
+                        .shadow(
+                            color: role != .hidden
+                                ? Color(hex: "4C5D9E").opacity(0.08)
+                                : .clear,
+                            radius: 6
+                        )
+                        .opacity(role != .hidden ? 1 : 0)
+                        .allowsHitTesting(role == .collapsed)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            guard role == .collapsed else { return }
+                            withAnimation(.easeInOut(duration: 0.35)) {
+                                advance(to: index)
+                            }
                         }
-                    }
-            }
-        }
-        .frame(width: totalWidth, alignment: .leading)
-        .gesture(
-            DragGesture(minimumDistance: 20)
-                .onEnded { value in
-                    let threshold: CGFloat = 40
-                    withAnimation(.easeInOut(duration: 0.35)) {
-                        if value.translation.width < -threshold,
-                           currentIndex < items.count - 1 {
-                            advance(to: currentIndex + 1)
-                        } else if value.translation.width > threshold,
-                                  currentIndex > 0 {
-                            advance(to: currentIndex - 1)
-                        }
-                    }
                 }
-        )
-        .animation(.easeInOut(duration: 0.35), value: currentIndex)
+            }
+            .frame(width: availableWidth, alignment: .leading)
+            .padding(.horizontal, hPad)
+            .gesture(
+                DragGesture(minimumDistance: 20)
+                    .onEnded { value in
+                        let threshold: CGFloat = 40
+                        withAnimation(.easeInOut(duration: 0.35)) {
+                            if value.translation.width < -threshold,
+                               currentIndex < items.count - 1 {
+                                advance(to: currentIndex + 1)
+                            } else if value.translation.width > threshold,
+                                      currentIndex > 0 {
+                                advance(to: currentIndex - 1)
+                            }
+                        }
+                    }
+            )
+            .animation(.easeInOut(duration: 0.35), value: currentIndex)
+        }
+        .frame(height: cardHeight)
     }
 
     // MARK: - Card roles
@@ -156,6 +195,8 @@ struct CommunitySection: View {
                 if isExpanded {
                     expandedOverlay(item: item, index: index)
                         .transition(.opacity)
+                } else if theme.communityShowsCollapsedOverlay {
+                    Color.black.opacity(0.4)
                 }
             }
         }
@@ -177,8 +218,8 @@ struct CommunitySection: View {
 
             VStack(alignment: .leading, spacing: 0) {
                 paginationBadge(index: index)
-                    .padding(.top, 12)
-                    .padding(.leading, 12)
+                    .padding(.top, 16)
+                    .padding(.leading, 16)
 
                 Spacer()
 
@@ -202,17 +243,18 @@ struct CommunitySection: View {
     }
 
     private func textContent(item: CommunityItem) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Image("nofilter-logo")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 100, height: 20)
+        VStack(alignment: .leading, spacing: 8) {
+            if theme.communityShowsNoFilterLogo {
+                Image("nofilter-logo")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 100, height: 20)
+            }
 
             Text(item.heading)
-                .font(IndiGoFonts.displayXS())
-                .tracking(-0.6)
-                .lineSpacing(4)
+                .font(theme.communityHeadingFont)
                 .foregroundStyle(.white)
+                .lineSpacing(4)
                 .fixedSize(horizontal: false, vertical: true)
         }
     }
@@ -220,38 +262,30 @@ struct CommunitySection: View {
     // MARK: - Pagination badge
 
     private func paginationBadge(index: Int) -> some View {
-        HStack(spacing: 0) {
-            Text("\(index + 1)")
-                .tracking(0.72)
-            Text("/")
-                .tracking(1.92)
-            Text("\(items.count)")
-                .tracking(0.72)
-        }
-        .font(.custom("BauhausStd-Medium", size: 12))
-        .foregroundStyle(.white)
-        .padding(.horizontal, 8)
-        .padding(.vertical, 6)
-        .background(
-            Capsule()
-                .fill(.ultraThinMaterial)
-                .overlay(
-                    Capsule()
-                        .fill(
-                            LinearGradient(
-                                colors: [
-                                    Color(red: 160/255, green: 200/255, blue: 209/255)
-                                        .opacity(0.69),
-                                    Color(red: 118/255, green: 108/255, blue: 99/255)
-                                        .opacity(0.69)
-                                ],
-                                startPoint: .top,
-                                endPoint: .bottom
+        Text("\(index + 1)/\(items.count)")
+            .font(theme.communityBadgeFont)
+            .foregroundStyle(.white)
+            .padding(.horizontal, 8)
+            .frame(height: 16)
+            .background(
+                RoundedRectangle(cornerRadius: theme.communityBadgeRadius)
+                    .fill(.ultraThinMaterial)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: theme.communityBadgeRadius)
+                            .fill(
+                                LinearGradient(
+                                    colors: [
+                                        Color(red: 160/255, green: 200/255, blue: 209/255)
+                                            .opacity(0.6),
+                                        Color(red: 118/255, green: 108/255, blue: 99/255)
+                                            .opacity(0.6)
+                                    ],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
                             )
-                        )
-                )
-        )
-        .shadow(color: Color(hex: "4C5D9E").opacity(0.08), radius: 12, y: -12)
+                    )
+            )
     }
 }
 

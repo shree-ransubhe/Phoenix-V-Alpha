@@ -103,6 +103,7 @@ private struct AnimatedCounter: View {
 // MARK: - Section
 
 struct FlightOffersFooterSection: View {
+    @Environment(\.alphaTheme) private var theme
 
     @State private var triggered = false
     @State private var mapRevealed = false
@@ -130,10 +131,11 @@ struct FlightOffersFooterSection: View {
                     .padding(.top, -40)
                 statsGrid
                     .padding(.top, IndiGoSpacing.md)
-                    .padding(.bottom, 120)
+                    .padding(.bottom, theme.footerBottomPadding)
             }
         }
         .clipped()
+        .padding(.top, theme.footerNegatesInterSectionGap ? -theme.sectionToSectionSpacing : 0)
     }
 
     // MARK: - World map
@@ -187,16 +189,16 @@ struct FlightOffersFooterSection: View {
     private var statsGrid: some View {
         LazyVGrid(
             columns: [
-                GridItem(.flexible(), spacing: IndiGoSpacing.sm),
-                GridItem(.flexible(), spacing: IndiGoSpacing.sm)
+                GridItem(.flexible(), spacing: theme.footerStatsGridSpacing),
+                GridItem(.flexible(), spacing: theme.footerStatsGridSpacing)
             ],
-            spacing: IndiGoSpacing.sm
+            spacing: theme.footerStatsGridSpacing
         ) {
             ForEach(Array(stats.enumerated()), id: \.element.id) { index, stat in
                 statCard(stat, index: index)
             }
         }
-        .padding(.horizontal, IndiGoSpacing.md)
+        .padding(.horizontal, theme.footerStatsHorizontalPadding)
         .padding(.vertical, IndiGoSpacing.xs)
         .background(IndiGoColors.footerStatsBg)
     }
@@ -231,9 +233,9 @@ struct FlightOffersFooterSection: View {
         .padding(.horizontal, IndiGoSpacing.sm)
         .padding(.vertical, IndiGoSpacing.xs)
         .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: IndiGoSpacing.radiusMd))
+        .clipShape(RoundedRectangle(cornerRadius: theme.footerStatCornerRadius))
         .overlay(
-            RoundedRectangle(cornerRadius: IndiGoSpacing.radiusMd)
+            RoundedRectangle(cornerRadius: theme.footerStatCornerRadius)
                 .stroke(IndiGoColors.footerStatBorder, lineWidth: 1)
         )
         .shadow(color: Color.black.opacity(0.1), radius: 1, x: 0, y: 0)

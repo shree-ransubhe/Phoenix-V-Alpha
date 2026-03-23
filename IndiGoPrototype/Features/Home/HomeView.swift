@@ -70,10 +70,12 @@ private extension UIView {
 
 struct HomeView: View {
     @EnvironmentObject private var bookingState: BookingState
+    @Environment(\.alphaTheme) private var theme
     @State private var scrollOffset: CGFloat = 0
     @State private var showSearchJourney = false
     @State private var showAllOffers = false
     @State private var selectedOfferTitle: String?
+    @State private var showSixEPickExplore = false
 
     private var clampedOffset: CGFloat { max(0, scrollOffset) }
 
@@ -127,6 +129,10 @@ struct HomeView: View {
         .navigationDestination(item: $selectedOfferTitle) { title in
             OfferDetailView(offerTitle: title)
         }
+        .navigationDestination(isPresented: $showSixEPickExplore) {
+            SixEPickExploreView()
+                .navigationBarBackButtonHidden()
+        }
         .onChange(of: showSearchJourney) { _, isActive in
             if !isActive {
                 bookingState.isInBookingFlow = false
@@ -138,7 +144,7 @@ struct HomeView: View {
 
     private var bgImageLayer: some View {
         ZStack {
-            Image("light-header-bg")
+            Image("header-bg")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .clipped()
@@ -166,36 +172,60 @@ struct HomeView: View {
     // MARK: - Page content
 
     private var pageContent: some View {
-        VStack(spacing: IndiGoSpacing.xs) {
+        VStack(spacing: theme.sectionToSectionSpacing) {
+            ForEach(theme.homeSectionOrder) { section in
+                sectionView(for: section)
+            }
+        }
+        .padding(.top, theme.sectionInternalPadding)
+    }
+
+    // MARK: - Section factory (maps HomeSection → concrete View)
+
+    @ViewBuilder
+    private func sectionView(for section: HomeSection) -> some View {
+        switch section {
+        case .forYou:
             ForYouSection(
                 bookings: [
                     BookingItem(date: "24 JAN 2026", from: "DEL", to: "BOM"),
                     BookingItem(date: "24 JAN 2026", from: "HYD", to: "BOM")
                 ],
                 promoCity: "Dubai",
-                promoPrice: "₹24,999"
+                promoPrice: "₹24,999",
+                recentSearches: [
+                    RecentSearchItem(from: "DEL", to: "BOM", subtitle: "Afternoon flight"),
+                    RecentSearchItem(from: "BHU", to: "DEL", subtitle: "Morning flight")
+                ]
             )
 
-            SixEPickSection(items: [
-                SixEPickItem(title: "Hotels", imageName: "6epick-hotels"),
-                SixEPickItem(title: "Sight Seeing", imageName: "6epick-sightseeing"),
-                SixEPickItem(title: "Cabs", imageName: "6epick-cabs"),
-                SixEPickItem(title: "Experience", imageName: "6epick-experience"),
-                SixEPickItem(title: "Shop", imageName: "6epick-shop"),
-            ])
+        case .sixEPick:
+            SixEPickSection(
+                items: [
+                    SixEPickItem(title: "Hotels", iconName: "icon-6epick-hotel", badge: "20% off", imageName: "6epick-hotels"),
+                    SixEPickItem(title: "Sightseeing", iconName: "icon-6epick-sightseeing", badge: "20% off", imageName: "6epick-sightseeing"),
+                    SixEPickItem(title: "Cabs", iconName: "icon-6epick-cabs", badge: "New", imageName: "6epick-cabs"),
+                    SixEPickItem(title: "Experiences", iconName: "icon-6epick-experience", badge: "20% off", imageName: "6epick-experience"),
+                ],
+                moreCount: 5,
+                onExploreMore: { showSixEPickExplore = true }
+            )
 
+        case .bestOffers:
             BestOffersSection(
                 highlight: OfferHighlight(headline: "10% off on Flights", promoCode: "EXCLUSIVE", ctaLabel: "Book Now"),
                 offerItems: [
-                    OfferItem(title: "Upto 10% off", subtitle: "Only on HDFC credit cards", promoCode: "HDFC10", imageName: "offer-hdfc-bank"),
+                    OfferItem(title: "Upto 10% off", subtitle: "For Sightseeing using HDFC credit cards", promoCode: "HDFC10", imageName: "offer-hdfc-bank"),
                     OfferItem(title: "10% off up to ₹200", subtitle: "on cab Booking", promoCode: nil, imageName: "offer-cab-booking"),
                     OfferItem(title: "17% off up to ₹1,900", subtitle: "on Domestic Hotels", promoCode: nil, imageName: "offer-domestic-hotels"),
                 ],
+                prominentOffer: ProminentOffer(imageName: "offer-prominent-icici"),
                 onBookNow: { showSearchJourney = true },
                 onOfferTap: { offer in selectedOfferTitle = offer.title },
                 onViewAllOffers: { showAllOffers = true }
             )
 
+        case .bluChip:
             BluChipBalanceCard(
                 balance: "67,440",
                 tierName: "Blu 3",
@@ -204,9 +234,10 @@ struct HomeView: View {
                 unlockMessage: "Only 200 points away to unlock",
                 unlockHighlight: "20 passes"
             )
-            .padding(.horizontal, IndiGoSpacing.lg)
-            .padding(.bottom, IndiGoSpacing.md)
+            .padding(.horizontal, theme.bluChipHorizontalPadding)
+            .padding(.bottom, theme.bluChipBottomPadding)
 
+        case .community:
             CommunitySection(items: [
                 CommunityItem(
                     imageName: "img-nofilter",
@@ -222,11 +253,12 @@ struct HomeView: View {
                 ),
             ])
 
+        case .oneClickAway:
             OneClickAwaySection(destinations: MockDestinations.all)
 
+        case .flightOffersFooter:
             FlightOffersFooterSection()
         }
-        .padding(.top, IndiGoSpacing.xs)
     }
 }
 

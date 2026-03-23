@@ -15,6 +15,7 @@ struct BluChipBalanceCard: View {
     let maxPoints: String
     let unlockMessage: String       // e.g. "Only 200 points away to unlock"
     let unlockHighlight: String     // e.g. "20 passes"
+    @Environment(\.alphaTheme) private var theme
 
     @State private var starRotation: Double = 0
     @State private var animatedProgress: CGFloat = 0
@@ -27,14 +28,14 @@ struct BluChipBalanceCard: View {
             progressSection
             unlockBanner
         }
-        .padding(12)
+        .padding(theme.bluChipCardPadding)
         .background(Color.white)
         .overlay(
-            RoundedRectangle(cornerRadius: 16)
+            RoundedRectangle(cornerRadius: theme.bluChipCornerRadius)
                 .strokeBorder(IndiGoColors.secondaryBright, lineWidth: 1)
         )
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(color: Color(hex: "4C5D9E").opacity(0.12), radius: 12, x: 0, y: 0)
+        .clipShape(RoundedRectangle(cornerRadius: theme.bluChipCornerRadius))
+        .shadow(color: Color(hex: "4C5D9E").opacity(0.12), radius: theme.bluChipShadowRadius, x: 0, y: 0)
         .onGeometryChange(for: Bool.self) { proxy in
             let frame = proxy.frame(in: .global)
             return frame.maxY > 0 && frame.minY < UIScreen.main.bounds.height
@@ -53,7 +54,7 @@ struct BluChipBalanceCard: View {
         HStack(alignment: .top) {
             RoundedRectangle(cornerRadius: 8)
                 .fill(IndiGoColors.secondaryMedium)
-                .frame(width: 36, height: 36)
+                .frame(width: theme.bluChipIconBgSize, height: theme.bluChipIconBgSize)
                 .overlay(bluChipIcon)
 
             Spacer()
@@ -117,7 +118,7 @@ struct BluChipBalanceCard: View {
 
     private let tickCount = 8
     private let dotSize: CGFloat = 3.68
-    private let barHeight: CGFloat = 12
+    private var barHeight: CGFloat { theme.bluChipProgressBarHeight }
 
     private var progressSection: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -196,7 +197,7 @@ struct BluChipBalanceCard: View {
     private var bluChipIcon: some View {
         BluChipDiamondShape()
             .fill(IndiGoColors.secondaryBright, style: FillStyle(eoFill: true))
-            .frame(width: 20, height: 20)
+            .frame(width: theme.bluChipIconSize, height: theme.bluChipIconSize)
     }
 
     private var sparkleIcon: some View {

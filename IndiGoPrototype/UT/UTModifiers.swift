@@ -50,10 +50,15 @@ struct UTTouchInterceptView: UIViewRepresentable {
 /// Invisible UIView that observes touch events via the responder chain
 /// without intercepting them. It attaches a passive tap recogniser to the
 /// window once added to the hierarchy.
+///
+/// Tap y-coordinates are normalised against the **full scroll content height**
+/// (not the visible viewport) so that taps on below-the-fold content map to
+/// their true position in the page.
 final class UTPassthroughTouchView: UIView {
     var screenId: String = ""
     var expectedSize: CGSize = .zero
     private var tapRecognizer: UTPassthroughTapRecognizer?
+    private weak var enclosingScrollView: UIScrollView?
 
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -66,6 +71,10 @@ final class UTPassthroughTouchView: UIView {
         recognizer.delaysTouchesEnded = false
         window.addGestureRecognizer(recognizer)
         tapRecognizer = recognizer
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            self?.enclosingScrollView = self?.findScrollView()
+        }
     }
 
     override func removeFromSuperview() {
@@ -76,20 +85,50 @@ final class UTPassthroughTouchView: UIView {
         super.removeFromSuperview()
     }
 
+    private func findScrollView() -> UIScrollView? {
+        var current: UIView? = superview
+        while let v = current {
+            if let sv = v as? UIScrollView { return sv }
+            current = v.superview
+        }
+        return nil
+    }
+
     private func handleTap(windowLocation: CGPoint) {
         guard let window else { return }
+        let viewWidth = bounds.width
+        guard viewWidth > 0 else { return }
+
         let localPoint = convert(windowLocation, from: window)
-        let bounds = self.bounds
-        guard bounds.width > 0, bounds.height > 0 else { return }
-        let nx = Double(localPoint.x / bounds.width)
-        let ny = Double(localPoint.y / bounds.height)
-        guard nx >= 0, nx <= 1, ny >= 0, ny <= 1 else { return }
+        let nx = Double(localPoint.x / viewWidth)
+        guard nx >= 0, nx <= 1 else { return }
+
+        let ny: Double
+        var contentH: Double?
+
+        if let sv = enclosingScrollView ?? findScrollView() {
+            enclosingScrollView = sv
+            let contentHeight = sv.contentSize.height
+            let scrollOffset = sv.contentOffset.y + sv.adjustedContentInset.top
+            guard contentHeight > 0 else { return }
+
+            let touchInScrollContent = localPoint.y + scrollOffset
+            ny = Double(touchInScrollContent / contentHeight)
+            contentH = Double(contentHeight)
+        } else {
+            let viewHeight = bounds.height
+            guard viewHeight > 0 else { return }
+            ny = Double(localPoint.y / viewHeight)
+        }
+
+        guard ny >= 0, ny <= 1.05 else { return }
 
         Task { @MainActor in
             UTTrackingService.shared.recordTap(
                 screenId: screenId,
                 normalizedX: min(max(nx, 0), 1),
-                normalizedY: min(max(ny, 0), 1)
+                normalizedY: min(max(ny, 0), 1),
+                contentHeight: contentH
             )
         }
     }
