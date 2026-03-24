@@ -18,7 +18,10 @@ struct SixEskaiButton: View {
     private let animDuration: Double = 2.5
 
     var body: some View {
-        Button(action: action) {
+        Button(action: {
+            HapticManager.lightImpact()
+            action()
+        }) {
             ZStack {
                 Circle()
                     .fill(

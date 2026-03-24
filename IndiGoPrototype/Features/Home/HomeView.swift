@@ -76,6 +76,7 @@ struct HomeView: View {
     @State private var showAllOffers = false
     @State private var selectedOfferTitle: String?
     @State private var showSixEPickExplore = false
+    @State private var showProfile = false
 
     private var clampedOffset: CGFloat { max(0, scrollOffset) }
 
@@ -94,10 +95,10 @@ struct HomeView: View {
                 ScrollOffsetReader(offset: $scrollOffset)
                     .frame(height: 0)
 
-                // Header pinned to top via offset
                 HomeHeaderView(
                     scrollOffset: clampedOffset,
-                    onSearchTap: { showSearchJourney = true }
+                    onSearchTap: { showSearchJourney = true },
+                    onProfileTap: { showProfile = true }
                 )
                 .offset(y: clampedOffset)
                 .zIndex(1)
@@ -133,10 +134,16 @@ struct HomeView: View {
             SixEPickExploreView()
                 .navigationBarBackButtonHidden()
         }
+        .navigationDestination(isPresented: $showProfile) {
+            ProfileView()
+        }
         .onChange(of: showSearchJourney) { _, isActive in
             if !isActive {
                 bookingState.isInBookingFlow = false
             }
+        }
+        .onChange(of: showProfile) { _, isActive in
+            bookingState.isInBookingFlow = isActive
         }
     }
 

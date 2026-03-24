@@ -99,6 +99,7 @@ struct BottomNavBar: View {
         let isActive = selectedTab == tab
 
         return Button {
+            HapticManager.selection()
             withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
                 selectedTab = tab
             }
@@ -130,7 +131,10 @@ struct BottomNavBar: View {
     // MARK: - 6EPick button
 
     private var sixEPickButton: some View {
-        Button(action: on6EPickTap) {
+        Button(action: {
+            HapticManager.mediumImpact()
+            on6EPickTap()
+        }) {
             VStack(spacing: 2) {
                 Image("nav-6epick")
                     .renderingMode(.template)

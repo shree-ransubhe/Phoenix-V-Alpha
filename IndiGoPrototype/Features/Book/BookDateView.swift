@@ -186,6 +186,7 @@ struct BookDateView: View {
         HStack(spacing: 24) {
             ForEach(BookingState.TripType.allCases, id: \.self) { type in
                 Button(action: {
+                    HapticManager.selection()
                     withAnimation(.easeInOut(duration: 0.2)) {
                         tripType = type
                         bookingState.tripType = type
@@ -422,6 +423,7 @@ struct BookDateView: View {
 
     private func handleNext() {
         guard isDateCriteriaMet else { return }
+        HapticManager.mediumImpact()
         bookingState.selectedDate = departureDate
         bookingState.returnDate = returnDate
         if isEditMode {
@@ -440,6 +442,7 @@ struct BookDateView: View {
     }
 
     private func changeMonth(by value: Int) {
+        HapticManager.lightImpact()
         withAnimation(.easeInOut(duration: 0.25)) {
             if let newDate = calendar.date(byAdding: .month, value: value, to: displayedMonth) {
                 displayedMonth = newDate
@@ -498,6 +501,8 @@ struct BookDateView: View {
         comp.day = day
         guard let date = calendar.date(from: comp) else { return }
 
+        HapticManager.selection()
+
         withAnimation(.easeInOut(duration: 0.2)) {
             if tripType == .oneWay {
                 departureDate = date
@@ -520,6 +525,7 @@ struct BookDateView: View {
     }
 
     private func clearAll() {
+        HapticManager.lightImpact()
         withAnimation(.easeInOut(duration: 0.2)) {
             departureDate = nil
             returnDate = nil

@@ -27,6 +27,7 @@ import SwiftUI
 struct HomeHeaderView: View {
     let scrollOffset: CGFloat
     var onSearchTap: () -> Void = {}
+    var onProfileTap: () -> Void = {}
     @Environment(\.alphaTheme) private var theme
 
     static let expandedHeight: CGFloat = ThemeProvider.current.headerExpandedHeight
@@ -73,10 +74,10 @@ struct HomeHeaderView: View {
             }
 
             if isInlineMode {
-                SearchWidgetView(mode: .inline, onTap: onSearchTap)
+                SearchWidgetView(mode: .inline, onTap: onSearchTap, onProfileTap: onProfileTap)
                     .padding(.horizontal, theme.headerSearchHorizontalPadding)
             } else if collapseProgress > 0.5 {
-                SearchWidgetView(mode: .inline, onTap: onSearchTap)
+                SearchWidgetView(mode: .inline, onTap: onSearchTap, onProfileTap: onProfileTap)
                     .padding(.horizontal, theme.headerSearchHorizontalPadding)
                     .opacity(Double((collapseProgress - 0.5) / 0.5))
             } else {
@@ -143,12 +144,15 @@ struct HomeHeaderView: View {
     }
 
     private var avatarButton: some View {
-        Image("profile-avatar")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 32, height: 32)
-            .clipShape(Circle())
-            .overlay(Circle().strokeBorder(.white, lineWidth: 1))
+        Button(action: onProfileTap) {
+            Image("profile-avatar")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32, height: 32)
+                .clipShape(Circle())
+                .overlay(Circle().strokeBorder(.white, lineWidth: 1))
+        }
+        .buttonStyle(.plain)
     }
 }
 

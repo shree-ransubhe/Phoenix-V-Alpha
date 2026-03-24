@@ -303,6 +303,7 @@ struct PayModeView: View {
             HStack(spacing: 7) {
                 ForEach(BookingState.PaymentMethod.allCases, id: \.self) { method in
                     Button(action: {
+                        HapticManager.selection()
                         withAnimation(.easeInOut(duration: 0.2)) {
                             paymentMethod = method
                             bookingState.paymentMethod = method
@@ -381,6 +382,7 @@ struct PayModeView: View {
             Spacer()
 
             Button(action: {
+                HapticManager.selection()
                 withAnimation(.easeInOut(duration: 0.2)) {
                     useBluChipBalance.toggle()
                     bookingState.useBluChipBalance = useBluChipBalance
@@ -482,6 +484,7 @@ struct PayModeView: View {
         VStack(spacing: 0) {
             ForEach(currencies, id: \.self) { currency in
                 Button(action: {
+                    HapticManager.selection()
                     withAnimation(.easeInOut(duration: 0.2)) {
                         selectedCurrency = currency
                         bookingState.selectedCurrency = currency
@@ -576,6 +579,7 @@ struct PayModeView: View {
     // MARK: - Actions
 
     private func clearAll() {
+        HapticManager.lightImpact()
         withAnimation(.easeInOut(duration: 0.2)) {
             paymentMethod = .cash
             useBluChipBalance = false
@@ -587,6 +591,7 @@ struct PayModeView: View {
     }
 
     private func handleSearchFlight() {
+        HapticManager.heavyImpact()
         bookingState.paymentMethod = paymentMethod
         bookingState.useBluChipBalance = useBluChipBalance
         bookingState.selectedCurrency = selectedCurrency

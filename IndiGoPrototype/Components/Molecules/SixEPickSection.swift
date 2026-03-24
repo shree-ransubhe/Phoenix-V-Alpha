@@ -23,7 +23,8 @@ struct SixEPickSection: View {
                 headerBlock
                 gridLayout
             }
-            .padding(theme.sixEPickVerticalPadding)
+            .padding(.horizontal, theme.sixEPickHorizontalPadding)
+            .padding(.bottom, theme.sixEPickVerticalPadding)
         } else {
             VStack(alignment: .leading, spacing: theme.sixEPickSectionSpacing) {
                 headerBlock

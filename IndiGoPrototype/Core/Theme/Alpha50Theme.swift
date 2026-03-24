@@ -88,6 +88,7 @@ struct Alpha50Theme: AlphaTheme {
     var bestOffersSectionSpacing: CGFloat { 8 }             // 5.0: title→content = 8px (same)
     var bestOffersHorizontalPadding: CGFloat { 16 }         // 5.0: 16px (was 20)
     var bestOffersVerticalPadding: CGFloat { 16 }           // 5.0: 16px (was 8)
+    var bestOffersTopPadding: CGFloat { 0 }                 // 5.0: 0px — inter-section gap handles top space
 
     var bestOffersTitleUsesGreenSplit: Bool { true }        // 5.0: "Find exciting [offers here]"
     var bestOffersShowsHeroCard: Bool { false }             // 5.0: hero card removed

@@ -60,7 +60,8 @@ struct BestOffersSection: View {
             }
         }
         .padding(.horizontal, theme.bestOffersHorizontalPadding)
-        .padding(.vertical, theme.bestOffersVerticalPadding)
+        .padding(.top, theme.bestOffersTopPadding)
+        .padding(.bottom, theme.bestOffersVerticalPadding)
     }
 
     // MARK: - Section header

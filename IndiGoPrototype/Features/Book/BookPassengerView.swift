@@ -435,6 +435,7 @@ struct BookPassengerView: View {
 
         return HStack(spacing: 0) {
             Button(action: {
+                HapticManager.softImpact(intensity: 0.4)
                 withAnimation(.easeInOut(duration: 0.15)) {
                     if count.wrappedValue > 0 { count.wrappedValue -= 1 }
                     syncToBookingState()
@@ -458,6 +459,7 @@ struct BookPassengerView: View {
                 .multilineTextAlignment(.center)
 
             Button(action: {
+                HapticManager.softImpact(intensity: 0.6)
                 withAnimation(.easeInOut(duration: 0.15)) {
                     count.wrappedValue += 1
                     syncToBookingState()
@@ -497,6 +499,7 @@ struct BookPassengerView: View {
         let isSelected = selectedDiscounts.contains(category)
 
         return Button(action: {
+            HapticManager.selection()
             withAnimation(.easeInOut(duration: 0.2)) {
                 if isSelected {
                     selectedDiscounts.remove(category)
@@ -566,6 +569,7 @@ struct BookPassengerView: View {
     // MARK: - Actions
 
     private func toggleTraveller(_ traveller: SavedTraveller) {
+        HapticManager.selection()
         withAnimation(.easeInOut(duration: 0.2)) {
             if selectedTravellerIDs.contains(traveller.id) {
                 selectedTravellerIDs.remove(traveller.id)
@@ -597,6 +601,7 @@ struct BookPassengerView: View {
     }
 
     private func clearAll() {
+        HapticManager.lightImpact()
         withAnimation(.easeInOut(duration: 0.2)) {
             adults = 0
             seniorCitizens = 0
@@ -612,6 +617,7 @@ struct BookPassengerView: View {
 
     private func handleNext() {
         guard hasPassengers else { return }
+        HapticManager.mediumImpact()
         syncToBookingState()
         bookingState.selectedTravellerIDs = selectedTravellerIDs
         bookingState.selectedDiscountCategories = selectedDiscounts

@@ -359,7 +359,10 @@ struct BookLocationView: View {
     // MARK: - Add Stop Button
 
     private var addStopButton: some View {
-        Button(action: { showMultiCity.toggle() }) {
+        Button(action: {
+            HapticManager.lightImpact()
+            showMultiCity.toggle()
+        }) {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(IndiGoColors.secondaryLight)
@@ -452,6 +455,7 @@ struct BookLocationView: View {
     private func selectCity(_ city: City) {
         switch activeField {
         case .from:
+            HapticManager.selection()
             withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                 selectedFrom = city
                 fromText = "\(city.name),\(city.code)"
@@ -465,6 +469,7 @@ struct BookLocationView: View {
             }
 
         case .to:
+            HapticManager.success()
             toFieldFocused = false
             fromFieldFocused = false
 

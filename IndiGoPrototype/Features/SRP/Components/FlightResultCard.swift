@@ -144,7 +144,10 @@ struct FlightResultCard: View {
     // MARK: - Stretch Fare (Figma node 3:8612)
 
     private var stretchFareCell: some View {
-        Button(action: onStretchTap) {
+        Button(action: {
+            HapticManager.lightImpact()
+            onStretchTap()
+        }) {
             VStack(spacing: 0) {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(spacing: IndiGoSpacing.xs) {
@@ -202,7 +205,10 @@ struct FlightResultCard: View {
     // MARK: - Economy Fare (Figma node 3:8621)
 
     private var economyFareCell: some View {
-        Button(action: onEconomyTap) {
+        Button(action: {
+            HapticManager.lightImpact()
+            onEconomyTap()
+        }) {
             VStack(spacing: 0) {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(spacing: IndiGoSpacing.xs) {

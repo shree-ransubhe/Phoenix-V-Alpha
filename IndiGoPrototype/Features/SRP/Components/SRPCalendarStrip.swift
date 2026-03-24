@@ -13,6 +13,7 @@ struct SRPCalendarStrip: View {
                     CalendarDateCell(date: date)
                         .onTapGesture {
                             guard date.price != nil else { return }
+                            HapticManager.selection()
                             withAnimation(.easeInOut(duration: 0.2)) {
                                 selectDate(at: index)
                                 onSelect(index)

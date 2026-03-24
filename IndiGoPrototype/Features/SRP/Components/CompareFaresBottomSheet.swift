@@ -34,11 +34,14 @@ struct CompareFaresBottomSheet: View {
                 .padding(.bottom, 12)
 
             fareCarousel
-
-            Spacer(minLength: 0)
+                .id(selectedTab)
+                .transition(.opacity.combined(with: .scale(scale: 0.97)))
+                .frame(height: 310)
+                .padding(.bottom, 8)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .frame(maxWidth: .infinity, alignment: .top)
         .background(.white)
+        .animation(.easeInOut(duration: 0.3), value: selectedTab)
     }
 
     // MARK: - Sheet Handle (Figma 3:8918)
@@ -63,6 +66,7 @@ struct CompareFaresBottomSheet: View {
         HStack(spacing: 0) {
             ForEach(TabType.allCases, id: \.rawValue) { tab in
                 Button {
+                    HapticManager.selection()
                     withAnimation(.spring(response: 0.3)) {
                         selectedTab = tab
                         selectedIndex = tab == .economy ? 1 : 0
@@ -137,6 +141,13 @@ struct CompareFaresBottomSheet: View {
                 )
                 .offset(x: offset)
                 .zIndex(isActive ? 10 : Double(count - abs(index - selectedIndex)))
+                .onTapGesture {
+                    guard index != selectedIndex else { return }
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                        selectedIndex = index
+                        dragOffset = 0
+                    }
+                }
                 .animation(.spring(response: 0.4, dampingFraction: 0.8), value: selectedIndex)
             }
         }
@@ -156,6 +167,10 @@ struct CompareFaresBottomSheet: View {
                         newIndex = min(selectedIndex + 1, count - 1)
                     } else if value.translation.width > threshold || velocity > 100 {
                         newIndex = max(selectedIndex - 1, 0)
+                    }
+
+                    if newIndex != selectedIndex {
+                        HapticManager.selection()
                     }
 
                     withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {

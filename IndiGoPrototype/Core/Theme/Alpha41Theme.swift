@@ -74,6 +74,7 @@ struct Alpha41Theme: AlphaTheme {
     let bestOffersSectionSpacing: CGFloat = 8            // IndiGoSpacing.xs
     let bestOffersHorizontalPadding: CGFloat = 20        // IndiGoSpacing.lg
     let bestOffersVerticalPadding: CGFloat = 8           // IndiGoSpacing.xs
+    let bestOffersTopPadding: CGFloat = 8                // same as vertical
 
     let bestOffersTitleUsesGreenSplit: Bool = false
     let bestOffersShowsHeroCard: Bool = true

@@ -132,6 +132,7 @@ struct CommunitySection: View {
                         .contentShape(Rectangle())
                         .onTapGesture {
                             guard role == .collapsed else { return }
+                            HapticManager.lightImpact()
                             withAnimation(.easeInOut(duration: 0.35)) {
                                 advance(to: index)
                             }
@@ -144,6 +145,9 @@ struct CommunitySection: View {
                 DragGesture(minimumDistance: 20)
                     .onEnded { value in
                         let threshold: CGFloat = 40
+                        let willAdvance = (value.translation.width < -threshold && currentIndex < items.count - 1) ||
+                                          (value.translation.width > threshold && currentIndex > 0)
+                        if willAdvance { HapticManager.selection() }
                         withAnimation(.easeInOut(duration: 0.35)) {
                             if value.translation.width < -threshold,
                                currentIndex < items.count - 1 {

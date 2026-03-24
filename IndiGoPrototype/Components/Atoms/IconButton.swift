@@ -12,7 +12,10 @@ struct IconButton: View {
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
+        Button(action: {
+            HapticManager.lightImpact()
+            action()
+        }) {
             Image(systemName: iconName)
                 .font(.system(size: 20, weight: .medium))
                 .foregroundStyle(IndiGoColors.textPrimary)

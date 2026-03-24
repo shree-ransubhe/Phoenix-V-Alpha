@@ -105,12 +105,12 @@ struct SRPView: View {
         #endif
         .navigationBarBackButtonHidden(true)
         .onAppear { runEntranceAnimations() }
-        .sheet(isPresented: $showCompareFares) {
-            CompareFaresBottomSheet(isPresented: $showCompareFares)
-                .presentationDetents([.height(440)])
-                .presentationDragIndicator(.hidden)
-                .presentationCornerRadius(23)
-                .presentationBackgroundInteraction(.enabled(upThrough: .height(440)))
+        .overlay {
+            if showCompareFares {
+                CompareClassesOverlay(
+                    isPresented: $showCompareFares
+                )
+            }
         }
         .overlay {
             if let flight = selectedFlightForStretch {
@@ -360,6 +360,79 @@ private struct ShimmerCardPlaceholder: View {
 
 }
 
+// MARK: - Compare Classes Overlay (translucent scrim + slide-up sheet)
+
+private struct CompareClassesOverlay: View {
+    @Binding var isPresented: Bool
+
+    @State private var appeared = false
+    @State private var dragOffset: CGFloat = 0
+
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            LinearGradient(
+                colors: [Color(hex: "15205F"), Color(hex: "24409A")],
+                startPoint: .topTrailing,
+                endPoint: .bottomLeading
+            )
+            .opacity(appeared ? 0.8 : 0)
+            .ignoresSafeArea()
+            .onTapGesture { dismissWithAnimation() }
+
+            sheetContent
+                .offset(y: appeared ? dragOffset : 600)
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            if value.translation.height > 0 {
+                                dragOffset = value.translation.height
+                            }
+                        }
+                        .onEnded { value in
+                            if value.translation.height > 120 || value.predictedEndTranslation.height > 300 {
+                                dismissWithAnimation()
+                            } else {
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.85)) {
+                                    dragOffset = 0
+                                }
+                            }
+                        }
+                )
+        }
+        .ignoresSafeArea(.all, edges: .bottom)
+        .animation(.spring(response: 0.35, dampingFraction: 0.85), value: appeared)
+        .onAppear { appeared = true }
+    }
+
+    private var sheetContent: some View {
+        VStack(spacing: 0) {
+            CompareFaresBottomSheet(isPresented: $isPresented)
+        }
+        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: .infinity)
+        .padding(.bottom, 34)
+        .background(.white)
+        .clipShape(
+            UnevenRoundedRectangle(
+                topLeadingRadius: 23,
+                bottomLeadingRadius: 0,
+                bottomTrailingRadius: 0,
+                topTrailingRadius: 23,
+                style: .continuous
+            )
+        )
+    }
+
+    private func dismissWithAnimation() {
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.85)) {
+            appeared = false
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            isPresented = false
+        }
+    }
+}
+
 // MARK: - Fare Family Overlay (translucent scrim + slide-up sheet)
 
 private struct FareFamilyOverlay: View {
@@ -371,63 +444,67 @@ private struct FareFamilyOverlay: View {
     @State private var appeared = false
     @State private var dragOffset: CGFloat = 0
 
-    private let sheetHeight: CGFloat = 560
-
     var body: some View {
         ZStack(alignment: .bottom) {
-            Color.black
-                .opacity(appeared ? 0.35 : 0)
-                .ignoresSafeArea()
-                .onTapGesture { dismissWithAnimation() }
-
-            VStack(spacing: 0) {
-                FareFamilyBottomSheet(
-                    flight: flight,
-                    initialFareType: fareType,
-                    isPresented: .init(
-                        get: { appeared },
-                        set: { if !$0 { dismissWithAnimation() } }
-                    ),
-                    onFareSelected: onFareSelected
-                )
-                .frame(height: sheetHeight)
-            }
-            .frame(maxWidth: .infinity)
-            .background(.white)
-            .clipShape(
-                UnevenRoundedRectangle(
-                    topLeadingRadius: 23,
-                    bottomLeadingRadius: 0,
-                    bottomTrailingRadius: 0,
-                    topTrailingRadius: 23,
-                    style: .continuous
-                )
+            LinearGradient(
+                colors: [Color(hex: "15205F"), Color(hex: "24409A")],
+                startPoint: .topTrailing,
+                endPoint: .bottomLeading
             )
-            .ignoresSafeArea(.all, edges: .bottom)
-            .offset(y: appeared ? dragOffset : sheetHeight + 60)
-            .gesture(
-                DragGesture()
-                    .onChanged { value in
-                        if value.translation.height > 0 {
-                            dragOffset = value.translation.height
-                        }
-                    }
-                    .onEnded { value in
-                        if value.translation.height > 120 || value.predictedEndTranslation.height > 300 {
-                            dismissWithAnimation()
-                        } else {
-                            withAnimation(.spring(response: 0.3, dampingFraction: 0.85)) {
-                                dragOffset = 0
+            .opacity(appeared ? 0.8 : 0)
+            .ignoresSafeArea()
+            .onTapGesture { dismissWithAnimation() }
+
+            sheetContent
+                .offset(y: appeared ? dragOffset : 700)
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            if value.translation.height > 0 {
+                                dragOffset = value.translation.height
                             }
                         }
-                    }
-            )
-            .transition(.move(edge: .bottom))
+                        .onEnded { value in
+                            if value.translation.height > 120 || value.predictedEndTranslation.height > 300 {
+                                dismissWithAnimation()
+                            } else {
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.85)) {
+                                    dragOffset = 0
+                                }
+                            }
+                        }
+                )
         }
+        .ignoresSafeArea(.all, edges: .bottom)
         .animation(.spring(response: 0.35, dampingFraction: 0.85), value: appeared)
-        .onAppear {
-            appeared = true
+        .onAppear { appeared = true }
+    }
+
+    private var sheetContent: some View {
+        VStack(spacing: 0) {
+            FareFamilyBottomSheet(
+                flight: flight,
+                initialFareType: fareType,
+                isPresented: .init(
+                    get: { appeared },
+                    set: { if !$0 { dismissWithAnimation() } }
+                ),
+                onFareSelected: onFareSelected
+            )
         }
+        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: .infinity)
+        .padding(.bottom, 34)
+        .background(.white)
+        .clipShape(
+            UnevenRoundedRectangle(
+                topLeadingRadius: 23,
+                bottomLeadingRadius: 0,
+                bottomTrailingRadius: 0,
+                topTrailingRadius: 23,
+                style: .continuous
+            )
+        )
     }
 
     private func dismissWithAnimation() {

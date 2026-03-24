@@ -92,6 +92,7 @@ protocol AlphaTheme {
     var bestOffersSectionSpacing: CGFloat { get }
     var bestOffersHorizontalPadding: CGFloat { get }
     var bestOffersVerticalPadding: CGFloat { get }
+    var bestOffersTopPadding: CGFloat { get }
 
     var bestOffersTitleUsesGreenSplit: Bool { get }
     var bestOffersShowsHeroCard: Bool { get }

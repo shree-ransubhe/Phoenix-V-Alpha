@@ -12,7 +12,10 @@ struct PrimaryButton: View {
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
+        Button(action: {
+            HapticManager.mediumImpact()
+            action()
+        }) {
             Text(title)
                 .font(IndiGoFonts.body())
                 .fontWeight(.semibold)

@@ -14,7 +14,7 @@ struct FareFamilyBottomSheet: View {
     @State private var selectedIndex: Int = 1
     @State private var dragOffset: CGFloat = 0
 
-    enum FareSheetType {
+    enum FareSheetType: Hashable {
         case stretch
         case economy
     }
@@ -51,11 +51,14 @@ struct FareFamilyBottomSheet: View {
                 .padding(.bottom, 12)
 
             fareCarousel
-
-            Spacer(minLength: 0)
+                .id(fareType)
+                .transition(.opacity.combined(with: .scale(scale: 0.97)))
+                .frame(height: 340)
+                .padding(.bottom, 8)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .frame(maxWidth: .infinity, alignment: .top)
         .background(.white)
+        .animation(.easeInOut(duration: 0.3), value: fareType)
         .onAppear {
             fareType = initialFareType
             selectedIndex = initialFareType == .economy ? 1 : 0
@@ -129,10 +132,44 @@ struct FareFamilyBottomSheet: View {
 
     // MARK: - Fare Type Toggle (interactive)
 
+    private static let fareSheetTypes: [FareSheetType] = [.stretch, .economy]
+
     private var fareTypeToggle: some View {
         HStack(spacing: 0) {
-            togglePill(type: .stretch)
-            togglePill(type: .economy)
+            ForEach(Self.fareSheetTypes, id: \.self) { type in
+                Button {
+                    guard fareType != type else { return }
+                    withAnimation(.spring(response: 0.3)) {
+                        fareType = type
+                        selectedIndex = type == .economy ? 1 : 0
+                        dragOffset = 0
+                    }
+                } label: {
+                    Text(type == .stretch ? "Stretch" : "Economy")
+                        .font(IndiGoFonts.bodySmallMedium())
+                        .foregroundStyle(fareType == type ? .white : IndiGoColors.primaryMain)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 8)
+                        .background(
+                            fareType == type
+                                ? toggleActivePillColor
+                                : .clear
+                        )
+                        .clipShape(Capsule())
+                        .overlay(
+                            fareType == type
+                                ? Capsule().strokeBorder(IndiGoColors.secondaryLight, lineWidth: 1)
+                                : nil
+                        )
+                        .shadow(
+                            color: fareType == type
+                                ? Color(hex: "4C5D9E").opacity(0.08)
+                                : .clear,
+                            radius: 6, x: 0, y: 0
+                        )
+                }
+                .buttonStyle(.plain)
+            }
         }
         .padding(4)
         .background(toggleTrackColor)
@@ -142,38 +179,6 @@ struct FareFamilyBottomSheet: View {
                 .strokeBorder(IndiGoColors.srpCardBorder, lineWidth: 1)
         )
         .animation(.easeInOut(duration: 0.25), value: fareType)
-    }
-
-    private func togglePill(type: FareSheetType) -> some View {
-        let isActive = fareType == type
-        let title = type == .stretch ? "Stretch" : "Economy"
-
-        return Button {
-            guard fareType != type else { return }
-            withAnimation(.spring(response: 0.3)) {
-                fareType = type
-                selectedIndex = type == .economy ? 1 : 0
-                dragOffset = 0
-            }
-        } label: {
-            Text(title)
-                .font(IndiGoFonts.bodySmallMedium())
-                .foregroundStyle(isActive ? .white : IndiGoColors.primaryMain)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 8)
-                .background(isActive ? toggleActivePillColor : .clear)
-                .clipShape(Capsule())
-                .overlay(
-                    isActive
-                        ? Capsule().strokeBorder(IndiGoColors.secondaryLight, lineWidth: 1)
-                        : nil
-                )
-                .shadow(
-                    color: isActive ? Color(hex: "4C5D9E").opacity(0.08) : .clear,
-                    radius: 6, x: 0, y: 0
-                )
-        }
-        .buttonStyle(.plain)
     }
 
     // MARK: - Swipeable Fare Carousel
@@ -212,6 +217,13 @@ struct FareFamilyBottomSheet: View {
                 )
                 .offset(x: offset)
                 .zIndex(isActive ? 10 : Double(count - abs(index - selectedIndex)))
+                .onTapGesture {
+                    guard index != selectedIndex else { return }
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                        selectedIndex = index
+                        dragOffset = 0
+                    }
+                }
                 .animation(.spring(response: 0.4, dampingFraction: 0.8), value: selectedIndex)
             }
         }
@@ -231,6 +243,10 @@ struct FareFamilyBottomSheet: View {
                         newIndex = min(selectedIndex + 1, count - 1)
                     } else if value.translation.width > threshold || velocity > 100 {
                         newIndex = max(selectedIndex - 1, 0)
+                    }
+
+                    if newIndex != selectedIndex {
+                        HapticManager.selection()
                     }
 
                     withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
@@ -285,11 +301,13 @@ private struct FareSelectorCard: View {
             perksSection
                 .padding(.top, 12)
 
+            dividerLine
+                .padding(.top, 10)
+            priceRow
+                .padding(.top, 8)
+
             if isActive {
-                dividerLine
-                    .padding(.top, 10)
-                pricingSection
-                    .padding(.top, 8)
+                bluChipsRow
                 selectButton
                     .padding(.top, 8)
                     .padding(.bottom, 4)
@@ -393,26 +411,29 @@ private struct FareSelectorCard: View {
             .frame(height: 1)
     }
 
-    private var pricingSection: some View {
-        VStack(spacing: 0) {
-            HStack(spacing: 2) {
-                Text("₹ \(option.price.formatted())")
-                    .font(.custom("Poppins-SemiBold", size: 16))
-                    .foregroundStyle(IndiGoColors.primaryMain)
+    private var priceRow: some View {
+        HStack(spacing: 2) {
+            Text("₹ \(option.price.formatted())")
+                .font(.custom("Poppins-SemiBold", size: isActive ? 16 : 13))
+                .foregroundStyle(IndiGoColors.primaryMain)
 
-                Text("/ Pax")
-                    .font(IndiGoFonts.bodySmall())
-                    .foregroundStyle(IndiGoColors.forYouTextSecondary)
-            }
-
-            Text("+Earn \(option.bluChips.formatted()) IndiGo BluChips")
+            Text("/ Pax")
                 .font(IndiGoFonts.bodyExtraSmall())
-                .foregroundStyle(IndiGoColors.accentDark)
+                .foregroundStyle(IndiGoColors.forYouTextSecondary)
         }
     }
 
+    private var bluChipsRow: some View {
+        Text("+Earn \(option.bluChips.formatted()) IndiGo BluChips")
+            .font(IndiGoFonts.bodyExtraSmall())
+            .foregroundStyle(IndiGoColors.accentDark)
+    }
+
     private var selectButton: some View {
-        Button(action: { onSelect?() }) {
+        Button(action: {
+            HapticManager.success()
+            onSelect?()
+        }) {
             Text("Select")
                 .font(IndiGoFonts.buttonMobile())
                 .foregroundStyle(.white)

@@ -51,7 +51,10 @@ private struct FilterChip: View {
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
+        Button(action: {
+            HapticManager.selection()
+            action()
+        }) {
             Text(title)
                 .font(IndiGoFonts.bodySmall())
                 .foregroundStyle(isSelected ? .white : IndiGoColors.forYouTextSecondary)
