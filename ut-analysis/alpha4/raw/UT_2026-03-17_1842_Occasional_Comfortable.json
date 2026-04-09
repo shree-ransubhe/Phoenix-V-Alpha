@@ -1,0 +1,419 @@
+{
+  "audioConsent" : false,
+  "completedAt" : "2026-03-17T13:18:41.711Z",
+  "createdAt" : "2026-03-17T13:12:11.928Z",
+  "demographics" : {
+    "ageBand" : "55+",
+    "device" : "Provided",
+    "experience" : "Comfortable",
+    "role" : "Occasional"
+  },
+  "deviceMetadata" : {
+    "appVersion" : "unknown",
+    "deviceModel" : "iPhone15,4",
+    "osVersion" : "iOS 18.4.1",
+    "screenSize" : "393x852"
+  },
+  "endedAt" : "2026-03-17T13:19:40.758Z",
+  "frustration" : 1,
+  "journeyCompleted" : true,
+  "postTaskAnswers" : [
+    {
+      "answer" : "",
+      "question" : "Community stories noticed"
+    },
+    {
+      "answer" : "",
+      "question" : "Tried to see more"
+    },
+    {
+      "answer" : "",
+      "question" : "1\/3 indicator clear"
+    }
+  ],
+  "rating" : 5,
+  "scrollDepths" : [
+
+  ],
+  "sessionId" : "367C7A0A-EB9C-48A4-88CF-B2F8BAAAE900",
+  "sessionTitle" : "UT_2026-03-17_1842_Occasional_Comfortable",
+  "steps" : [
+    {
+      "enteredAt" : "2026-03-17T13:12:12.038Z",
+      "leftAt" : "2026-03-17T13:17:06.390Z",
+      "screenId" : "HomeView"
+    },
+    {
+      "enteredAt" : "2026-03-17T13:17:06.390Z",
+      "leftAt" : "2026-03-17T13:17:07.044Z",
+      "screenId" : "BookLocationView"
+    },
+    {
+      "enteredAt" : "2026-03-17T13:17:09.731Z",
+      "leftAt" : "2026-03-17T13:17:10.276Z",
+      "screenId" : "BookDateView"
+    },
+    {
+      "enteredAt" : "2026-03-17T13:17:23.855Z",
+      "leftAt" : "2026-03-17T13:17:23.875Z",
+      "screenId" : "BookPassengerView"
+    },
+    {
+      "enteredAt" : "2026-03-17T13:17:23.875Z",
+      "leftAt" : "2026-03-17T13:17:24.408Z",
+      "screenId" : "BookLocationView"
+    },
+    {
+      "enteredAt" : "2026-03-17T13:17:36.231Z",
+      "leftAt" : "2026-03-17T13:17:36.249Z",
+      "screenId" : "PayModeView"
+    },
+    {
+      "enteredAt" : "2026-03-17T13:17:36.249Z",
+      "leftAt" : "2026-03-17T13:17:36.771Z",
+      "screenId" : "BookDateView"
+    },
+    {
+      "enteredAt" : "2026-03-17T13:17:41.684Z",
+      "leftAt" : "2026-03-17T13:17:42.222Z",
+      "screenId" : "BookPassengerView"
+    },
+    {
+      "enteredAt" : "2026-03-17T13:17:57.532Z",
+      "leftAt" : "2026-03-17T13:17:58.076Z",
+      "screenId" : "BookPassengerView"
+    },
+    {
+      "enteredAt" : "2026-03-17T13:17:59.024Z",
+      "leftAt" : "2026-03-17T13:17:59.043Z",
+      "screenId" : "PayModeView"
+    },
+    {
+      "enteredAt" : "2026-03-17T13:17:59.043Z",
+      "leftAt" : "2026-03-17T13:17:59.570Z",
+      "screenId" : "BookDateView"
+    },
+    {
+      "enteredAt" : "2026-03-17T13:18:41.787Z",
+      "leftAt" : "2026-03-17T13:18:41.801Z",
+      "screenId" : "SRPView"
+    },
+    {
+      "enteredAt" : "2026-03-17T13:18:41.801Z",
+      "leftAt" : "2026-03-17T13:18:42.328Z",
+      "screenId" : "BookPassengerView"
+    },
+    {
+      "enteredAt" : "2026-03-17T13:19:21.317Z",
+      "leftAt" : "2026-03-17T13:19:21.317Z",
+      "screenId" : "HomeView"
+    },
+    {
+      "enteredAt" : "2026-03-17T13:19:22.226Z",
+      "leftAt" : "2026-03-17T13:19:22.229Z",
+      "screenId" : "SRPView"
+    }
+  ],
+  "taps" : [
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:12:27.421Z",
+      "x" : 0.7871077054632832,
+      "y" : 0.6813365870991079
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:12:43.694Z",
+      "x" : 0.09414758269720101,
+      "y" : 0.5737571249964185
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:12:44.741Z",
+      "x" : 0.1280746265828761,
+      "y" : 0.6833740831295844
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:13:08.317Z",
+      "x" : 0.8100084688220619,
+      "y" : 0.33007334963325186
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:13:10.695Z",
+      "x" : 0.8863443466846573,
+      "y" : 0.5061124694376528
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:14:37.070Z",
+      "x" : 0.14249363867684478,
+      "y" : 0.5737571249964185
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:14:39.948Z",
+      "x" : 0.18744696308941636,
+      "y" : 0.7037489688192429
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:14:49.690Z",
+      "x" : 0.36726037721900845,
+      "y" : 0.39445801527401053
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:14:51.015Z",
+      "x" : 0.6776929471935631,
+      "y" : 0.6699266503667481
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:14:53.344Z",
+      "x" : 0.5597964376590331,
+      "y" : 0.40668295414931616
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:14:54.200Z",
+      "x" : 0.17133162403834684,
+      "y" : 0.5762021127714796
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:14:55.849Z",
+      "x" : 0.754876988534709,
+      "y" : 0.5651996677837046
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:14:57.310Z",
+      "x" : 0.9185750636132316,
+      "y" : 0.4812550812886805
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:14:59.119Z",
+      "x" : 0.8108566323006122,
+      "y" : 0.6560717072055509
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:15:00.017Z",
+      "x" : 0.905852417302799,
+      "y" : 0.5635696821515892
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:15:07.724Z",
+      "x" : 0.0899066876515784,
+      "y" : 0.5493072472458073
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:15:32.756Z",
+      "x" : 0.1450381679389313,
+      "y" : 0.5737571249964185
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:15:58.318Z",
+      "x" : 0.05937233650654024,
+      "y" : 0.09698450885949916
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:16:28.765Z",
+      "x" : 0.13994910941475827,
+      "y" : 0.5395272961455627
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:16:29.758Z",
+      "x" : 0.1984732824427481,
+      "y" : 0.672779129886394
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:16:38.326Z",
+      "x" : 0.1620016704685512,
+      "y" : 0.7579462102689487
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:16:38.787Z",
+      "x" : 0.19338422391857507,
+      "y" : 0.7567237163814181
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:16:42.038Z",
+      "x" : 0.26378284095201177,
+      "y" : 0.4034229828850856
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:16:43.719Z",
+      "x" : 0.31297709923664124,
+      "y" : 0.4091279419243773
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:16:51.557Z",
+      "x" : 0.29431719209704993,
+      "y" : 0.4246128707176899
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:17:04.737Z",
+      "x" : 0.3138252627151916,
+      "y" : 0.4091279419243773
+    },
+    {
+      "screenId" : "HomeView",
+      "timestamp" : "2026-03-17T13:17:06.428Z",
+      "x" : 0.469041547702469,
+      "y" : 0.1960065137494747
+    },
+    {
+      "screenId" : "BookLocationView",
+      "timestamp" : "2026-03-17T13:17:08.971Z",
+      "x" : 0.5360474719952688,
+      "y" : 0.6207147844510735
+    },
+    {
+      "screenId" : "BookDateView",
+      "timestamp" : "2026-03-17T13:17:21.629Z",
+      "x" : 0.7777777518934876,
+      "y" : 0.5858585724560482
+    },
+    {
+      "screenId" : "BookDateView",
+      "timestamp" : "2026-03-17T13:17:22.349Z",
+      "x" : 0.5301102499925453,
+      "y" : 0.633289402495574
+    },
+    {
+      "screenId" : "BookDateView",
+      "timestamp" : "2026-03-17T13:17:23.875Z",
+      "x" : 0.6980491812902553,
+      "y" : 0.9732103511121747
+    },
+    {
+      "screenId" : "BookPassengerView",
+      "timestamp" : "2026-03-17T13:17:26.471Z",
+      "x" : 0.9016115222571763,
+      "y" : 0.467281497357234
+    },
+    {
+      "screenId" : "BookPassengerView",
+      "timestamp" : "2026-03-17T13:17:27.216Z",
+      "x" : 0.8871925101632077,
+      "y" : 0.45366709913975006
+    },
+    {
+      "screenId" : "BookPassengerView",
+      "timestamp" : "2026-03-17T13:17:29.666Z",
+      "x" : 0.0916030534351145,
+      "y" : 0.5406236208788805
+    },
+    {
+      "screenId" : "BookPassengerView",
+      "timestamp" : "2026-03-17T13:17:36.246Z",
+      "x" : 0.7175572519083969,
+      "y" : 0.9784804433387887
+    },
+    {
+      "screenId" : "PayModeView",
+      "timestamp" : "2026-03-17T13:17:41.687Z",
+      "x" : 0.07633587786259542,
+      "y" : 0.03249888866158185
+    },
+    {
+      "screenId" : "BookPassengerView",
+      "timestamp" : "2026-03-17T13:17:43.335Z",
+      "x" : 0.08312126334386928,
+      "y" : 0.029863842548274868
+    },
+    {
+      "screenId" : "BookDateView",
+      "timestamp" : "2026-03-17T13:17:45.196Z",
+      "x" : 0.3791348600508906,
+      "y" : 0.6354852809579319
+    },
+    {
+      "screenId" : "BookDateView",
+      "timestamp" : "2026-03-17T13:17:50.617Z",
+      "x" : 0.7438507080078125,
+      "y" : 0.5884936185693552
+    },
+    {
+      "screenId" : "BookDateView",
+      "timestamp" : "2026-03-17T13:17:57.555Z",
+      "x" : 0.7158608861248609,
+      "y" : 0.9885814601410676
+    },
+    {
+      "screenId" : "BookPassengerView",
+      "timestamp" : "2026-03-17T13:17:59.040Z",
+      "x" : 0.72264631043257,
+      "y" : 0.9696969696969697
+    },
+    {
+      "screenId" : "PayModeView",
+      "timestamp" : "2026-03-17T13:18:41.800Z",
+      "x" : 0.6955046520281687,
+      "y" : 0.9784804433387887
+    },
+    {
+      "screenId" : "SRPView",
+      "timestamp" : "2026-03-17T13:18:57.489Z",
+      "x" : 0.9083969465648855,
+      "y" : 0.6416337285902504
+    },
+    {
+      "screenId" : "SRPView",
+      "timestamp" : "2026-03-17T13:19:00.203Z",
+      "x" : 0.8676844783715013,
+      "y" : 0.6732542819499341
+    },
+    {
+      "screenId" : "SRPView",
+      "timestamp" : "2026-03-17T13:19:01.933Z",
+      "x" : 0.8541136297560831,
+      "y" : 0.6144049120514761
+    },
+    {
+      "screenId" : "SRPView",
+      "timestamp" : "2026-03-17T13:19:02.648Z",
+      "x" : 0.8396946564885496,
+      "y" : 0.619235836627141
+    },
+    {
+      "screenId" : "SRPView",
+      "timestamp" : "2026-03-17T13:19:03.397Z",
+      "x" : 0.7497879300105359,
+      "y" : 0.783487030954072
+    },
+    {
+      "screenId" : "SRPView",
+      "timestamp" : "2026-03-17T13:19:11.461Z",
+      "x" : 0.628498727735369,
+      "y" : 0.5401844532279315
+    },
+    {
+      "screenId" : "SRPView",
+      "timestamp" : "2026-03-17T13:19:15.385Z",
+      "x" : 0.44274809160305345,
+      "y" : 0.8458498023715415
+    },
+    {
+      "screenId" : "SRPView",
+      "timestamp" : "2026-03-17T13:19:21.338Z",
+      "x" : 0.4893977817991611,
+      "y" : 0.6425120638921484
+    }
+  ]
+}

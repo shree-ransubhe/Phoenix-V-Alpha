@@ -4,14 +4,27 @@
 const fs = require("fs");
 const path = require("path");
 
-const RAW_DIR = path.join(__dirname, "..", "raw");
-const OBS_PATH = path.join(__dirname, "..", "observations.json");
-const SCREENS = ["HomeView", "BookLocationView", "BookDateView", "BookPassengerView", "PayModeView", "SRPView"];
-const SCREEN_SHORT = { HomeView: "Home", BookLocationView: "Location", BookDateView: "Date", BookPassengerView: "Passengers", PayModeView: "Payment", SRPView: "SRP" };
+const ROOT = path.join(__dirname, "..");
+const SCREENS = ["HomeView", "SixEPickExploreView", "ProfileView", "BookLocationView", "BookDateView", "BookPassengerView", "PayModeView", "SRPView"];
+const SCREEN_SHORT = { HomeView: "Home", SixEPickExploreView: "6EPick", ProfileView: "Profile", BookLocationView: "Location", BookDateView: "Date", BookPassengerView: "Passengers", PayModeView: "Payment", SRPView: "SRP" };
 
-function loadSessions() {
-  return fs.readdirSync(RAW_DIR).filter(f => f.endsWith(".json")).sort()
-    .map(f => JSON.parse(fs.readFileSync(path.join(RAW_DIR, f), "utf-8")));
+function resolveAlpha() {
+  const args = process.argv.slice(2);
+  const idx = args.indexOf("--alpha");
+  const ver = (idx >= 0 && args[idx + 1]) ? args[idx + 1] : "5";
+  const dir = path.join(ROOT, `alpha${ver}`);
+  return {
+    ver,
+    RAW_DIR: path.join(dir, "raw"),
+    OBS_PATH: path.join(dir, "observations.json"),
+    OUT_DIR: path.join(dir, "heatmap"),
+  };
+}
+
+function loadSessions(rawDir) {
+  if (!fs.existsSync(rawDir)) return [];
+  return fs.readdirSync(rawDir).filter(f => f.endsWith(".json")).sort()
+    .map(f => JSON.parse(fs.readFileSync(path.join(rawDir, f), "utf-8")));
 }
 
 function dur(a, b) {
@@ -72,15 +85,18 @@ function analyze(session) {
   };
 }
 
-function loadObservations() {
-  if (!fs.existsSync(OBS_PATH)) return [];
-  try { return JSON.parse(fs.readFileSync(OBS_PATH, "utf-8")); } catch { return []; }
+function loadObservations(obsPath) {
+  if (!fs.existsSync(obsPath)) return [];
+  try { return JSON.parse(fs.readFileSync(obsPath, "utf-8")); } catch { return []; }
 }
 
 function main() {
-  const sessions = loadSessions();
+  const alpha = resolveAlpha();
+  console.log(`Alpha ${alpha.ver} | raw: ${alpha.RAW_DIR}`);
+
+  const sessions = loadSessions(alpha.RAW_DIR);
   const rows = sessions.map((s, i) => ({ ut: `UT-${i + 1}`, ...analyze(s) }));
-  const obs = loadObservations();
+  const obs = loadObservations(alpha.OBS_PATH);
   for (const o of obs) {
     const row = rows.find(r => r.ut === o.ut);
     if (!row) continue;
@@ -92,14 +108,16 @@ function main() {
     row.offTheRecord = o.offTheRecord || "";
     if (o.userFeedback && !row.feedback) row.feedback = o.userFeedback;
   }
-  const outPath = path.join(__dirname, "report.html");
-  fs.writeFileSync(outPath, buildHtml(rows), "utf-8");
+  fs.mkdirSync(alpha.OUT_DIR, { recursive: true });
+  const outPath = path.join(alpha.OUT_DIR, "report.html");
+  fs.writeFileSync(outPath, buildHtml(rows, alpha.ver), "utf-8");
   console.log("Wrote", outPath, "| sessions:", rows.length);
 }
 
 function e(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
 
-function buildHtml(rows) {
+function buildHtml(rows, alphaVer) {
+  alphaVer = alphaVer || "5";
   const avgRating = rows.length ? (rows.reduce((a, r) => a + (r.rating || 0), 0) / rows.length).toFixed(1) : "-";
   const avgFrust = rows.length ? (rows.reduce((a, r) => a + (r.frustration || 0), 0) / rows.length).toFixed(1) : "-";
   const completionRate = rows.length ? Math.round(rows.filter(r => r.journeyCompleted).length / rows.length * 100) : 0;
@@ -164,7 +182,7 @@ ${screenCells}
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>UT Analysis Report — Alpha 4</title>
+<title>UT Analysis Report — Alpha ${alphaVer}</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,system-ui,'Segoe UI',sans-serif;background:#f5f7fa;color:#1a2332;padding:24px}
@@ -206,7 +224,7 @@ tr:hover td{background:#f8fafc}
 </style>
 </head>
 <body>
-<h1>UT Analysis Report — Alpha 4</h1>
+<h1>UT Analysis Report — Alpha ${alphaVer}</h1>
 <p class="meta">Generated ${new Date().toISOString().slice(0, 10)} &bull; ${rows.length} sessions &bull; Fill in links and notes, then export</p>
 
 <div class="summary-grid">
@@ -291,7 +309,7 @@ function exportXlsx(){
 
   var wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,ws,'UT Sessions');
-  XLSX.writeFile(wb,'UT_Analysis_Alpha4_'+new Date().toISOString().slice(0,10)+'.xlsx');
+  XLSX.writeFile(wb,'UT_Analysis_Alpha${alphaVer}_'+new Date().toISOString().slice(0,10)+'.xlsx');
 }
 </script>
 </body>

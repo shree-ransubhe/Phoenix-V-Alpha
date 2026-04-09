@@ -68,6 +68,7 @@ enum IndiGoFonts {
     // MARK: - Nav label (Poppins Regular 10pt / lineHeight 16)
 
     static func navLabel() -> Font { .custom(poppinsRegular, size: 10) }
+    static func navLabelSemiBold() -> Font { .custom(poppinsSemiBold, size: 10) }
 
     // MARK: - Medium weight (Poppins Medium)
 

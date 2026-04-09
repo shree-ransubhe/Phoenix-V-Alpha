@@ -113,6 +113,7 @@ struct UTSessionCompleteView: View {
                     .foregroundStyle(IndiGoColors.forYouTextSecondary)
                     .multilineTextAlignment(.center)
 
+                #if !ALPHA_5_0
                 if tracker.audioConsent {
                     HStack(spacing: 8) {
                         Image(systemName: "mic.badge.xmark")
@@ -126,6 +127,7 @@ struct UTSessionCompleteView: View {
                     .background(IndiGoColors.secondaryLight)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
+                #endif
 
                 Button(action: exportData) {
                     HStack(spacing: 8) {
@@ -144,9 +146,7 @@ struct UTSessionCompleteView: View {
                     )
                 }
 
-                Text(tracker.audioConsent
-                     ? "Exports JSON session data + audio file via Email, WhatsApp, AirDrop, or Files."
-                     : "Share via Email, WhatsApp, AirDrop, or save to Files.")
+                Text("Share via Email, WhatsApp, AirDrop, or save to Files.")
                     .font(IndiGoFonts.bodyExtraSmall())
                     .foregroundStyle(IndiGoColors.forYouTextTertiary)
                     .multilineTextAlignment(.center)

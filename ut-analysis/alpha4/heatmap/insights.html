@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Phoenix Alpha 4 — Usability Insights Report</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,system-ui,'Segoe UI',sans-serif;background:#fafbfc;color:#1a2332;line-height:1.65}
+.container{max-width:860px;margin:0 auto;padding:32px 24px}
+h1{font-size:1.6rem;font-weight:800;color:#0f172a;margin-bottom:4px}
+h2{font-size:1.15rem;font-weight:700;color:#334155;margin:36px 0 14px;padding-bottom:8px;border-bottom:2px solid #e2e8f0}
+h3{font-size:.95rem;font-weight:700;color:#1e293b;display:inline}
+.subtitle{color:#64748b;font-size:.85rem;margin-bottom:28px}
+.disclaimer{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px 16px;font-size:.78rem;color:#92400e;margin-bottom:28px;line-height:1.5}
+.exec-summary{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:20px 24px;margin-bottom:8px;font-size:.85rem;line-height:1.7;color:#334155}
+.exec-summary b{color:#0f172a}
+.exec-summary ul{margin:10px 0 0 18px}
+.exec-summary li{margin-bottom:6px}
+
+.p-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:8px}
+.p-card{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px 16px}
+.p-id{font-size:.65rem;font-weight:700;color:#3b82f6;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.p-name{font-size:.9rem;font-weight:700;color:#0f172a}
+.p-meta{font-size:.72rem;color:#64748b;margin-top:4px}
+.p-cat{font-size:.68rem;color:#8b5cf6;margin-top:4px;font-style:italic}
+.p-route{font-size:.68rem;color:#0d9488;margin-top:2px}
+.p-loc{font-size:.65rem;color:#94a3b8;margin-top:2px}
+
+.theme-block{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px 22px;margin-bottom:16px}
+.theme-header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.sev{font-size:.62rem;font-weight:700;padding:3px 8px;border-radius:12px;text-transform:uppercase;letter-spacing:.3px}
+.sev-high{background:#fef2f2;color:#dc2626}.sev-med{background:#fff7ed;color:#c2410c}.sev-low{background:#f0f9ff;color:#0284c7}.sev-pos{background:#f0fdf4;color:#16a34a}
+.mention-count{font-size:.65rem;color:#94a3b8;margin-left:auto}
+.theme-interpretation{font-size:.82rem;color:#475569;line-height:1.7;margin-bottom:14px}
+.theme-interpretation b{color:#1e293b}
+.theme-evidence{border-top:1px solid #f1f5f9;padding-top:12px}
+.ev-label{font-size:.65rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
+.quote{margin-bottom:8px;padding-left:12px;border-left:3px solid #e2e8f0;font-size:.78rem;color:#475569}
+.q-text{font-style:italic}
+.q-src{display:block;font-size:.65rem;color:#94a3b8;margin-top:2px}
+
+.df-block{font-size:.8rem;color:#475569;margin-bottom:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border-left:3px solid #3b82f6}
+.df-block b{color:#1e293b}
+
+.reco-list{list-style:none;counter-reset:reco}
+.reco-list li{counter-increment:reco;margin-bottom:14px;padding:12px 16px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;font-size:.82rem;color:#334155;line-height:1.6;position:relative;padding-left:44px}
+.reco-list li::before{content:counter(reco);position:absolute;left:14px;top:12px;width:22px;height:22px;background:#1d4ed8;color:#fff;border-radius:50%;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+.reco-list li b{color:#0f172a}
+
+.toolbar{display:flex;gap:10px;margin-bottom:16px}
+.btn{padding:10px 22px;border-radius:8px;border:none;font-size:.82rem;font-weight:600;cursor:pointer;background:#1d4ed8;color:#fff;transition:all .15s}
+.btn:hover{background:#1e40af}
+.footer{margin-top:36px;padding-top:16px;border-top:1px solid #e2e8f0;font-size:.7rem;color:#94a3b8;text-align:center}
+@media print{body{background:#fff}.container{max-width:100%}.theme-block,.p-card,.exec-summary{break-inside:avoid}.toolbar{display:none}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="toolbar">
+  <button class="btn" onclick="exportWord()">Download as Word (.docx)</button>
+</div>
+
+<h1>Phoenix Alpha 4 — Usability Insights</h1>
+<p class="subtitle">Qualitative findings from 5 moderated sessions &middot; 2026-03-12 to 2026-03-17 &middot; Alpha 4</p>
+
+<div class="disclaimer">
+  <b>Note on sample size:</b> This report is based on 5 usability sessions across a diverse participant mix. While the sample is small for statistical generalisation, usability testing is designed to surface <b>qualitative patterns and user sentiments</b> — not statistical significance. The findings below are behavioural observations, not quantitative conclusions. Even 5 participants can uncover ~85% of major usability issues (Nielsen, 2000).
+</div>
+
+<h2>Executive Summary</h2>
+<div class="exec-summary">
+  <p>Across 5 sessions — spanning first-time bookers, occasional travellers, a frequent flyer, and a 55+ experienced user — the Phoenix Alpha 4 prototype <b>successfully communicates a cleaner, simpler booking experience</b> compared to the existing IndiGo app. All participants completed the booking journey, and multiple users independently praised the design's simplicity.</p>
+  <p style="margin-top:10px">However, two critical usability gaps emerged:</p>
+  <ul>
+    <li><b>Search widget discoverability:</b> The primary call-to-action for booking a flight is not self-evident. Novice users struggled to connect "Search" with "Book a flight" — one pointed to the bottom nav "Flights" tab as the expected entry point instead.</li>
+    <li><b>LOB content overload on Home:</b> Non-flight content (6EPick, hotels, cabs via partner mentions) was perceived as clutter by users who expect a flight-first experience. The strongest quote: <i>"Why don't you focus more on flight-related things?"</i></li>
+  </ul>
+  <p style="margin-top:10px">The fare family presentation, community engagement hints, and overall navigation flow received positive or neutral reception, with specific refinement opportunities documented below.</p>
+</div>
+
+<h2>Participants</h2>
+<div class="p-grid">
+    <div class="p-card">
+      <div class="p-id">UT-1</div>
+      <div class="p-name">Participant</div>
+      <div class="p-meta">Occasional traveller &middot; New with apps &middot; Age 35-44</div>
+      
+      <div class="p-route">NA</div>
+      <div class="p-loc">Non Assisted mode</div>
+    </div>
+    <div class="p-card">
+      <div class="p-id">UT-2</div>
+      <div class="p-name">Abhishek</div>
+      <div class="p-meta">Frequent traveller &middot; Comfortable with apps &middot; Age 25-34</div>
+      <div class="p-cat">Tech Savvy, GenZ, Freqent traveller</div>
+      <div class="p-route">DEL-NMI</div>
+      <div class="p-loc">Delhi IGI T1</div>
+    </div>
+    <div class="p-card">
+      <div class="p-id">UT-3</div>
+      <div class="p-name">Aghas</div>
+      <div class="p-meta">Occasional traveller &middot; Comfortable with apps &middot; Age 25-34</div>
+      <div class="p-cat">Tech Savvy, GenZ, Occasional traveller</div>
+      <div class="p-route">London -BOM- Kochi</div>
+      <div class="p-loc">BOM T2</div>
+    </div>
+    <div class="p-card">
+      <div class="p-id">UT-4</div>
+      <div class="p-name">Participant</div>
+      <div class="p-meta">Occasional traveller &middot; Comfortable with apps &middot; Age 55+</div>
+      
+      <div class="p-route">BOM-DEL</div>
+      <div class="p-loc">Delhi IGI T1</div>
+    </div>
+    <div class="p-card">
+      <div class="p-id">UT-5</div>
+      <div class="p-name">Pradip</div>
+      <div class="p-meta">Occasional traveller &middot; New with apps &middot; Age 25-34</div>
+      
+      <div class="p-route">BOM-DEL</div>
+      <div class="p-loc">BOM T2</div>
+    </div></div>
+
+<h2>Thematic Findings</h2>
+
+    <div class="theme-block" id="search-discoverability">
+      <div class="theme-header">
+        <h3>Search Widget Discoverability</h3>
+        <span class="sev sev-high">Needs Attention</span>
+        <span class="mention-count">4 mentions</span>
+      </div>
+      <div class="theme-interpretation"><b>4 of 5 participants</b> exhibited hesitation or confusion around using the Search widget to initiate a flight booking. The label "Search" does not immediately communicate "Book a flight" — especially for first-time or infrequent users. One participant (UT-5) explicitly pointed to "Flights" in the bottom navigation as the expected starting point. This is a critical affordance gap: the primary action of the app is not self-evident on the home screen.</div>
+      <div class="theme-evidence">
+        <div class="ev-label">Evidence from sessions:</div>
+        <div class="quote"><span class="q-text">&ldquo;Understands the context of having search, but messaging/lable was not clear&rdquo;</span><span class="q-src">UT-3 (Aghas)</span></div>
+<div class="quote"><span class="q-text">&ldquo;After asking to book a ticket, the user naturally started the journey by tapping on search widget.&rdquo;</span><span class="q-src">UT-3 (Aghas)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Struggeled a lot to relate Search to initiate flight booking. But pointed Flights in the navigation as starting point.&rdquo;</span><span class="q-src">UT-5 (Pradip)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Got confused with Search widget label and was not able to relate it to booking flight start point.&rdquo;</span><span class="q-src">UT-5 (Pradip)</span></div>
+      </div>
+    </div>
+    <div class="theme-block" id="lob-focus">
+      <div class="theme-header">
+        <h3>LOB Focus &amp; Content Prioritisation</h3>
+        <span class="sev sev-high">Needs Attention</span>
+        <span class="mention-count">1 mention</span>
+      </div>
+      <div class="theme-interpretation">UT-5 (novice) strongly advocated for <b>flight-first focus</b>: "Why don't you focus more on flight-related things in the app? For other LOBs there are apps — MMT, Ixigo for hotel, Uber for cabs." The 6EPick element was specifically called out as "stealing attention." UT-5's direct feedback reinforces this: "Add focus on flights more, keep less focus on other businesses." This is a recurring theme that challenges the current multi-LOB home screen strategy.</div>
+      <div class="theme-evidence">
+        <div class="ev-label">Evidence from sessions:</div>
+        <div class="quote"><span class="q-text">&ldquo;As per this user, why dont you focus more on Flight related things in the app. For other LOBs there are some apps -- MMT, Ixigo for hotel, Uber for Cabs. 6EPick is stealing attention.&rdquo;</span><span class="q-src">UT-5 (Pradip)</span></div>
+      </div>
+    </div>
+    <div class="theme-block" id="home-exploration">
+      <div class="theme-header">
+        <h3>Home Screen Exploration &amp; Engagement</h3>
+        <span class="sev sev-med">Worth Investigating</span>
+        <span class="mention-count">10 mentions</span>
+      </div>
+      <div class="theme-interpretation">The Home screen consistently received the longest dwell times (avg ~3 min across sessions), with users actively scrolling and tapping through multiple content sections. This shows <b>genuine curiosity and engagement</b> with the content layout. However, the "For You" section was perceived differently by user segments — the frequent traveller found it relevant but not eye-catching enough to trigger My Trips recall, while the novice wanted it bigger and more prominent. Content personalisation relevance (e.g., "Dubai" destination) needs validation against user context.</div>
+      <div class="theme-evidence">
+        <div class="ev-label">Evidence from sessions:</div>
+        <div class="quote"><span class="q-text">&ldquo;For you section - Not attracted enough to My trips&rdquo;</span><span class="q-src">UT-2 (Abhishek)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Community section - interaction understood&rdquo;</span><span class="q-src">UT-2 (Abhishek)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Offers section - liked keeping offers upfront, mentioned it better for clarity&rdquo;</span><span class="q-src">UT-2 (Abhishek)</span></div>
+<div class="quote"><span class="q-text">&ldquo;During Home - scrolled and interacted with all sections to explore things.&rdquo;</span><span class="q-src">UT-2 (Abhishek)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Offers section - first offer was considered as header in first glance.&rdquo;</span><span class="q-src">UT-3 (Aghas)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Community section swipe was observed and after asking user answered that he was exploring... thought some 'art' is there. Pagination number has helped building affordance.&rdquo;</span><span class="q-src">UT-3 (Aghas)</span></div>
+<div class="quote"><span class="q-text">&ldquo;User was able to understand that calendar section on Pay-mode page is tappable,&rdquo;</span><span class="q-src">UT-3 (Aghas)</span></div>
+<div class="quote"><span class="q-text">&ldquo;During the homepage the user started talking about his past exp with IndiGo&rdquo;</span><span class="q-src">UT-4 (NA)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Medical scientist, was reading newspaper (and not scrolling phone)&rdquo;</span><span class="q-src">UT-5 (Pradip)</span></div>
+<div class="quote"><span class="q-text">&ldquo;First fold (for you) section found relevant but wanted bigger in size. Tried tapping on the section also. 'Dubai' is not relatable.&rdquo;</span><span class="q-src">UT-5 (Pradip)</span></div>
+      </div>
+    </div>
+    <div class="theme-block" id="offers-loyalty">
+      <div class="theme-header">
+        <h3>Offers &amp; Loyalty Perception</h3>
+        <span class="sev sev-med">Worth Investigating</span>
+        <span class="mention-count">6 mentions</span>
+      </div>
+      <div class="theme-interpretation">The Offers section received mixed reactions across user segments. The frequent traveller appreciated upfront placement for clarity, but UT-3 (occasional) misread the first offer as a section header — suggesting the visual hierarchy between promotional and structural content needs refinement. The 55+ user (UT-4) expressed a clear sentiment: <b>"after certain age, people are not concerned about offers & loyalty points — they prefer easy to book."</b> Loyalty/offers may need adaptive prominence based on user maturity. UT-5's feedback was explicit: <b>"only best deal matters"</b> — reinforcing that transactional users want value, not marketing surface area.</div>
+      <div class="theme-evidence">
+        <div class="ev-label">Evidence from sessions:</div>
+        <div class="quote"><span class="q-text">&ldquo;Offers section - liked keeping offers upfront, mentioned it better for clarity&rdquo;</span><span class="q-src">UT-2 (Abhishek)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Offers section - first offer was considered as header in first glance.&rdquo;</span><span class="q-src">UT-3 (Aghas)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Loyalty card - for first time &amp; novice users we need better clarity in the communication.&rdquo;</span><span class="q-src">UT-3 (Aghas)</span></div>
+<div class="quote"><span class="q-text">&ldquo;User was able to differtiate the offerings in fares &amp; classes.&rdquo;</span><span class="q-src">UT-3 (Aghas)</span></div>
+<div class="quote"><span class="q-text">&ldquo;As per him, after certain age people are not concerned about offers &amp; loyalty points. They prefer easy to book solution. (Chosing ease over offers)&rdquo;</span><span class="q-src">UT-4 (NA)</span></div>
+<div class="quote"><span class="q-text">&ldquo;As per this user, why dont you focus more on Flight related things in the app. For other LOBs there are some apps -- MMT, Ixigo for hotel, Uber for Cabs. 6EPick is stealing attention.&rdquo;</span><span class="q-src">UT-5 (Pradip)</span></div>
+      </div>
+    </div>
+    <div class="theme-block" id="passenger-data">
+      <div class="theme-header">
+        <h3>Passenger Selection &amp; Historic Data</h3>
+        <span class="sev sev-med">Worth Investigating</span>
+        <span class="mention-count">4 mentions</span>
+      </div>
+      <div class="theme-interpretation">Pre-filled passenger names caused confusion for UT-3, who couldn't identify whose names were shown. In contrast, UT-2 (frequent traveller) specifically asked for historic passenger data in quick selection. This suggests <b>the feature is desired but its current implementation lacks context</b> — users need to understand the source and relationship of pre-populated names.</div>
+      <div class="theme-evidence">
+        <div class="ev-label">Evidence from sessions:</div>
+        <div class="quote"><span class="q-text">&ldquo;During Passanger details page shared some of his past experience, but liked to have historic passanger data in the quick selection.&rdquo;</span><span class="q-src">UT-2 (Abhishek)</span></div>
+<div class="quote"><span class="q-text">&ldquo;User was surprised/confused seeing some names already in the passanger selection. Was not able to get which names are there.&rdquo;</span><span class="q-src">UT-3 (Aghas)</span></div>
+<div class="quote"><span class="q-text">&ldquo;The reason mentioned for uninstalling IndiGo and AirIndia apps from phone, companies are not able to store historic data. (CDP)&rdquo;</span><span class="q-src">UT-4 (NA)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Mentioned -- he uses the most complext digital devices in health industry, which common people have not heard their names. But have not used mobile app for booking flights.&rdquo;</span><span class="q-src">UT-5 (Pradip)</span></div>
+      </div>
+    </div>
+    <div class="theme-block" id="navigation">
+      <div class="theme-header">
+        <h3>Navigation &amp; Wayfinding</h3>
+        <span class="sev sev-med">Worth Investigating</span>
+        <span class="mention-count">3 mentions</span>
+      </div>
+      <div class="theme-interpretation">UT-5 (novice) relied on the hardware/system back button rather than tapping on the date card in Payment mode, indicating the in-page navigation affordance wasn't intuitive for less tech-savvy users. UT-3 correctly identified the calendar section on the Payment page as tappable. This split suggests experienced users pick up interaction cues faster, but the design should accommodate the novice mental model too.</div>
+      <div class="theme-evidence">
+        <div class="ev-label">Evidence from sessions:</div>
+        <div class="quote"><span class="q-text">&ldquo;User was able to understand that calendar section on Pay-mode page is tappable,&rdquo;</span><span class="q-src">UT-3 (Aghas)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Struggeled a lot to relate Search to initiate flight booking. But pointed Flights in the navigation as starting point.&rdquo;</span><span class="q-src">UT-5 (Pradip)</span></div>
+<div class="quote"><span class="q-text">&ldquo;This user relied on back button more than tapping on date card in Pay mode page.&rdquo;</span><span class="q-src">UT-5 (Pradip)</span></div>
+      </div>
+    </div>
+    <div class="theme-block" id="fare-family">
+      <div class="theme-header">
+        <h3>Fare Family &amp; SRP Comprehension</h3>
+        <span class="sev sev-low">Monitor</span>
+        <span class="mention-count">5 mentions</span>
+      </div>
+      <div class="theme-interpretation">Fare family segmentation was <b>understood and appreciated</b> by users who had prior booking experience. UT-3 specifically differentiated between fare offerings on the initial SRP card. However, there is an emerging <b>primacy bias</b> — the first fare class shown (Flexi) tends to be selected by default, regardless of whether it's the best fit. This has implications for how fare options are ordered and presented.</div>
+      <div class="theme-evidence">
+        <div class="ev-label">Evidence from sessions:</div>
+        <div class="quote"><span class="q-text">&ldquo;Liked Fare Family segmentation&rdquo;</span><span class="q-src">UT-2 (Abhishek)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Studied and working in London &amp; on family visit.&rdquo;</span><span class="q-src">UT-3 (Aghas)</span></div>
+<div class="quote"><span class="q-text">&ldquo;User was able to understand the fare family segmentation in initial card.&rdquo;</span><span class="q-src">UT-3 (Aghas)</span></div>
+<div class="quote"><span class="q-text">&ldquo;User was able to differtiate the offerings in fares &amp; classes.&rdquo;</span><span class="q-src">UT-3 (Aghas)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Probability to validate in fare class selection -- First seen (Flexi) has primacy effect in selection&rdquo;</span><span class="q-src">UT-3 (Aghas)</span></div>
+      </div>
+    </div>
+    <div class="theme-block" id="community">
+      <div class="theme-header">
+        <h3>Community Section Understanding</h3>
+        <span class="sev sev-low">Monitor</span>
+        <span class="mention-count">7 mentions</span>
+      </div>
+      <div class="theme-interpretation">Community section swipe interaction was discovered by UT-3 through exploration, but the intent was unclear — the user described it as "thought some art is there." The pagination indicator did help signal that more content exists. The feature's purpose may need clearer visual framing to communicate its value proposition.</div>
+      <div class="theme-evidence">
+        <div class="ev-label">Evidence from sessions:</div>
+        <div class="quote"><span class="q-text">&ldquo;Community section - interaction understood&rdquo;</span><span class="q-src">UT-2 (Abhishek)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Community section swipe was observed and after asking user answered that he was exploring... thought some 'art' is there. Pagination number has helped building affordance.&rdquo;</span><span class="q-src">UT-3 (Aghas)</span></div>
+<div class="quote"><span class="q-text">&ldquo;After asking to book a ticket, the user naturally started the journey by tapping on search widget.&rdquo;</span><span class="q-src">UT-3 (Aghas)</span></div>
+<div class="quote"><span class="q-text">&ldquo;During the homepage the user started talking about his past exp with IndiGo&rdquo;</span><span class="q-src">UT-4 (NA)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Not particular to design but he mentioned to have easy and quick accessible things handy in the app.&rdquo;</span><span class="q-src">UT-4 (NA)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Struggeled a lot to relate Search to initiate flight booking. But pointed Flights in the navigation as starting point.&rdquo;</span><span class="q-src">UT-5 (Pradip)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Got confused with Search widget label and was not able to relate it to booking flight start point.&rdquo;</span><span class="q-src">UT-5 (Pradip)</span></div>
+      </div>
+    </div>
+    <div class="theme-block" id="simplicity">
+      <div class="theme-header">
+        <h3>Overall Simplicity &amp; Perception</h3>
+        <span class="sev sev-pos">Positive Signal</span>
+        <span class="mention-count">5 mentions</span>
+      </div>
+      <div class="theme-interpretation">Multiple participants expressed <b>positive perception of the overall design</b>. UT-2 was "impressed with simplicity." UT-4, despite being a 55+ user familiar with the existing IndiGo app, perceived the new design as "ok and better than existing." The design direction is resonating — users feel it's cleaner and easier. This is a foundational positive signal to build upon.</div>
+      <div class="theme-evidence">
+        <div class="ev-label">Evidence from sessions:</div>
+        <div class="quote"><span class="q-text">&ldquo;Impressed with simplicity&rdquo;</span><span class="q-src">UT-2 (Abhishek)</span></div>
+<div class="quote"><span class="q-text">&ldquo;During Passanger details page shared some of his past experience, but liked to have historic passanger data in the quick selection.&rdquo;</span><span class="q-src">UT-2 (Abhishek)</span></div>
+<div class="quote"><span class="q-text">&ldquo;As per him, after certain age people are not concerned about offers &amp; loyalty points. They prefer easy to book solution. (Chosing ease over offers)&rdquo;</span><span class="q-src">UT-4 (NA)</span></div>
+<div class="quote"><span class="q-text">&ldquo;Not particular to design but he mentioned to have easy and quick accessible things handy in the app.&rdquo;</span><span class="q-src">UT-4 (NA)</span></div>
+<div class="quote"><span class="q-text">&ldquo;In overall the user percieved the design ok, and better than existing.&rdquo;</span><span class="q-src">UT-4 (NA)</span></div>
+      </div>
+    </div>
+
+<h2>Direct User Feedback</h2>
+<div class="df-block"><b>UT-2</b>: 9699193976 - Abhishek</div><div class="df-block"><b>UT-3</b>: Aghas Shahu aghasshahul08@gmail.com</div><div class="df-block"><b>UT-5</b>: 1. Add focus on flights more<br>2. Keep less focus on other businesses (LOBs)<br>3. Only best deal matters</div>
+
+<h2>Recommendations</h2>
+<ol class="reco-list">
+  <li><b>Rename or supplement the Search widget</b> — Consider "Book a Flight" or a prominent CTA label that eliminates ambiguity for first-time users. Test whether a persistent "Book Now" button or a reworded search bar improves task initiation rates.</li>
+  <li><b>Re-evaluate Home screen LOB hierarchy</b> — Reduce prominence of non-flight LOBs (6EPick, hotels, cabs) on the first fold. Flight-related content should dominate. Consider adaptive layout: show LOB cross-sells only after the user has completed or explored flight content.</li>
+  <li><b>Clarify pre-populated passenger names</b> — Add contextual labels ("From your last booking" or profile association) so users understand where names come from. The feature is desired but currently confusing.</li>
+  <li><b>Refine Offers visual hierarchy</b> — Ensure the first offer card is visually distinct from section headers. Consider a "Deals for you" section label above the carousel to set context before the first card is visible.</li>
+  <li><b>Validate fare ordering for primacy bias</b> — Test whether randomising or reordering fare classes (e.g., showing the cheapest first vs. the current Flexi-first) changes selection patterns. The current order may create unintended anchoring.</li>
+  <li><b>Strengthen "For You" section prominence</b> — The personalised section resonated but was called "not big enough" by the novice user. Consider increasing card sizes or adding a brief explainer ("Based on your recent searches").</li>
+  <li><b>Age-adaptive content strategy</b> — Older users (55+) explicitly deprioritise offers and loyalty in favour of ease. Consider a simplified mode or progressive disclosure that surfaces convenience features first for this segment.</li>
+</ol>
+
+<div class="footer">
+  Phoenix UT Analysis &middot; Generated 2026-03-27 &middot; 5 sessions &middot; Alpha 4
+</div>
+</div>
+
+<script>
+function exportWord(){
+  var container=document.querySelector('.container');
+  var toolbar=document.querySelector('.toolbar');
+  if(toolbar) toolbar.style.display='none';
+
+  var wordCss=`
+    body{font-family:Calibri,Arial,sans-serif;color:#1a2332;line-height:1.6;padding:20px;font-size:11pt}
+    h1{font-size:18pt;font-weight:bold;color:#0f172a;margin-bottom:4px}
+    h2{font-size:14pt;font-weight:bold;color:#334155;margin-top:24px;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #e2e8f0}
+    h3{font-size:11pt;font-weight:bold;color:#1e293b}
+    .subtitle{color:#64748b;font-size:10pt;margin-bottom:20px}
+    .disclaimer{background:#fffbeb;border:1px solid #fde68a;padding:10px 14px;font-size:9pt;color:#92400e;margin-bottom:20px}
+    .exec-summary{background:#f8fafc;border:1px solid #e2e8f0;padding:14px 18px;margin-bottom:10px;font-size:10pt;color:#334155}
+    .exec-summary b{color:#0f172a}
+    .exec-summary ul{margin:8px 0 0 16px}
+    .exec-summary li{margin-bottom:5px}
+    .p-grid{margin-bottom:10px}
+    .p-card{border:1px solid #e2e8f0;padding:10px 14px;margin-bottom:8px;page-break-inside:avoid}
+    .p-id{font-size:8pt;font-weight:bold;color:#3b82f6;text-transform:uppercase}
+    .p-name{font-size:10pt;font-weight:bold;color:#0f172a}
+    .p-meta{font-size:8pt;color:#64748b;margin-top:3px}
+    .p-cat{font-size:8pt;color:#8b5cf6;margin-top:3px;font-style:italic}
+    .p-route{font-size:8pt;color:#0d9488;margin-top:2px}
+    .p-loc{font-size:8pt;color:#94a3b8;margin-top:2px}
+    .theme-block{border:1px solid #e2e8f0;padding:14px 18px;margin-bottom:12px;page-break-inside:avoid}
+    .theme-header{margin-bottom:10px}
+    .sev{font-size:8pt;font-weight:bold;padding:2px 6px;border:1px solid #ccc}
+    .sev-high{background:#fef2f2;color:#dc2626;border-color:#fca5a5}
+    .sev-med{background:#fff7ed;color:#c2410c;border-color:#fdba74}
+    .sev-low{background:#f0f9ff;color:#0284c7;border-color:#7dd3fc}
+    .sev-pos{background:#f0fdf4;color:#16a34a;border-color:#86efac}
+    .mention-count{font-size:8pt;color:#94a3b8}
+    .theme-interpretation{font-size:10pt;color:#475569;margin-bottom:12px}
+    .theme-interpretation b{color:#1e293b}
+    .ev-label{font-size:8pt;font-weight:bold;color:#94a3b8;text-transform:uppercase;margin-bottom:6px}
+    .quote{margin-bottom:6px;padding-left:10px;border-left:3px solid #e2e8f0;font-size:9pt;color:#475569}
+    .q-text{font-style:italic}
+    .q-src{display:block;font-size:7pt;color:#94a3b8;margin-top:2px}
+    .df-block{font-size:9pt;color:#475569;margin-bottom:6px;padding:6px 10px;background:#f8fafc;border-left:3px solid #3b82f6}
+    .df-block b{color:#1e293b}
+    .reco-list{list-style-type:decimal;margin-left:18px}
+    .reco-list li{margin-bottom:10px;font-size:10pt;color:#334155;line-height:1.5;padding:0}
+    .reco-list li b{color:#0f172a}
+    .footer{margin-top:24px;padding-top:12px;border-top:1px solid #e2e8f0;font-size:8pt;color:#94a3b8;text-align:center}
+    .toolbar{display:none}
+  `;
+
+  var content=container.innerHTML;
+
+  var docHtml='<!DOCTYPE html><html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><style>'+wordCss+'<\/style><\/head><body>'+content+'<\/body><\/html>';
+
+  var blob=new Blob(['\ufeff',docHtml],{type:'application/msword'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;
+  a.download='Phoenix_Alpha4_UT_Insights_'+new Date().toISOString().slice(0,10)+'.doc';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  if(toolbar) toolbar.style.display='flex';
+}
+</script>
+</body>
+</html>

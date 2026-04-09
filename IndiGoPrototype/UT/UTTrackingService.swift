@@ -253,6 +253,37 @@ final class UTTrackingService: ObservableObject {
 
     // MARK: - Session lifecycle
 
+    #if ALPHA_5_0
+    func startSession(demographics: UTDemographics) {
+        self.audioConsent = true
+        let id = UUID().uuidString
+        let now = iso.string(from: Date())
+        let title = buildTitle(demographics: demographics, date: Date())
+
+        payload = UTSessionPayload(
+            sessionId: id,
+            sessionTitle: title,
+            demographics: demographics,
+            deviceMetadata: captureDeviceMetadata(),
+            createdAt: now,
+            steps: [],
+            taps: [],
+            scrollDepths: [],
+            journeyCompleted: false,
+            postTaskAnswers: [],
+            audioConsent: true,
+            audioFileName: nil,
+            transcript: nil
+        )
+        sessionId = id
+        sessionStarted = true
+        sessionEnded = false
+        scrollDepthTracker.removeAll()
+
+        postToBackend(path: "/sessions", body: payload)
+        requestMicrophoneAndStartRecording(sessionTitle: title)
+    }
+    #else
     func startSession(demographics: UTDemographics, audioConsent: Bool) {
         self.audioConsent = audioConsent
         let id = UUID().uuidString
@@ -285,6 +316,7 @@ final class UTTrackingService: ObservableObject {
             requestMicrophoneAndStartRecording(sessionTitle: title)
         }
     }
+    #endif
 
     func endSession(rating: Int?, frustration: Int?, feedback: String?, postTaskAnswers: [UTPostTaskAnswer] = []) {
         leaveCurrentScreen()
@@ -356,6 +388,66 @@ final class UTTrackingService: ObservableObject {
                 UTScrollDepthEvent(screenId: screenId, maxDepth: depth, timestamp: now)
             )
         }
+    }
+
+    // MARK: - Screen snapshots (one-time per screen, for heatmap watermarks)
+
+    private var capturedScreens: Set<String> = []
+
+    func captureScreenSnapshot(screenId: String, scrollView: UIScrollView?) {
+        guard !capturedScreens.contains(screenId) else { return }
+        capturedScreens.insert(screenId)
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first
+        else { return }
+
+        if let sv = scrollView {
+            captureFullScrollContent(screenId: screenId, scrollView: sv)
+        } else {
+            let renderer = UIGraphicsImageRenderer(bounds: window.bounds)
+            let image = renderer.image { ctx in
+                window.drawHierarchy(in: window.bounds, afterScreenUpdates: true)
+            }
+            uploadScreenshot(screenId: screenId, image: image)
+        }
+    }
+
+    private func captureFullScrollContent(screenId: String, scrollView: UIScrollView) {
+        let savedOffset = scrollView.contentOffset
+        let savedFrame = scrollView.frame
+
+        let contentSize = scrollView.contentSize
+        let fullHeight = max(contentSize.height, scrollView.bounds.height)
+
+        scrollView.contentOffset = .zero
+
+        let renderer = UIGraphicsImageRenderer(
+            size: CGSize(width: scrollView.bounds.width, height: fullHeight)
+        )
+        let image = renderer.image { ctx in
+            scrollView.drawHierarchy(
+                in: CGRect(origin: .zero, size: CGSize(width: scrollView.bounds.width, height: fullHeight)),
+                afterScreenUpdates: true
+            )
+        }
+
+        scrollView.contentOffset = savedOffset
+
+        uploadScreenshot(screenId: screenId, image: image)
+    }
+
+    private func uploadScreenshot(screenId: String, image: UIImage) {
+        guard let pngData = image.pngData(),
+              let url = URL(string: "\(backendBaseURL)/screenshots/\(screenId)")
+        else { return }
+
+        var req = URLRequest(url: url)
+        req.httpMethod = "POST"
+        req.setValue("image/png", forHTTPHeaderField: "Content-Type")
+        req.httpBody = pngData
+
+        URLSession.shared.dataTask(with: req).resume()
     }
 
     // MARK: - Export

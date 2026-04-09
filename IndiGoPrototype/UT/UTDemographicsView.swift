@@ -12,14 +12,26 @@ struct UTDemographicsView: View {
     let onStart: (UTDemographics) -> Void
 
     @State private var role = "Occasional"
+    #if ALPHA_5_0
+    @State private var experience = "Sometimes"
+    #else
     @State private var experience = "Comfortable"
+    #endif
     @State private var ageBand = "25-34"
+    #if !ALPHA_5_0
     @State private var device = "Provided"
+    #endif
 
     private let roles = ["First-time", "Occasional", "Frequent"]
+    #if ALPHA_5_0
+    private let experiences = ["Never booked online", "Sometimes", "Regularly", "All the time"]
+    #else
     private let experiences = ["New", "Comfortable", "Expert"]
+    #endif
     private let ageBands = ["18-24", "25-34", "35-44", "45-54", "55+", "Prefer not to say"]
+    #if !ALPHA_5_0
     private let devices = ["Personal", "Provided"]
+    #endif
 
     var body: some View {
         ScrollView {
@@ -34,9 +46,13 @@ struct UTDemographicsView: View {
                     .foregroundStyle(IndiGoColors.forYouTextSecondary)
 
                 chipSection(title: "How often do you travel?", options: roles, selection: $role)
+                #if ALPHA_5_0
+                chipSection(title: "How often do you book flights or hotels online?", options: experiences, selection: $experience)
+                #else
                 chipSection(title: "Experience with booking apps", options: experiences, selection: $experience)
-                chipSection(title: "Age band", options: ageBands, selection: $ageBand)
                 chipSection(title: "Device", options: devices, selection: $device)
+                #endif
+                chipSection(title: "Age band", options: ageBands, selection: $ageBand)
 
                 Spacer(minLength: 24)
             }
@@ -45,12 +61,8 @@ struct UTDemographicsView: View {
         }
         .safeAreaInset(edge: .bottom) {
             Button(action: {
-                onStart(UTDemographics(
-                    role: role,
-                    experience: experience,
-                    ageBand: ageBand,
-                    device: device
-                ))
+                let demographics = buildDemographics()
+                onStart(demographics)
             }) {
                 Text("Start Session")
                     .font(IndiGoFonts.buttonMobile())
@@ -65,6 +77,14 @@ struct UTDemographicsView: View {
             .background(.ultraThinMaterial)
         }
         .background(IndiGoColors.background.ignoresSafeArea())
+    }
+
+    private func buildDemographics() -> UTDemographics {
+        #if ALPHA_5_0
+        return UTDemographics(role: role, experience: experience, ageBand: ageBand, device: "Provided")
+        #else
+        return UTDemographics(role: role, experience: experience, ageBand: ageBand, device: device)
+        #endif
     }
 
     private func chipSection(title: String, options: [String], selection: Binding<String>) -> some View {

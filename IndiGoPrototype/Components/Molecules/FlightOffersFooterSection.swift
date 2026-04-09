@@ -2,10 +2,11 @@
 //  FlightOffersFooterSection.swift
 //  IndiGoPrototype
 //
-//  Molecule – "India by IndiGo" corporate footer section.
+//  Molecule – "India by IndiGo" / "Where will you IndiGo today?"
+//  corporate footer section.
 //  Shows a dotted world map, the headline, daily-flight count,
 //  and a 2×2 grid of stat cards.
-//  Figma node: 85:6323
+//  Figma nodes: 85:6323 (Alpha 5.0), 5602:85160 (Alpha 6.1)
 //
 
 import SwiftUI
@@ -62,6 +63,8 @@ private struct AnimatedCounter: View {
     let suffix: String
     let suffixSmall: String?
     let duration: Double
+    let valueFont: Font
+    let suffixFont: Font
 
     @State private var displayValue: Int = 0
 
@@ -70,19 +73,19 @@ private struct AnimatedCounter: View {
             if let small = suffixSmall {
                 (
                     Text("\(displayValue)\(suffix)")
-                        .font(IndiGoFonts.displaySmall())
+                        .font(valueFont)
                         .tracking(-0.6)
                     + Text(small)
-                        .font(IndiGoFonts.subHeading3())
+                        .font(suffixFont)
                         .tracking(-0.4)
                 )
             } else {
                 Text("\(displayValue)\(suffix)")
-                    .font(IndiGoFonts.displaySmall())
+                    .font(valueFont)
                     .tracking(-0.6)
             }
         }
-        .foregroundStyle(IndiGoColors.footerBlue)
+        .foregroundStyle(IndiGoColors.indigoBlue)
         .onAppear { startCounting() }
     }
 
@@ -112,12 +115,22 @@ struct FlightOffersFooterSection: View {
     @State private var statCardAppeared: Set<Int> = []
     @State private var countersStarted = false
 
-    private let stats: [FooterStat] = [
-        FooterStat("96", label: "Domestic\nDestinations"),
-        FooterStat("850", suffix: " Mn+", label: "Happy\nCustomers"),
-        FooterStat("45", label: "International\nDestinations"),
-        FooterStat("400+", label: "Fleet\nStrong"),
-    ]
+    private var stats: [FooterStat] {
+        if theme.footerUsesWWYITHeadline {
+            return [
+                FooterStat("90+", label: "Domestic Destinations"),
+                FooterStat("850", suffix: " Mn+", label: "Happy Customers"),
+                FooterStat("45", label: "International Destinations"),
+                FooterStat("400+", label: "Fleet Strong"),
+            ]
+        }
+        return [
+            FooterStat("96", label: "Domestic\nDestinations"),
+            FooterStat("850", suffix: " Mn+", label: "Happy\nCustomers"),
+            FooterStat("45", label: "International\nDestinations"),
+            FooterStat("400+", label: "Fleet\nStrong"),
+        ]
+    }
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -127,10 +140,11 @@ struct FlightOffersFooterSection: View {
                 VisibilityTrigger { triggerDelightSequence() }
 
                 worldMap
+                    .padding(.top, theme.footerUsesWWYITHeadline ? 40 : 0)
                 headlineBlock
                     .padding(.top, -40)
                 statsGrid
-                    .padding(.top, IndiGoSpacing.md)
+                    .padding(.top, theme.footerUsesWWYITHeadline ? -1 : IndiGoSpacing.md)
                     .padding(.bottom, theme.footerBottomPadding)
             }
         }
@@ -141,7 +155,7 @@ struct FlightOffersFooterSection: View {
     // MARK: - World map
 
     private var worldMap: some View {
-        Image("world-map-dotted")
+        Image(theme.footerMapImageName)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(maxWidth: .infinity)
@@ -152,7 +166,42 @@ struct FlightOffersFooterSection: View {
 
     // MARK: - Headline
 
+    @ViewBuilder
     private var headlineBlock: some View {
+        if theme.footerUsesWWYITHeadline {
+            wwyitHeadline
+        } else {
+            legacyHeadline
+        }
+    }
+
+    private var wwyitHeadline: some View {
+        let screenW = UIScreen.main.bounds.width
+        let logoW = screenW * 0.5
+        let logoH = logoW * (55.0 / 180.0)
+
+        return VStack(alignment: .leading, spacing: 4) {
+            WWYITLogoView()
+                .frame(width: logoW, height: logoH)
+
+            HStack(alignment: .lastTextBaseline, spacing: 4) {
+                Text("2,200+")
+                    .font(theme.footerDailyFlightsValueFont)
+                    .tracking(-0.6)
+                Text("Daily flights")
+                    .font(theme.footerDailyFlightsLabelFont)
+            }
+            .foregroundStyle(IndiGoColors.indigoBlue)
+            .opacity(dailyFlightsRevealed ? 1 : 0)
+            .offset(x: dailyFlightsRevealed ? 0 : -30)
+        }
+        .padding(.horizontal, IndiGoSpacing.md)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .offset(y: headlineRevealed ? 0 : 40)
+        .opacity(headlineRevealed ? 1 : 0)
+    }
+
+    private var legacyHeadline: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .lastTextBaseline, spacing: 4) {
                 Text("India")
@@ -209,36 +258,22 @@ struct FlightOffersFooterSection: View {
         let revealed = statCardAppeared.contains(index)
         let comesFromLeft = index % 2 == 0
 
-        return HStack(spacing: IndiGoSpacing.sm) {
-            if countersStarted {
-                let numericValue = Int(stat.value.replacingOccurrences(of: "+", with: "")) ?? 0
-                let hasPlusSuffix = stat.value.contains("+")
-                AnimatedCounter(
-                    target: numericValue,
-                    suffix: hasPlusSuffix ? "+" : "",
-                    suffixSmall: stat.suffix,
-                    duration: 0.8
-                )
-            } else {
-                Text(" ")
-                    .font(IndiGoFonts.displaySmall())
+        return Group {
+            switch theme.footerStatCardLayout {
+            case .verticalCentered:
+                centeredStatCard(stat)
+            case .horizontalLeading:
+                horizontalStatCard(stat)
             }
-
-            Text(stat.label)
-                .font(.custom("Poppins-Regular", size: 9))
-                .foregroundStyle(IndiGoColors.footerStatLabel)
-                .lineSpacing(2)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, IndiGoSpacing.sm)
-        .padding(.vertical, IndiGoSpacing.xs)
+        .frame(maxWidth: .infinity)
+        .padding(theme.footerStatCardPadding)
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: theme.footerStatCornerRadius))
         .overlay(
             RoundedRectangle(cornerRadius: theme.footerStatCornerRadius)
-                .stroke(IndiGoColors.footerStatBorder, lineWidth: 1)
+                .stroke(theme.footerStatBorderColor, lineWidth: 1)
         )
-        .shadow(color: Color.black.opacity(0.1), radius: 1, x: 0, y: 0)
         .scaleEffect(revealed ? 1 : 0.7)
         .opacity(revealed ? 1 : 0)
         .offset(x: revealed ? 0 : (comesFromLeft ? -40 : 40))
@@ -246,6 +281,57 @@ struct FlightOffersFooterSection: View {
             .degrees(revealed ? 0 : (comesFromLeft ? -15 : 15)),
             axis: (x: 0, y: 1, z: 0)
         )
+    }
+
+    private func centeredStatCard(_ stat: FooterStat) -> some View {
+        VStack(spacing: 0) {
+            if countersStarted {
+                let numericValue = Int(stat.value.replacingOccurrences(of: "+", with: "")) ?? 0
+                let hasPlusSuffix = stat.value.contains("+")
+                AnimatedCounter(
+                    target: numericValue,
+                    suffix: hasPlusSuffix ? "+" : "",
+                    suffixSmall: stat.suffix,
+                    duration: 0.8,
+                    valueFont: theme.footerStatValueFont,
+                    suffixFont: IndiGoFonts.subHeading3()
+                )
+            } else {
+                Text(" ")
+                    .font(theme.footerStatValueFont)
+            }
+
+            Text(stat.label)
+                .font(theme.footerStatLabelFont)
+                .foregroundStyle(theme.footerStatLabelColor)
+                .multilineTextAlignment(.center)
+        }
+    }
+
+    private func horizontalStatCard(_ stat: FooterStat) -> some View {
+        HStack(spacing: IndiGoSpacing.sm) {
+            if countersStarted {
+                let numericValue = Int(stat.value.replacingOccurrences(of: "+", with: "")) ?? 0
+                let hasPlusSuffix = stat.value.contains("+")
+                AnimatedCounter(
+                    target: numericValue,
+                    suffix: hasPlusSuffix ? "+" : "",
+                    suffixSmall: stat.suffix,
+                    duration: 0.8,
+                    valueFont: theme.footerStatValueFont,
+                    suffixFont: IndiGoFonts.subHeading3()
+                )
+            } else {
+                Text(" ")
+                    .font(theme.footerStatValueFont)
+            }
+
+            Text(stat.label)
+                .font(theme.footerStatLabelFont)
+                .foregroundStyle(theme.footerStatLabelColor)
+                .lineSpacing(2)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     // MARK: - Delight animation sequence

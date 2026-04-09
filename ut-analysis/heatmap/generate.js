@@ -5,25 +5,48 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
-const RAW_DIR = path.join(ROOT, "raw");
-const SCREENS_DIR = path.join(__dirname, "screens");
+
+function resolveAlpha() {
+  const args = process.argv.slice(2);
+  const idx = args.indexOf("--alpha");
+  const ver = (idx >= 0 && args[idx + 1]) ? args[idx + 1] : "5";
+  const alphaDir = path.join(ROOT, `alpha${ver}`);
+  return {
+    ver,
+    RAW_DIR: path.join(alphaDir, "raw"),
+    SCREENS_DIR: path.join(alphaDir, "heatmap", "screens"),
+    OUT_DIR: path.join(alphaDir, "heatmap"),
+  };
+}
+
+const LEGACY_SCREENS_DIR = path.join(__dirname, "screens");
 
 const SCREEN_ORDER = [
   "HomeView",
+  "SixEPickExploreView",
+  "ProfileView",
   "BookLocationView",
   "BookDateView",
   "BookPassengerView",
   "PayModeView",
   "SRPView",
+  "SRPView-CompareFares",
+  "SRPView-FareFamily-Stretch",
+  "SRPView-FareFamily-Economy",
 ];
 
 const SCREEN_LABELS = {
   HomeView: "Home",
+  SixEPickExploreView: "6EPick Explore",
+  ProfileView: "Profile",
   BookLocationView: "Book Location",
   BookDateView: "Book Date",
   BookPassengerView: "Book Passengers",
   PayModeView: "Payment Mode",
   SRPView: "Search Results",
+  "SRPView-CompareFares": "Compare Fares (Overlay)",
+  "SRPView-FareFamily-Stretch": "Fare Family — Stretch (Overlay)",
+  "SRPView-FareFamily-Economy": "Fare Family — Economy (Overlay)",
 };
 
 const VIEWPORT_HEIGHT = 852;
@@ -32,6 +55,8 @@ const VIEWPORT_RATIO = VIEWPORT_HEIGHT / VIEWPORT_WIDTH;
 
 const KNOWN_CONTENT_RATIOS = {
   HomeView: 3.1,
+  SixEPickExploreView: 2.0,
+  ProfileView: 2.5,
   SRPView: 1.85,
   BookLocationView: 1.0,
   BookDateView: 1.0,
@@ -124,19 +149,33 @@ function imgToDataUri(filePath) {
 }
 
 function main() {
+  const alpha = resolveAlpha();
+  console.log(`Alpha ${alpha.ver} | raw: ${alpha.RAW_DIR} | screens: ${alpha.SCREENS_DIR}`);
+
   const rawDir =
-    process.argv.find((a) => a.startsWith("--raw-dir="))?.split("=")[1] || RAW_DIR;
+    process.argv.find((a) => a.startsWith("--raw-dir="))?.split("=")[1] || alpha.RAW_DIR;
+
+  const screensDir = fs.existsSync(alpha.SCREENS_DIR) && fs.readdirSync(alpha.SCREENS_DIR).length > 0
+    ? alpha.SCREENS_DIR : LEGACY_SCREENS_DIR;
+
+  fs.mkdirSync(alpha.OUT_DIR, { recursive: true });
 
   const data = aggregateTaps(rawDir);
 
   const screenImages = {};
   for (const sid of SCREEN_ORDER) {
-    screenImages[sid] = imgToDataUri(path.join(SCREENS_DIR, `${sid}.png`));
+    screenImages[sid] = imgToDataUri(path.join(screensDir, `${sid}.png`));
   }
-  screenImages["HomeView-full"] = imgToDataUri(path.join(SCREENS_DIR, "HomeView-full.png"));
-  screenImages["SRPView-full"] = imgToDataUri(path.join(SCREENS_DIR, "SRPView-full.png"));
-  screenImages["SRPView-Stretch"] = imgToDataUri(path.join(SCREENS_DIR, "SRPView-Stretch.png"));
-  screenImages["SRPView-Economy"] = imgToDataUri(path.join(SCREENS_DIR, "SRPView-Economy.png"));
+  screenImages["HomeView-full"] = imgToDataUri(path.join(screensDir, "HomeView-full.png"));
+  screenImages["SRPView-full"] = imgToDataUri(path.join(screensDir, "SRPView-full.png"));
+  screenImages["SRPView-Stretch"] = imgToDataUri(path.join(screensDir, "SRPView-Stretch.png"));
+  screenImages["SRPView-Economy"] = imgToDataUri(path.join(screensDir, "SRPView-Economy.png"));
+
+  for (const sid of SCREEN_ORDER) {
+    if (!screenImages[sid]) {
+      screenImages[sid] = imgToDataUri(path.join(screensDir, `${sid.replace(/[^a-zA-Z0-9_-]/g, "_")}.png`));
+    }
+  }
 
   const stripped = JSON.parse(JSON.stringify(data));
   Object.values(stripped.screens || {}).forEach((s) => {
@@ -144,10 +183,10 @@ function main() {
       delete s.grid;
     }
   });
-  fs.writeFileSync(path.join(__dirname, "data.json"), JSON.stringify(stripped, null, 2), "utf-8");
+  fs.writeFileSync(path.join(alpha.OUT_DIR, "data.json"), JSON.stringify(stripped, null, 2), "utf-8");
 
-  const viewPath = path.join(__dirname, "view.html");
-  fs.writeFileSync(viewPath, buildHtml(data, screenImages), "utf-8");
+  const viewPath = path.join(alpha.OUT_DIR, "view.html");
+  fs.writeFileSync(viewPath, buildHtml(data, screenImages, alpha.ver), "utf-8");
   console.log(
     "Wrote", viewPath,
     "| sessions:", data.sessionCount,
@@ -160,7 +199,8 @@ function esc(obj) {
   return JSON.stringify(obj).replace(/</g, "\\u003c").replace(/>/g, "\\u003e");
 }
 
-function buildHtml(data, screenImages) {
+function buildHtml(data, screenImages, alphaVer) {
+  alphaVer = alphaVer || "5";
   const totalSrp = data.srpOverlay.stretch + data.srpOverlay.economy;
   const stretchPct = totalSrp > 0 ? Math.round((data.srpOverlay.stretch / totalSrp) * 100) : 0;
   const economyPct = totalSrp > 0 ? 100 - stretchPct : 0;
@@ -169,7 +209,7 @@ function buildHtml(data, screenImages) {
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>UT Tap Heat Maps — Alpha 4</title>
+<title>UT Tap Heat Maps — Alpha ${alphaVer}</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,system-ui,'Segoe UI',sans-serif;background:#0c0f14;color:#d8e0ea;padding:32px 28px 60px}
@@ -213,7 +253,7 @@ h1{font-size:1.4rem;font-weight:700;letter-spacing:-.3px}
 </style>
 </head>
 <body>
-<h1>UT Tap Heat Maps — Alpha 4</h1>
+<h1>UT Tap Heat Maps — Alpha ${alphaVer}</h1>
 <p class="subtitle">Sessions: ${data.sessionCount} &nbsp;&bull;&nbsp; Dots = taps over actual screens &nbsp;&bull;&nbsp; Scrollable pages show full content height with fold markers</p>
 
 <div class="grid" id="maps"></div>

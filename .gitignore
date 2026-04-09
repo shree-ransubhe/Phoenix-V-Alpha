@@ -32,3 +32,5 @@ ut-backend/sessions/
 # UT analysis: avoid committing large/private audio
 ut-analysis/raw/*.m4a
 ut-analysis/raw/*.mp4
+ut-analysis/alpha*/raw/*.m4a
+ut-analysis/alpha*/raw/*.mp4

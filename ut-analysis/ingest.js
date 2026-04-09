@@ -5,9 +5,29 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.join(__dirname);
-const RAW_DIR = path.join(ROOT, "raw");
-const TRANSCRIPTS_DIR = path.join(ROOT, "transcripts");
-const MASTER_CSV = path.join(ROOT, "master.csv");
+
+function resolveAlpha(args) {
+  const idx = args.indexOf("--alpha");
+  const ver = (idx >= 0 && args[idx + 1]) ? args[idx + 1] : "5";
+  const dir = path.join(ROOT, `alpha${ver}`);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+    fs.mkdirSync(path.join(dir, "raw"), { recursive: true });
+    fs.mkdirSync(path.join(dir, "transcripts"), { recursive: true });
+  }
+  return {
+    ver,
+    RAW_DIR: path.join(dir, "raw"),
+    TRANSCRIPTS_DIR: path.join(dir, "transcripts"),
+    MASTER_CSV: path.join(dir, "master.csv"),
+  };
+}
+
+const LEGACY_RAW_DIR = path.join(ROOT, "raw");
+const LEGACY_MASTER_CSV = path.join(ROOT, "master.csv");
+
+let MASTER_CSV_RESOLVED = LEGACY_MASTER_CSV;
+let TRANSCRIPTS_DIR_RESOLVED = path.join(ROOT, "transcripts");
 
 const MASTER_HEADERS = [
   "sessionId",
@@ -66,10 +86,10 @@ function parseCSVLine(line) {
 }
 
 function readMaster() {
-  if (!fs.existsSync(MASTER_CSV)) {
+  if (!fs.existsSync(MASTER_CSV_RESOLVED)) {
     return { headers: MASTER_HEADERS, rows: [], bySessionId: new Map() };
   }
-  const raw = fs.readFileSync(MASTER_CSV, "utf-8");
+  const raw = fs.readFileSync(MASTER_CSV_RESOLVED, "utf-8");
   const lines = raw.split(/\r?\n/).filter((l) => l.length > 0);
   if (lines.length === 0) {
     return { headers: MASTER_HEADERS, rows: [], bySessionId: new Map() };
@@ -127,7 +147,7 @@ function writeMaster(state) {
     state.headers.forEach((h) => (out[h] = row[h]));
     lines.push(rowToCSVLine(out, state.headers));
   }
-  fs.writeFileSync(MASTER_CSV, lines.join("\n") + "\n", "utf-8");
+  fs.writeFileSync(MASTER_CSV_RESOLVED, lines.join("\n") + "\n", "utf-8");
 }
 
 function ingestFromRaw(rawDir) {
@@ -179,8 +199,8 @@ function ingestFromRaw(rawDir) {
 }
 
 function updateFromTranscripts() {
-  if (!fs.existsSync(TRANSCRIPTS_DIR)) {
-    console.log("No transcripts dir:", TRANSCRIPTS_DIR);
+  if (!fs.existsSync(TRANSCRIPTS_DIR_RESOLVED)) {
+    console.log("No transcripts dir:", TRANSCRIPTS_DIR_RESOLVED);
     return;
   }
   const state = readMaster();
@@ -190,7 +210,7 @@ function updateFromTranscripts() {
     if (t) byTitle.set(t, r);
   });
 
-  const files = fs.readdirSync(TRANSCRIPTS_DIR).filter(
+  const files = fs.readdirSync(TRANSCRIPTS_DIR_RESOLVED).filter(
     (f) => f.endsWith(".txt") || f.endsWith(".md")
   );
   let updated = 0;
@@ -201,7 +221,7 @@ function updateFromTranscripts() {
       console.warn("No matching session for transcript:", f);
       continue;
     }
-    const fp = path.join(TRANSCRIPTS_DIR, f);
+    const fp = path.join(TRANSCRIPTS_DIR_RESOLVED, f);
     const text = fs.readFileSync(fp, "utf-8").trim();
     row.transcript = text;
     if (!row.quick_observations) {
@@ -218,12 +238,18 @@ function updateFromTranscripts() {
 
 function main() {
   const args = process.argv.slice(2);
-  let rawDir = RAW_DIR;
+  const alpha = resolveAlpha(args);
+  console.log(`Alpha ${alpha.ver} | raw: ${alpha.RAW_DIR} | csv: ${alpha.MASTER_CSV}`);
+
+  let rawDir = alpha.RAW_DIR;
   const updateTranscripts = args.includes("--update-transcripts");
   const rawDirIdx = args.indexOf("--raw-dir");
   if (rawDirIdx >= 0 && args[rawDirIdx + 1]) {
     rawDir = args[rawDirIdx + 1];
   }
+
+  MASTER_CSV_RESOLVED = alpha.MASTER_CSV;
+  TRANSCRIPTS_DIR_RESOLVED = alpha.TRANSCRIPTS_DIR;
 
   if (updateTranscripts) {
     updateFromTranscripts();

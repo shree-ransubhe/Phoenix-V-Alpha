@@ -421,6 +421,10 @@ private struct CompareClassesOverlay: View {
                 style: .continuous
             )
         )
+        #if UT_VARIANT
+        .utTapCapture(screenId: "SRPView-CompareFares")
+        .utStepTracking(screenId: "SRPView-CompareFares")
+        #endif
     }
 
     private func dismissWithAnimation() {
@@ -443,6 +447,13 @@ private struct FareFamilyOverlay: View {
 
     @State private var appeared = false
     @State private var dragOffset: CGFloat = 0
+
+    private var overlayScreenId: String {
+        switch fareType {
+        case .stretch: return "SRPView-FareFamily-Stretch"
+        case .economy: return "SRPView-FareFamily-Economy"
+        }
+    }
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -505,6 +516,10 @@ private struct FareFamilyOverlay: View {
                 style: .continuous
             )
         )
+        #if UT_VARIANT
+        .utTapCapture(screenId: overlayScreenId)
+        .utStepTracking(screenId: overlayScreenId)
+        #endif
     }
 
     private func dismissWithAnimation() {

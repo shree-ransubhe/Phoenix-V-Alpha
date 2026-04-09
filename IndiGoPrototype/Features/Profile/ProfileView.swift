@@ -2,9 +2,15 @@
 //  ProfileView.swift
 //  IndiGoPrototype
 //
-//  Feature – My Profile page with sticky header, search/filter bar, user info,
-//  e-wallet, and categorized links list. Search filters links by metadata
-//  keywords (aviation-contextual) in addition to title matching.
+//  Feature – My Profile page with sticky header, user info, e-wallet,
+//  and categorized links list. Search filters links by metadata keywords
+//  (aviation-contextual) in addition to title matching.
+//
+//  Alpha 6.1 (Figma 5680:63819 / 5658:62153):
+//    Header: Close + "My Profile" + 6Eskai + Search icon
+//    Search bar hidden by default, revealed on search icon tap
+//    Avatar: profile-avatar-61, Wallet icon: bluchip-coin
+//    Link icon color: #25304B, Divider: #000099 at 12% opacity
 //
 
 import SwiftUI
@@ -214,14 +220,17 @@ private struct HeaderBottomYKey: PreferenceKey {
 struct ProfileView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var searchText = ""
+    @State private var showSearchBar = false
     @State private var searchBarMinY: CGFloat = .infinity
     @State private var headerBottomY: CGFloat = 0
 
     private let powderBlue = Color(hex: "AFE4FF")
     private let borderColor = Color(hex: "000099")
+    private let linkIconColor = Color(hex: "25304B")
+    private let linkDividerColor = Color(hex: "000099").opacity(0.12)
 
     private var isSearchBarSticky: Bool {
-        searchBarMinY <= headerBottomY + 1
+        showSearchBar && searchBarMinY <= headerBottomY + 1
     }
 
     private var filteredSections: [ProfileLinkSection] {
@@ -250,15 +259,18 @@ struct ProfileView: View {
                     profileInfoSection
                     walletSection
 
-                    searchBarInContent
-                        .background(
-                            GeometryReader { geo in
-                                Color.clear.preference(
-                                    key: SearchBarMinYKey.self,
-                                    value: geo.frame(in: .named(coordSpace)).minY
-                                )
-                            }
-                        )
+                    if showSearchBar {
+                        searchBarInContent
+                            .background(
+                                GeometryReader { geo in
+                                    Color.clear.preference(
+                                        key: SearchBarMinYKey.self,
+                                        value: geo.frame(in: .named(coordSpace)).minY
+                                    )
+                                }
+                            )
+                            .transition(.opacity.combined(with: .move(edge: .top)))
+                    }
 
                     linksListContent
                     versionLabel
@@ -289,6 +301,9 @@ struct ProfileView: View {
             }
         }
         .navigationBarBackButtonHidden()
+        #if UT_VARIANT
+        .utInstrumented(screenId: "ProfileView")
+        #endif
     }
 
     // MARK: - Sticky header
@@ -311,7 +326,23 @@ struct ProfileView: View {
 
             Spacer()
 
-            Color.clear.frame(width: 53, height: 32)
+            HStack(spacing: 16) {
+                SixEskaiButton()
+
+                Button(action: {
+                    HapticManager.lightImpact()
+                    if showSearchBar { searchText = "" }
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        showSearchBar.toggle()
+                    }
+                }) {
+                    Image("icon-profile-search")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 32, height: 32)
+                }
+                .buttonStyle(.plain)
+            }
         }
         .padding(.horizontal, IndiGoSpacing.lg)
         .padding(.vertical, IndiGoSpacing.sm)
@@ -319,6 +350,7 @@ struct ProfileView: View {
             Rectangle()
                 .fill(.ultraThinMaterial)
                 .opacity(0.95)
+                .ignoresSafeArea(edges: .top)
                 .shadow(color: IndiGoColors.cardSoftShadow, radius: 14, x: 0, y: 0)
         )
     }
@@ -354,20 +386,30 @@ struct ProfileView: View {
 
             TextField("Search", text: $searchText)
                 .font(IndiGoFonts.body())
-                .foregroundStyle(IndiGoColors.indigoBlue)
+                .foregroundStyle(Color(hex: "25304B"))
                 .autocorrectionDisabled()
 
             if !searchText.isEmpty {
                 Button(action: { searchText = "" }) {
-                    Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 16))
-                        .foregroundStyle(IndiGoColors.textDarkGrey)
+                    Text("Clear")
+                        .font(.custom("Poppins-Medium", size: 12))
+                        .foregroundStyle(IndiGoColors.indigoBlue)
                 }
-            } else {
-                Image(systemName: "mic")
-                    .font(.system(size: 18))
-                    .foregroundStyle(IndiGoColors.indigoBlue)
+                .buttonStyle(.plain)
             }
+
+            Button(action: {
+                searchText = ""
+                withAnimation(.easeInOut(duration: 0.25)) {
+                    showSearchBar = false
+                }
+            }) {
+                Image(systemName: "xmark")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundStyle(IndiGoColors.indigoBlue)
+                    .frame(width: 24, height: 24)
+            }
+            .buttonStyle(.plain)
         }
         .padding(.horizontal, IndiGoSpacing.md)
         .frame(height: 60)
@@ -391,7 +433,7 @@ struct ProfileView: View {
     private var profileInfoSection: some View {
         VStack(spacing: IndiGoSpacing.md) {
             HStack(spacing: IndiGoSpacing.sm) {
-                Image("profile-avatar")
+                Image("profile-avatar-61")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 48, height: 48)
@@ -413,9 +455,9 @@ struct ProfileView: View {
                     .foregroundStyle(IndiGoColors.textDarkGrey)
             }
 
-            Divider()
+            Rectangle()
+                .fill(linkDividerColor)
                 .frame(height: 1)
-                .background(powderBlue)
         }
         .padding(.horizontal, IndiGoSpacing.md)
         .padding(.top, IndiGoSpacing.md)
@@ -426,9 +468,9 @@ struct ProfileView: View {
     private var walletSection: some View {
         VStack(spacing: IndiGoSpacing.md) {
             HStack(spacing: IndiGoSpacing.sm) {
-                Image(systemName: "indianrupeesign.circle.fill")
-                    .font(.system(size: 40))
-                    .foregroundStyle(Color(hex: "FFD700"))
+                Image("bluchip-coin")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
                     .frame(width: 48, height: 48)
 
                 VStack(alignment: .leading, spacing: 2) {
@@ -458,9 +500,9 @@ struct ProfileView: View {
                     .foregroundStyle(IndiGoColors.textDarkGrey)
             }
 
-            Divider()
+            Rectangle()
+                .fill(linkDividerColor)
                 .frame(height: 1)
-                .background(powderBlue)
         }
         .padding(.horizontal, IndiGoSpacing.md)
         .padding(.top, IndiGoSpacing.md)
@@ -487,20 +529,20 @@ struct ProfileView: View {
                 .padding(.bottom, IndiGoSpacing.xxs)
 
             VStack(spacing: 0) {
-                ForEach(section.items) { item in
-                    linkRow(item)
+                ForEach(Array(section.items.enumerated()), id: \.element.id) { index, item in
+                    linkRow(item, showDivider: index < section.items.count - 1)
                 }
             }
             .padding(.horizontal, IndiGoSpacing.md)
         }
     }
 
-    private func linkRow(_ item: ProfileLinkItem) -> some View {
+    private func linkRow(_ item: ProfileLinkItem, showDivider: Bool = true) -> some View {
         Button(action: {}) {
             HStack(spacing: IndiGoSpacing.md) {
                 Image(systemName: item.iconName)
                     .font(.system(size: 14))
-                    .foregroundStyle(item.isDestructive ? Color(hex: "C3272E") : IndiGoColors.indigoBlue)
+                    .foregroundStyle(item.isDestructive ? Color(hex: "C3272E") : linkIconColor)
                     .frame(width: 16, height: 16)
 
                 Text(item.title)
@@ -523,9 +565,11 @@ struct ProfileView: View {
             .padding(.horizontal, IndiGoSpacing.md)
             .padding(.vertical, IndiGoSpacing.lg)
             .overlay(alignment: .bottom) {
-                Rectangle()
-                    .fill(powderBlue)
-                    .frame(height: 1)
+                if showDivider {
+                    Rectangle()
+                        .fill(linkDividerColor)
+                        .frame(height: 1)
+                }
             }
         }
         .buttonStyle(.plain)

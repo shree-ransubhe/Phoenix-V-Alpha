@@ -32,6 +32,7 @@ struct UTJourneyCompleteOverlay: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 8)
 
+                #if !ALPHA_5_0
                 if UTTrackingService.shared.audioConsent {
                     HStack(spacing: 6) {
                         Image(systemName: "mic.fill")
@@ -44,6 +45,7 @@ struct UTJourneyCompleteOverlay: View {
                     .background(IndiGoColors.secondaryLight)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
+                #endif
 
                 Button {
                     UTTrackingService.shared.endSession(

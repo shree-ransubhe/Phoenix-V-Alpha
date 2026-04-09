@@ -2,16 +2,17 @@
 //  OneClickAwayCard.swift
 //  IndiGoPrototype
 //
-//  Atom – destination card for the "One Click Away" carousel.
-//  Reads all visual knobs from AlphaTheme so 4.1 and 5.0 render
+//  Atom – destination card for the "One Click Away" / "Trending destinations" carousel.
+//  Reads all visual knobs from AlphaTheme so 4.1, 5.0 and 6.1 render
 //  different layouts from the same view code.
-//  Figma nodes: 826:9866 (4.1), 2440:40859 (5.0)
+//  Figma nodes: 826:9866 (4.1), 2440:40859 (5.0), 5617:92670 (6.1)
 //
 
 import SwiftUI
 
 struct OneClickAwayCard: View {
     let destination: Destination
+    var onTap: () -> Void = {}
     var onExplore: () -> Void = {}
     var onBook: () -> Void = {}
 
@@ -21,6 +22,89 @@ struct OneClickAwayCard: View {
     private var h: CGFloat { theme.oneClickCardHeight }
 
     var body: some View {
+        if theme.oneClickUsesLightCards {
+            lightCard
+                .contentShape(Rectangle())
+                .onTapGesture { onTap() }
+        } else {
+            darkCard
+                .contentShape(Rectangle())
+                .onTapGesture { onTap() }
+        }
+    }
+
+    // MARK: - Light Card (6.1)
+
+    private var lightCard: some View {
+        VStack(spacing: 0) {
+            ZStack(alignment: .bottom) {
+                lightCardImage
+                    .frame(width: w, height: w)
+                    .clipped()
+
+                Image(theme.oneClickCtaIconName)
+                    .resizable()
+                    .renderingMode(.original)
+                    .frame(
+                        width: theme.oneClickCtaCircleSize,
+                        height: theme.oneClickCtaCircleSize
+                    )
+                    .background(
+                        Circle()
+                            .fill(.white)
+                            .frame(
+                                width: theme.oneClickCtaCircleSize + 8,
+                                height: theme.oneClickCtaCircleSize + 8
+                            )
+                    )
+                    .offset(y: theme.oneClickCtaCircleSize / 2)
+            }
+
+            VStack(spacing: IndiGoSpacing.xxs) {
+                Text(destination.name)
+                    .font(theme.oneClickCardNameFont)
+                    .foregroundStyle(IndiGoColors.indigoBlue)
+
+                Text(destination.discountedPrice)
+                    .font(theme.oneClickCardPriceFont)
+                    .foregroundStyle(Color(hex: "25304B"))
+
+                Text(destination.dateRange)
+                    .font(IndiGoFonts.bodyExtraSmall())
+                    .foregroundStyle(Color(hex: "4B5772"))
+            }
+            .frame(maxWidth: .infinity)
+            .multilineTextAlignment(.center)
+            .padding(.top, IndiGoSpacing.md + theme.oneClickCtaCircleSize / 2)
+            .padding(.horizontal, IndiGoSpacing.md)
+            .padding(.bottom, IndiGoSpacing.md)
+        }
+        .frame(width: w)
+        .background(.white)
+        .clipShape(RoundedRectangle(cornerRadius: theme.oneClickCardCornerRadius))
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.oneClickCardCornerRadius)
+                .stroke(theme.oneClickLightCardBorderColor, lineWidth: 1)
+        )
+    }
+
+    @ViewBuilder
+    private var lightCardImage: some View {
+        if UIImage(named: destination.imageName) != nil {
+            Image(destination.imageName)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: w, height: w)
+        } else {
+            let colorIndex = abs(destination.id.hashValue) % Self.fallbackColors.count
+            Self.fallbackColors[colorIndex]
+                .frame(width: w, height: w)
+        }
+    }
+
+    // MARK: - Dark Card (4.1 / 5.0)
+
+    private var darkCard: some View {
         ZStack(alignment: .bottom) {
             backgroundImage
             gradientOverlay
@@ -33,8 +117,6 @@ struct OneClickAwayCard: View {
             radius: theme.oneClickCardShadowRadius
         )
     }
-
-    // MARK: - Background
 
     private static let fallbackColors: [Color] = [
         Color(hex: "1A6B8A"), Color(hex: "8B4513"), Color(hex: "2E5045"),
@@ -71,7 +153,7 @@ struct OneClickAwayCard: View {
         )
     }
 
-    // MARK: - Content
+    // MARK: - Content (dark card)
 
     private var cardContent: some View {
         VStack(alignment: .leading, spacing: theme.oneClickCardDateFirst ? IndiGoSpacing.xl : IndiGoSpacing.sm) {

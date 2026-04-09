@@ -12,6 +12,7 @@ struct Alpha41Theme: AlphaTheme {
 
     // -- Global Page Layout --------------------------------------------
 
+    let pageBackgroundColor: Color = IndiGoColors.background  // white
     let pageHorizontalPadding: CGFloat = 20     // IndiGoSpacing.lg
     let sectionToSectionSpacing: CGFloat = 8    // IndiGoSpacing.xs (original HomeView VStack spacing)
     let titleToContentSpacing: CGFloat = 8      // IndiGoSpacing.xs
@@ -34,6 +35,15 @@ struct Alpha41Theme: AlphaTheme {
     let headerShadowRadius: CGFloat = 8
     let headerShadowY: CGFloat = 4
 
+    // -- Search Widget (defaults: text-pill mode) ----------------------
+
+    let searchUsesFromToMode: Bool = false
+    let searchShowsLOBTabs: Bool = false
+    let searchBarHeight: CGFloat = 60
+    let searchBarCornerRadius: CGFloat = 12
+    let searchMicButtonWidth: CGFloat = 56
+    let searchMicButtonHeight: CGFloat = 40
+
     // -- For You -------------------------------------------------------
 
     let forYouSectionSpacing: CGFloat = 8   // IndiGoSpacing.xs
@@ -46,6 +56,16 @@ struct Alpha41Theme: AlphaTheme {
     let forYouRecentSearchCardWidth: CGFloat = 200
     let forYouRecentSearchCardHeight: CGFloat = 84
     let forYouRecentSearchCardSpacing: CGFloat = 8
+
+    let forYouRecentSearchUsesSquareCards: Bool = false
+    let forYouRecentSearchCardBorderColor: Color = .clear
+    let forYouRecentSearchCardCornerRadius: CGFloat = 8
+    let forYouRecentSearchCardPadding: CGFloat = 16
+    let forYouRecentSearchShowsHideCta: Bool = false
+    var forYouRecentSearchTitleFont: Font { IndiGoFonts.displayXS() }
+    let forYouRecentSearchTitleColor: Color = Color(hex: "25304B")
+    let forYouRecentSearchTopPadding: CGFloat = 0
+    let forYouRecentSearchBottomPadding: CGFloat = 0
 
     // -- 6E Pick -------------------------------------------------------
 
@@ -83,6 +103,15 @@ struct Alpha41Theme: AlphaTheme {
     let bestOffersChevronSize: CGFloat = 32
     let bestOffersProminentCornerRadius: CGFloat = 16
 
+    let bestOffersUsesBannerCarousel: Bool = false
+    let bestOffersBannerWidth: CGFloat = 343
+    let bestOffersBannerHeight: CGFloat = 194
+    let bestOffersBannerSpacing: CGFloat = 7
+    let bestOffersBannerCornerRadius: CGFloat = 8
+    let bestOffersBottomBorderColor: Color = .clear
+    let bestOffersCtaIconName: String = "icon-accordion-right"
+    let bestOffersCtaIconSize: CGFloat = 16
+
     // -- BluChip -------------------------------------------------------
 
     let bluChipCardPadding: CGFloat = 12
@@ -93,6 +122,18 @@ struct Alpha41Theme: AlphaTheme {
     let bluChipProgressBarHeight: CGFloat = 12
     let bluChipHorizontalPadding: CGFloat = 20  // IndiGoSpacing.lg
     let bluChipBottomPadding: CGFloat = 16      // IndiGoSpacing.md
+
+    let bluChipUsesDarkCard: Bool = false
+    let bluChipDarkCardSpacing: CGFloat = 16
+    let bluChipLogoSize: CGFloat = 64
+    let bluChipBalanceFontSize: CGFloat = 48
+    let bluChipDividerColor: Color = Color.white.opacity(0.24)
+    let bluChipTierColor: Color = Color(hex: "9CD9FF")
+    let bluChipIdColor: Color = Color(hex: "EAF8FF")
+    let bluChipLabelColor: Color = Color(hex: "EAF8FF")
+    let bluChipBalanceColor: Color = Color(hex: "AFE4FF")
+    let bluChipInfoTextColor: Color = .white
+    let bluChipCtaColor: Color = Color(hex: "AFE4FF")
 
     // -- Community -----------------------------------------------------
 
@@ -105,6 +146,8 @@ struct Alpha41Theme: AlphaTheme {
     let communityHorizontalPadding: CGFloat = 20    // IndiGoSpacing.lg
     let communityBottomPadding: CGFloat = 20        // IndiGoSpacing.lg
     let communityShowsTitle: Bool = false
+    let communityShowsSectionHeading: Bool = false
+    var communitySubtitleFont: Font { IndiGoFonts.bodyExtraSmall() }
     let communityShowsNoFilterLogo: Bool = true
     let communityShowsCollapsedOverlay: Bool = false
     var communityHeadingFont: Font { IndiGoFonts.displayXS() }
@@ -145,6 +188,16 @@ struct Alpha41Theme: AlphaTheme {
     let oneClickCardButtonCornerRadius: CGFloat = 500   // capsule
     let oneClickShowsViewAllCard: Bool = false
 
+    let oneClickUsesLightCards: Bool = false
+    let oneClickLightCardBorderColor: Color = .clear
+    let oneClickCtaCircleSize: CGFloat = 32
+    let oneClickCtaIconName: String = "icon-direction-ne-circle"
+    let oneClickCtaIconSize: CGFloat = 16
+    let oneClickSectionLabel: String = "One Click Away"
+    let oneClickShowsSubtitle: Bool = true
+    let oneClickViewAllCircleSize: CGFloat = 48
+    let oneClickViewAllIconSize: CGFloat = 28
+
     // -- Flight Offers Footer ------------------------------------------
 
     let footerStatsGridSpacing: CGFloat = 12    // IndiGoSpacing.sm
@@ -152,6 +205,34 @@ struct Alpha41Theme: AlphaTheme {
     let footerBottomPadding: CGFloat = 120
     let footerStatCornerRadius: CGFloat = 12    // IndiGoSpacing.radiusMd
     let footerNegatesInterSectionGap: Bool = false
+
+    let footerMapImageName: String = "world-map-dotted"
+    let footerUsesWWYITHeadline: Bool = false
+    let footerStatCardLayout: FooterStatCardLayout = .horizontalLeading
+    var footerStatBorderColor: Color { IndiGoColors.footerStatBorder }
+    var footerStatLabelColor: Color { IndiGoColors.footerStatLabel }
+    var footerStatLabelFont: Font { .custom("Poppins-Regular", size: 9) }
+    var footerStatValueFont: Font { IndiGoFonts.displaySmall() }
+    let footerStatCardPadding: CGFloat = 8
+    var footerDailyFlightsValueFont: Font { IndiGoFonts.displaySmall() }
+    var footerDailyFlightsLabelFont: Font { IndiGoFonts.bodyMedium() }
+
+    // -- Bottom Nav Bar ------------------------------------------------
+
+    let navShowsLiquidGlass: Bool = true
+    let navActiveExploreIconAsset: String = "nav-explore"
+    let navActiveFlightsIconAsset: String = "nav-flights"
+    var navActiveLabelFont: Font { IndiGoFonts.navLabel() }
+    var navInactiveLabelFont: Font { IndiGoFonts.navLabel() }
+    var navActiveTextColor: Color { IndiGoColors.textIndigoBlue }
+    var navInactiveTextColor: Color { IndiGoColors.textDarkGrey }
+    var navActiveShadowColor: Color { .clear }
+    let navActiveShadowRadius: CGFloat = 0
+    var navSixEPickBgColor: Color { IndiGoColors.backgroundBase }
+    var navSixEPickFgColor: Color { .white }
+    let navFourthTabLabel: String = "Check-in"
+    let navFourthTabIcon: String = "nav-checkin"
+    let navFourthTabIconIsOriginal: Bool = false
 
     // -- Section ordering (original order) -----------------------------
 

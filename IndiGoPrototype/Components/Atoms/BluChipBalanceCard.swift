@@ -3,7 +3,7 @@
 //  IndiGoPrototype
 //
 //  Atom – IndiGo BluChip loyalty balance card.
-//  Figma node: 1033:10441
+//  Figma nodes: 1033:10441 (4.1/5.0), 5602:85032 (6.1)
 //
 
 import SwiftUI
@@ -11,10 +11,12 @@ import SwiftUI
 struct BluChipBalanceCard: View {
     let balance: String
     let tierName: String
-    let progressFraction: CGFloat   // 0…1
+    let loyaltyId: String
+    let progressFraction: CGFloat
     let maxPoints: String
-    let unlockMessage: String       // e.g. "Only 200 points away to unlock"
-    let unlockHighlight: String     // e.g. "20 passes"
+    let unlockMessage: String
+    let unlockHighlight: String
+    let infoMessage: String
     @Environment(\.alphaTheme) private var theme
 
     @State private var starRotation: Double = 0
@@ -22,6 +24,125 @@ struct BluChipBalanceCard: View {
     @State private var hasAppeared = false
 
     var body: some View {
+        if theme.bluChipUsesDarkCard {
+            alpha61Card
+        } else {
+            alpha41Card
+        }
+    }
+
+    // MARK: - Alpha 6.1 Dark Card (Figma 5602:85032)
+
+    private var alpha61Card: some View {
+        VStack(alignment: .leading, spacing: theme.bluChipDarkCardSpacing) {
+            alpha61TierRow
+            alpha61Divider
+            alpha61InfoSection
+            alpha61Divider
+            alpha61SeeActivityCTA
+        }
+        .padding(theme.bluChipCardPadding)
+        .background(Color.black)
+        .clipShape(RoundedRectangle(cornerRadius: theme.bluChipCornerRadius))
+    }
+
+    // Figma 5602:92398 — Tier stage + Loyalty ID
+    private var alpha61TierRow: some View {
+        HStack {
+            Text(tierName)
+                .font(.custom("Poppins-Medium", size: 12))
+                .foregroundStyle(theme.bluChipTierColor)
+                .frame(height: 24)
+
+            Spacer()
+
+            HStack(spacing: 4) {
+                Text("ID: \(loyaltyId)")
+                    .font(.custom("Poppins-Medium", size: 12))
+                    .foregroundStyle(theme.bluChipIdColor)
+
+                Button(action: {
+                    UIPasteboard.general.string = loyaltyId
+                }) {
+                    Image("icon-bluchip-copy")
+                        .renderingMode(.template)
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundStyle(.white)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+
+    private var alpha61Divider: some View {
+        Rectangle()
+            .fill(theme.bluChipDividerColor)
+            .frame(height: 1)
+    }
+
+    // Figma 5602:92404 — Balance + info message + logo
+    private var alpha61InfoSection: some View {
+        HStack(alignment: .top, spacing: theme.bluChipDarkCardSpacing) {
+            VStack(alignment: .leading, spacing: theme.bluChipDarkCardSpacing) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("IndiGo BluChip balance")
+                        .font(.custom("Poppins-Regular", size: 12))
+                        .foregroundStyle(theme.bluChipLabelColor)
+
+                    Text(balance)
+                        .font(.custom("BauhausStd-Medium", size: theme.bluChipBalanceFontSize))
+                        .foregroundStyle(theme.bluChipBalanceColor)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
+                }
+
+                HStack(alignment: .top, spacing: 4) {
+                    Image("icon-bluchip-info")
+                        .renderingMode(.template)
+                        .resizable()
+                        .frame(width: 16, height: 16)
+                        .foregroundStyle(.white)
+
+                    Text(infoMessage)
+                        .font(.custom("Poppins-Regular", size: 12))
+                        .foregroundStyle(theme.bluChipInfoTextColor)
+                        .lineSpacing(4)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+
+            Spacer(minLength: 0)
+
+            Image("bluchip-logo")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: theme.bluChipLogoSize, height: theme.bluChipLogoSize)
+                .clipped()
+        }
+    }
+
+    // Figma 5602:92412 — See activity CTA
+    private var alpha61SeeActivityCTA: some View {
+        Button(action: {}) {
+            HStack(spacing: 4) {
+                Text("See activity")
+                    .font(.custom("Poppins-Medium", size: 12))
+                    .foregroundStyle(theme.bluChipCtaColor)
+
+                Image("icon-bluchip-arrow-ne")
+                    .renderingMode(.template)
+                    .resizable()
+                    .frame(width: 16, height: 16)
+                    .foregroundStyle(theme.bluChipCtaColor)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: - Alpha 4.1 / 5.0 Light Card (Figma 1033:10441)
+
+    private var alpha41Card: some View {
         VStack(alignment: .leading, spacing: 8) {
             topRow
             titleAndBalance
@@ -128,18 +249,15 @@ struct BluChipBalanceCard: View {
                 let filledTicks = Int(progressFraction * CGFloat(tickCount))
 
                 ZStack {
-                    // Track
                     Capsule()
                         .fill(Color(hex: "202020").opacity(0.08))
                         .frame(height: barHeight)
 
-                    // Fill
                     Capsule()
                         .fill(IndiGoColors.indigoBlue)
                         .frame(width: filledWidth, height: barHeight)
                         .frame(maxWidth: .infinity, alignment: .leading)
 
-                    // Tick dots centered over the bar
                     HStack(spacing: 33) {
                         ForEach(0..<tickCount, id: \.self) { i in
                             Circle()
@@ -381,14 +499,32 @@ private struct SparkleShape: Shape {
 
 // MARK: - Preview
 
-#Preview {
+#Preview("Alpha 4.1 / 5.0") {
     BluChipBalanceCard(
         balance: "67,440",
         tierName: "Blu 3",
+        loyaltyId: "2582447",
         progressFraction: 0.63,
         maxPoints: "100,000",
         unlockMessage: "Only 200 points away to unlock",
-        unlockHighlight: "20 passes"
+        unlockHighlight: "20 passes",
+        infoMessage: "You're 550 IndiGo BluChips away from a free flight to Goa!"
     )
     .padding(20)
+}
+
+#Preview("Alpha 6.1 Dark Card") {
+    BluChipBalanceCard(
+        balance: "17,440",
+        tierName: "Blu 3",
+        loyaltyId: "2582447",
+        progressFraction: 0.63,
+        maxPoints: "100,000",
+        unlockMessage: "Only 200 points away to unlock",
+        unlockHighlight: "20 passes",
+        infoMessage: "You're 550 IndiGo BluChips away from a free flight to Goa!"
+    )
+    .padding(16)
+    .background(Color(hex: "F5F8FC"))
+    .environment(\.alphaTheme, Alpha61Theme())
 }

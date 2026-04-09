@@ -24,12 +24,20 @@ enum HomeSection: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
+// MARK: - Footer stat card layout variants
+
+enum FooterStatCardLayout {
+    case horizontalLeading   // HStack, left-aligned (Alpha 4.1 / 5.0)
+    case verticalCentered    // VStack, center-aligned (Alpha 6.1+)
+}
+
 // MARK: - Theme protocol
 
 protocol AlphaTheme {
 
     // -- Global Page Layout (from Figma spacing anatomy) ---------------
 
+    var pageBackgroundColor: Color { get }
     var pageHorizontalPadding: CGFloat { get }
     var sectionToSectionSpacing: CGFloat { get }
     var titleToContentSpacing: CGFloat { get }
@@ -52,6 +60,15 @@ protocol AlphaTheme {
     var headerShadowRadius: CGFloat { get }
     var headerShadowY: CGFloat { get }
 
+    // -- Search Widget (Alpha 6.1+) ------------------------------------
+
+    var searchUsesFromToMode: Bool { get }
+    var searchShowsLOBTabs: Bool { get }
+    var searchBarHeight: CGFloat { get }
+    var searchBarCornerRadius: CGFloat { get }
+    var searchMicButtonWidth: CGFloat { get }
+    var searchMicButtonHeight: CGFloat { get }
+
     // -- For You -------------------------------------------------------
 
     var forYouSectionSpacing: CGFloat { get }
@@ -64,6 +81,16 @@ protocol AlphaTheme {
     var forYouRecentSearchCardWidth: CGFloat { get }
     var forYouRecentSearchCardHeight: CGFloat { get }
     var forYouRecentSearchCardSpacing: CGFloat { get }
+
+    var forYouRecentSearchUsesSquareCards: Bool { get }
+    var forYouRecentSearchCardBorderColor: Color { get }
+    var forYouRecentSearchCardCornerRadius: CGFloat { get }
+    var forYouRecentSearchCardPadding: CGFloat { get }
+    var forYouRecentSearchShowsHideCta: Bool { get }
+    var forYouRecentSearchTitleFont: Font { get }
+    var forYouRecentSearchTitleColor: Color { get }
+    var forYouRecentSearchTopPadding: CGFloat { get }
+    var forYouRecentSearchBottomPadding: CGFloat { get }
 
     // -- 6E Pick -------------------------------------------------------
 
@@ -101,6 +128,15 @@ protocol AlphaTheme {
     var bestOffersChevronSize: CGFloat { get }
     var bestOffersProminentCornerRadius: CGFloat { get }
 
+    var bestOffersUsesBannerCarousel: Bool { get }
+    var bestOffersBannerWidth: CGFloat { get }
+    var bestOffersBannerHeight: CGFloat { get }
+    var bestOffersBannerSpacing: CGFloat { get }
+    var bestOffersBannerCornerRadius: CGFloat { get }
+    var bestOffersBottomBorderColor: Color { get }
+    var bestOffersCtaIconName: String { get }
+    var bestOffersCtaIconSize: CGFloat { get }
+
     // -- BluChip -------------------------------------------------------
 
     var bluChipCardPadding: CGFloat { get }
@@ -111,6 +147,18 @@ protocol AlphaTheme {
     var bluChipProgressBarHeight: CGFloat { get }
     var bluChipHorizontalPadding: CGFloat { get }
     var bluChipBottomPadding: CGFloat { get }
+
+    var bluChipUsesDarkCard: Bool { get }
+    var bluChipDarkCardSpacing: CGFloat { get }
+    var bluChipLogoSize: CGFloat { get }
+    var bluChipBalanceFontSize: CGFloat { get }
+    var bluChipDividerColor: Color { get }
+    var bluChipTierColor: Color { get }
+    var bluChipIdColor: Color { get }
+    var bluChipLabelColor: Color { get }
+    var bluChipBalanceColor: Color { get }
+    var bluChipInfoTextColor: Color { get }
+    var bluChipCtaColor: Color { get }
 
     // -- Community -----------------------------------------------------
 
@@ -123,6 +171,8 @@ protocol AlphaTheme {
     var communityHorizontalPadding: CGFloat { get }
     var communityBottomPadding: CGFloat { get }
     var communityShowsTitle: Bool { get }
+    var communityShowsSectionHeading: Bool { get }
+    var communitySubtitleFont: Font { get }
     var communityShowsNoFilterLogo: Bool { get }
     var communityShowsCollapsedOverlay: Bool { get }
     var communityHeadingFont: Font { get }
@@ -163,6 +213,16 @@ protocol AlphaTheme {
     var oneClickCardButtonCornerRadius: CGFloat { get }
     var oneClickShowsViewAllCard: Bool { get }
 
+    var oneClickUsesLightCards: Bool { get }
+    var oneClickLightCardBorderColor: Color { get }
+    var oneClickCtaCircleSize: CGFloat { get }
+    var oneClickCtaIconName: String { get }
+    var oneClickCtaIconSize: CGFloat { get }
+    var oneClickSectionLabel: String { get }
+    var oneClickShowsSubtitle: Bool { get }
+    var oneClickViewAllCircleSize: CGFloat { get }
+    var oneClickViewAllIconSize: CGFloat { get }
+
     // -- Flight Offers Footer ------------------------------------------
 
     var footerStatsGridSpacing: CGFloat { get }
@@ -170,6 +230,34 @@ protocol AlphaTheme {
     var footerBottomPadding: CGFloat { get }
     var footerStatCornerRadius: CGFloat { get }
     var footerNegatesInterSectionGap: Bool { get }
+
+    var footerMapImageName: String { get }
+    var footerUsesWWYITHeadline: Bool { get }
+    var footerStatCardLayout: FooterStatCardLayout { get }
+    var footerStatBorderColor: Color { get }
+    var footerStatLabelColor: Color { get }
+    var footerStatLabelFont: Font { get }
+    var footerStatValueFont: Font { get }
+    var footerStatCardPadding: CGFloat { get }
+    var footerDailyFlightsValueFont: Font { get }
+    var footerDailyFlightsLabelFont: Font { get }
+
+    // -- Bottom Nav Bar -------------------------------------------------
+
+    var navShowsLiquidGlass: Bool { get }
+    var navActiveExploreIconAsset: String { get }
+    var navActiveFlightsIconAsset: String { get }
+    var navActiveLabelFont: Font { get }
+    var navInactiveLabelFont: Font { get }
+    var navActiveTextColor: Color { get }
+    var navInactiveTextColor: Color { get }
+    var navActiveShadowColor: Color { get }
+    var navActiveShadowRadius: CGFloat { get }
+    var navSixEPickBgColor: Color { get }
+    var navSixEPickFgColor: Color { get }
+    var navFourthTabLabel: String { get }
+    var navFourthTabIcon: String { get }
+    var navFourthTabIconIsOriginal: Bool { get }
 
     // -- Section ordering ----------------------------------------------
 

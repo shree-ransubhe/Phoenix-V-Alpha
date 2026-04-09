@@ -2,16 +2,19 @@
 //  OneClickAwaySection.swift
 //  IndiGoPrototype
 //
-//  Molecule – "One Click Away" section. Reads from AlphaTheme to
-//  render either the 4.1 layout (From selector, filter chips, tinted bg)
-//  or the 5.0 layout (View all CTA, no controls, card shadow, last card).
-//  Figma nodes: 85:6087 (4.1), 2463:31104 (5.0)
+//  Molecule – "One Click Away" / "Trending destinations" section.
+//  Reads from AlphaTheme to render the appropriate variant:
+//    4.1: From selector, filter chips, tinted bg, dark overlay cards
+//    5.0: View all CTA, no controls, card shadow, dark overlay last card
+//    6.1: "Trending destinations" label, light white cards, circle CTA
+//  Figma nodes: 85:6087 (4.1), 2463:31104 (5.0), 5617:92667 (6.1)
 //
 
 import SwiftUI
 
 struct OneClickAwaySection: View {
     let destinations: [Destination]
+    var onDestinationTap: (Destination) -> Void = { _ in }
     @Environment(\.alphaTheme) private var theme
 
     @State private var selectedCategory: DestinationCategory? = nil
@@ -39,7 +42,10 @@ struct OneClickAwaySection: View {
 
             carousel
         }
-        .padding(.vertical, theme.oneClickVerticalPadding)
+        .padding(.top, theme.oneClickVerticalPadding)
+        .padding(.bottom, theme.oneClickVerticalPadding)
+        .padding(.top, theme.oneClickUsesLightCards ? -13 : 0)
+        .padding(.bottom, theme.oneClickUsesLightCards ? -11 : 0)
         .background(theme.oneClickShowsSectionBg ? IndiGoColors.oneClickBg : Color.clear)
         .confirmationDialog("Select Origin", isPresented: $showOriginPicker, titleVisibility: .visible) {
             ForEach(origins, id: \.self) { origin in
@@ -63,14 +69,16 @@ struct OneClickAwaySection: View {
                         .foregroundStyle(theme.oneClickTitleColor)
                         .tracking(-0.6)
                 } else {
-                    Text("One Click Away")
+                    Text(theme.oneClickSectionLabel)
                         .font(theme.oneClickTitleFont)
                         .foregroundStyle(theme.oneClickTitleColor)
                 }
 
-                Text("find flights at lowest fare")
-                    .font(theme.oneClickSubtitleFont)
-                    .foregroundStyle(IndiGoColors.forYouTextSecondary)
+                if theme.oneClickShowsSubtitle {
+                    Text("find flights at lowest fare")
+                        .font(theme.oneClickSubtitleFont)
+                        .foregroundStyle(IndiGoColors.forYouTextSecondary)
+                }
             }
 
             Spacer()
@@ -206,7 +214,10 @@ struct OneClickAwaySection: View {
                 HStack(spacing: theme.oneClickCarouselSpacing) {
                     ForEach(Array(filteredDestinations.enumerated()), id: \.element.id) { _, destination in
                         let isVisible = visibleIDs.contains(destination.id)
-                        OneClickAwayCard(destination: destination)
+                        OneClickAwayCard(
+                            destination: destination,
+                            onTap: { onDestinationTap(destination) }
+                        )
                             .scaleEffect(isVisible ? 1 : 0.85)
                             .opacity(isVisible ? 1 : 0)
                             .offset(y: isVisible ? 0 : 20)
@@ -240,9 +251,43 @@ struct OneClickAwaySection: View {
         }
     }
 
-    // MARK: - "View all +200 destinations" last card (5.0)
+    // MARK: - "View all +200 destinations" last card
 
+    @ViewBuilder
     private var viewAllCard: some View {
+        if theme.oneClickUsesLightCards {
+            lightViewAllCard
+        } else {
+            darkViewAllCard
+        }
+    }
+
+    private var lightViewAllCard: some View {
+        VStack(spacing: IndiGoSpacing.md) {
+            Image(theme.oneClickCtaIconName)
+                .resizable()
+                .renderingMode(.original)
+                .frame(
+                    width: theme.oneClickViewAllCircleSize,
+                    height: theme.oneClickViewAllCircleSize
+                )
+
+            Text("View all +200 destinations")
+                .font(theme.oneClickCardNameFont)
+                .foregroundStyle(IndiGoColors.indigoBlue)
+                .multilineTextAlignment(.center)
+        }
+        .frame(width: theme.oneClickCardWidth)
+        .frame(maxHeight: .infinity)
+        .background(.white)
+        .clipShape(RoundedRectangle(cornerRadius: theme.oneClickCardCornerRadius))
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.oneClickCardCornerRadius)
+                .stroke(theme.oneClickLightCardBorderColor, lineWidth: 1)
+        )
+    }
+
+    private var darkViewAllCard: some View {
         ZStack(alignment: .bottom) {
             if let lastDest = filteredDestinations.last,
                UIImage(named: lastDest.imageName) != nil {
@@ -312,6 +357,14 @@ struct OneClickAwaySection: View {
     ScrollView {
         OneClickAwaySection(destinations: MockDestinations.all)
             .alphaTheme(Alpha50Theme())
+    }
+    .background(Color(hex: "F5F5F5"))
+}
+
+#Preview("Alpha 6.1") {
+    ScrollView {
+        OneClickAwaySection(destinations: MockDestinations.all)
+            .alphaTheme(Alpha61Theme())
     }
     .background(Color(hex: "F5F5F5"))
 }

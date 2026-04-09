@@ -6,11 +6,14 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3100;
 const SESSIONS_DIR = path.join(__dirname, "sessions");
+const SCREENSHOTS_DIR = path.join(__dirname, "..", "ut-analysis", "heatmap", "screens");
 
 fs.mkdirSync(SESSIONS_DIR, { recursive: true });
+fs.mkdirSync(SCREENSHOTS_DIR, { recursive: true });
 
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
+app.use(express.raw({ type: "image/png", limit: "20mb" }));
 
 // ── Create session ────────────────────────────────────────────────────────────
 
@@ -121,11 +124,16 @@ app.get("/sessions/:id/csv", (req, res) => {
 
 const TRACKED_SCREENS = [
   "HomeView",
+  "SixEPickExploreView",
+  "ProfileView",
   "BookLocationView",
   "BookDateView",
   "BookPassengerView",
   "PayModeView",
   "SRPView",
+  "SRPView-CompareFares",
+  "SRPView-FareFamily-Stretch",
+  "SRPView-FareFamily-Economy",
 ];
 
 app.get("/export/csv", (_req, res) => {
@@ -181,6 +189,33 @@ app.get("/export/csv", (_req, res) => {
   res.setHeader("Content-Disposition", 'attachment; filename="ut_sessions_all.csv"');
   res.send([header, ...rows].join("\n"));
 });
+
+// ── Screen screenshot upload (for heatmap watermarks) ─────────────────────────
+
+app.post("/screenshots/:screenId", (req, res) => {
+  const screenId = req.params.screenId;
+  if (!screenId || !Buffer.isBuffer(req.body) || req.body.length === 0) {
+    return res.status(400).json({ error: "PNG body required" });
+  }
+
+  const safeName = screenId.replace(/[^a-zA-Z0-9_-]/g, "_");
+  const filePath = path.join(SCREENSHOTS_DIR, `${safeName}.png`);
+
+  if (fs.existsSync(filePath)) {
+    return res.json({ ok: true, status: "already_exists", path: filePath });
+  }
+
+  fs.writeFileSync(filePath, req.body);
+  console.log(`[📸] Screenshot saved: ${safeName}.png (${(req.body.length / 1024).toFixed(0)} KB)`);
+  res.status(201).json({ ok: true, path: filePath });
+});
+
+app.get("/screenshots", (_req, res) => {
+  const files = fs.readdirSync(SCREENSHOTS_DIR).filter((f) => f.endsWith(".png"));
+  res.json(files.map((f) => f.replace(".png", "")));
+});
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
 function sessionToRow(s) {
   const d = s.demographics || {};

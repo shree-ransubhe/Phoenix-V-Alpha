@@ -174,6 +174,67 @@ struct UTStepTrackingModifier: ViewModifier {
     }
 }
 
+// MARK: - Screen snapshot capture (one-time per screen, for heatmap watermarks)
+
+struct UTScreenSnapshotModifier: ViewModifier {
+    let screenId: String
+    @State private var captured = false
+
+    func body(content: Content) -> some View {
+        content
+            .background(
+                UTScreenSnapshotTrigger(screenId: screenId, captured: $captured)
+                    .frame(width: 0, height: 0)
+            )
+    }
+}
+
+struct UTScreenSnapshotTrigger: UIViewRepresentable {
+    let screenId: String
+    @Binding var captured: Bool
+
+    func makeUIView(context: Context) -> UIView {
+        let view = UTSnapshotProbeView()
+        view.screenId = screenId
+        view.onCapture = { [self] scrollView in
+            guard !captured else { return }
+            captured = true
+            Task { @MainActor in
+                UTTrackingService.shared.captureScreenSnapshot(screenId: screenId, scrollView: scrollView)
+            }
+        }
+        view.backgroundColor = .clear
+        view.isUserInteractionEnabled = false
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {}
+}
+
+final class UTSnapshotProbeView: UIView {
+    var screenId: String = ""
+    var onCapture: ((UIScrollView?) -> Void)?
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        guard window != nil else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+            guard let self else { return }
+            let scrollView = self.findScrollView()
+            self.onCapture?(scrollView)
+        }
+    }
+
+    private func findScrollView() -> UIScrollView? {
+        var current: UIView? = superview
+        while let v = current {
+            if let sv = v as? UIScrollView { return sv }
+            current = v.superview
+        }
+        return nil
+    }
+}
+
 // MARK: - Scroll depth tracking
 
 struct UTScrollDepthModifier: ViewModifier {
@@ -290,11 +351,16 @@ extension View {
         modifier(UTScrollDepthModifier(screenId: screenId))
     }
 
+    func utScreenSnapshot(screenId: String) -> some View {
+        modifier(UTScreenSnapshotModifier(screenId: screenId))
+    }
+
     func utInstrumented(screenId: String) -> some View {
         self
             .utStepTracking(screenId: screenId)
             .utTapCapture(screenId: screenId)
             .utScrollDepth(screenId: screenId)
+            .utScreenSnapshot(screenId: screenId)
     }
 }
 #endif

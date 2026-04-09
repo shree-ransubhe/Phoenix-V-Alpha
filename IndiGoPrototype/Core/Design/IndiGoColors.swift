@@ -49,6 +49,9 @@ enum IndiGoColors {
     static let sixEPickGreen = Color(hex: "218946")
     static let sixEPickRowBg = Color(hex: "ECECF9")
     static let sixEPickBadgeBorder = Color(hex: "000099").opacity(0.4)
+    static let sixEPickExploreBg = Color(hex: "F5F8FC")
+    static let sixEPickLobDivider = Color(hex: "E5E5F6")
+    static let sixEPickLobBadgeBg = Color(hex: "EAF8FF")
 
     // For You cards (Figma: secondary/light, secondary/medium, text tokens)
     static let secondaryLight = Color(hex: "EAF8FF")
@@ -78,6 +81,20 @@ enum IndiGoColors {
     static let footerStatsBg = Color(hex: "EAF8FF")
     static let footerStatBorder = Color(hex: "D1EFFF")
     static let footerStatLabel = Color(hex: "7A85A0")
+
+    // Deals page
+    static let dealsBg = Color(hex: "F5F8FC")
+    static let dealBluGradientTop = Color(hex: "488AC4")
+    static let dealBluGradientBottom = Color(hex: "004C8F")
+    static let dealOrangeGradientTop = Color(hex: "EF7F1A")
+    static let dealOrangeGradientBottom = Color(hex: "BE2A2A")
+    static let dealBadgeSuccessBg = Color(hex: "F0FFF6")
+    static let dealBadgeSuccessText = Color(hex: "218946")
+    static let dealBadgeErrorBg = Color(hex: "F4DEDF")
+    static let dealBadgeErrorText = Color(hex: "C3272E")
+    static let dealChipSelectedBg = Color(hex: "EAF8FF")
+    static let dealChipSelectedBorder = Color(hex: "000099").opacity(0.4)
+    static let dealChipDefaultBorder = Color(hex: "000099").opacity(0.24)
 
     // Booking / Location selection (from Figma node 3:7894)
     static let secondaryBright = Color(hex: "00AEE5")

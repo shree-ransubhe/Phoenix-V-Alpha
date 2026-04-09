@@ -3,7 +3,7 @@
 //  IndiGoPrototype
 //
 //  Molecule – Community carousel section with expand/collapse card transitions.
-//  Figma node: 85:6085 (4.1), 2463:31397 (5.0)
+//  Figma node: 85:6085 (4.1), 2463:31397 (5.0), 5602:85153 (6.1)
 //
 //  Always exactly 2 cards visible — one expanded, one collapsed strip.
 //  All items live in a single ForEach so SwiftUI animates width changes.
@@ -80,16 +80,18 @@ struct CommunitySection: View {
         }
     }
 
-    // MARK: - Section header (Alpha 5.0)
+    // MARK: - Section header (Alpha 5.0 / 6.1)
 
     private var sectionHeader: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("What's new")
-                .font(IndiGoFonts.displayXS())
-                .foregroundStyle(IndiGoColors.forYouTextPrimary)
+            if theme.communityShowsSectionHeading {
+                Text("What's new")
+                    .font(IndiGoFonts.displayXS())
+                    .foregroundStyle(IndiGoColors.forYouTextPrimary)
+            }
 
             Text("Explore our communities")
-                .font(IndiGoFonts.bodyExtraSmall())
+                .font(theme.communitySubtitleFont)
                 .foregroundStyle(IndiGoColors.forYouTextPrimary)
         }
     }

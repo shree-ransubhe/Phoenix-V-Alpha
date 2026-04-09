@@ -2,17 +2,17 @@
 //  SearchWidgetView.swift
 //  IndiGoPrototype
 //
-//  Molecule – Search widget pill with blinking cursor and
-//  departure-icon + typewriter micro-animation.
+//  Molecule – Search widget with two variant styles driven by AlphaTheme:
 //
-//  Two scroll-driven modes:
-//    .expanded – full-width pill, white glass, rounded-12, indigo gradient border (Figma 2440:44284)
-//    .inline  – narrower pill + 6Eskai + profile in one row, rounded-12, gap-12
+//  Alpha 4.1 / 5.0 (text pill):
+//    .expanded – full-width pill, white glass, rounded-12, indigo gradient border
+//    .inline  – narrower pill + 6Eskai + profile in one row
 //
-//  Pill specs: h 60, border 2 indigo gradient, rounded 12, shadow 0 4 8 rgba(0,0,0,0.2), p 16
-//  Glass: white, mix-blend hard-light
-//  Cursor bar: IndiGo blue #000099, 3x32, rounded 8
-//  Placeholder: Poppins Regular 14/20, #4B5772
+//  Alpha 6.1+ (From/To card):
+//    .expanded – From/To card (56h, rounded-8) + mic pill (56×40)
+//    .inline  – same From/To card squeezed + 6Eskai + avatar
+//
+//  Figma: 2440:44284 (5.0 pill), 5602:89120 (6.1 expanded), 5656:57938 (6.1 inline)
 //
 
 import SwiftUI
@@ -26,10 +26,138 @@ struct SearchWidgetView: View {
     let mode: SearchWidgetMode
     var onTap: () -> Void = {}
     var onProfileTap: () -> Void = {}
-
-    private let pillHeight: CGFloat = 60
+    @Environment(\.alphaTheme) private var theme
 
     var body: some View {
+        if theme.searchUsesFromToMode {
+            fromToBody
+        } else {
+            pillBody
+        }
+    }
+
+    // MARK: - Alpha 6.1+ From/To layout
+
+    @ViewBuilder
+    private var fromToBody: some View {
+        switch mode {
+        case .expanded:
+            fromToExpanded
+        case .inline:
+            fromToInline
+        }
+    }
+
+    private var fromToExpanded: some View {
+        HStack(spacing: 8) {
+            fromToCard
+            micButton
+        }
+    }
+
+    private var fromToInline: some View {
+        HStack(spacing: 16) {
+            fromToCard
+
+            HStack(spacing: 16) {
+                SixEskaiButton()
+                alpha61Avatar
+            }
+        }
+    }
+
+    // MARK: - From/To card
+
+    private var fromToCard: some View {
+        Button(action: {
+            HapticManager.lightImpact()
+            onTap()
+        }) {
+            HStack(spacing: 8) {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("From")
+                        .font(.custom("Poppins-Regular", size: 10))
+                        .foregroundStyle(Color(hex: "4B5772"))
+                    Text("Delhi")
+                        .font(IndiGoFonts.displaySmall())
+                        .foregroundStyle(IndiGoColors.indigoBlue)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+                Image(systemName: "arrow.left.arrow.right")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundStyle(IndiGoColors.indigoBlue)
+                    .frame(width: 24, height: 24)
+
+                VStack(alignment: .trailing, spacing: 0) {
+                    Text("Where")
+                        .font(.custom("Poppins-Regular", size: 10))
+                        .foregroundStyle(Color(hex: "4B5772"))
+                    Text("Select")
+                        .font(IndiGoFonts.displaySmall())
+                        .foregroundStyle(Color(hex: "25304B").opacity(0.25))
+                }
+                .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .frame(height: theme.searchBarHeight)
+            .background(fromToGlass)
+            .clipShape(RoundedRectangle(cornerRadius: theme.searchBarCornerRadius))
+            .overlay(
+                RoundedRectangle(cornerRadius: theme.searchBarCornerRadius)
+                    .strokeBorder(IndiGoColors.indigoBlue.opacity(0.4), lineWidth: 1)
+            )
+            .shadow(color: IndiGoColors.indigoBlue.opacity(0.12), radius: 5, x: 0, y: 0)
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var fromToGlass: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: theme.searchBarCornerRadius).fill(.ultraThinMaterial)
+            RoundedRectangle(cornerRadius: theme.searchBarCornerRadius).fill(Color.white).blendMode(.hardLight)
+        }
+    }
+
+    // MARK: - Mic button (6.1): circle, white bg, indigo 40% border
+
+    private var micButton: some View {
+        Button(action: {}) {
+            Image(systemName: "mic")
+                .font(.system(size: 18, weight: .medium))
+                .foregroundStyle(IndiGoColors.indigoBlue)
+                .frame(width: 24, height: 24)
+        }
+        .buttonStyle(.plain)
+        .frame(width: theme.searchMicButtonWidth, height: theme.searchMicButtonWidth)
+        .background(Color.white)
+        .clipShape(Circle())
+        .overlay(
+            Circle().strokeBorder(IndiGoColors.indigoBlue.opacity(0.4), lineWidth: 1)
+        )
+        .shadow(color: IndiGoColors.indigoBlue.opacity(0.08), radius: 6, x: 0, y: 0)
+    }
+
+    // MARK: - Alpha 6.1 avatar (Figma 5602:84920 / 5656:58109)
+
+    private var alpha61Avatar: some View {
+        Button(action: {
+            HapticManager.lightImpact()
+            onProfileTap()
+        }) {
+            Image("icon-avatar-person")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32, height: 32)
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: - Alpha 4.1/5.0 pill layout
+
+    @ViewBuilder
+    private var pillBody: some View {
         switch mode {
         case .expanded:
             fullWidthPill
@@ -37,8 +165,6 @@ struct SearchWidgetView: View {
             inlineRow
         }
     }
-
-    // MARK: - Full-width pill
 
     private var fullWidthPill: some View {
         Button(action: {
@@ -50,8 +176,6 @@ struct SearchWidgetView: View {
         .buttonStyle(.plain)
     }
 
-    // MARK: - Inline row
-
     private var inlineRow: some View {
         HStack(spacing: 12) {
             Button(action: {
@@ -62,12 +186,10 @@ struct SearchWidgetView: View {
             }
             .buttonStyle(.plain)
 
-            sixEskaiButton
-            avatarButton
+            SixEskaiButton()
+            pillAvatar
         }
     }
-
-    // MARK: - Pill content
 
     private var pillContent: some View {
         HStack(spacing: IndiGoSpacing.md) {
@@ -77,27 +199,26 @@ struct SearchWidgetView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .clipped()
 
-            searchIcon
+            Image(systemName: "mic")
+                .font(.system(size: 18, weight: .medium))
+                .foregroundStyle(IndiGoColors.indigoBlue)
+                .frame(width: 24, height: 24)
         }
         .padding(.horizontal, IndiGoSpacing.md)
-        .frame(height: pillHeight)
+        .frame(height: 60)
         .frame(maxWidth: .infinity)
-        .background(glassBackground)
+        .background(pillGlass)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .overlay(AnimatedGradientBorder(cornerRadius: 12))
         .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 4)
     }
 
-    // MARK: - Glass background
-
-    private var glassBackground: some View {
+    private var pillGlass: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12).fill(.ultraThinMaterial)
             RoundedRectangle(cornerRadius: 12).fill(Color.white).blendMode(.hardLight)
         }
     }
-
-    // MARK: - Blinking cursor
 
     private var blinkingCursor: some View {
         TimelineView(.periodic(from: .now, by: 0.6)) { timeline in
@@ -110,20 +231,7 @@ struct SearchWidgetView: View {
         }
     }
 
-    // MARK: - Search icon
-
-    private var searchIcon: some View {
-        Image(systemName: "mic")
-            .font(.system(size: 18, weight: .medium))
-            .foregroundStyle(IndiGoColors.indigoBlue)
-            .frame(width: 24, height: 24)
-    }
-
-    private var sixEskaiButton: some View {
-        SixEskaiButton()
-    }
-
-    private var avatarButton: some View {
+    private var pillAvatar: some View {
         Button(action: {
             HapticManager.lightImpact()
             onProfileTap()
@@ -180,57 +288,37 @@ private struct AnimatedPlaceholder: View {
         animTask?.cancel()
         animTask = Task { @MainActor in
             while !Task.isCancelled {
-                // Reset
-                iconOffset = -30
-                iconLift = 12
-                iconOpacity = 0
-                iconRotation = -15
-                visibleChars = 0
+                iconOffset = -30; iconLift = 12; iconOpacity = 0; iconRotation = -15; visibleChars = 0
 
                 try? await Task.sleep(for: .milliseconds(300))
                 if Task.isCancelled { return }
 
-                // Phase 1: Icon flies in with takeoff arc
                 withAnimation(.easeOut(duration: iconFlyDuration)) {
-                    iconOffset = 0
-                    iconLift = 0
-                    iconOpacity = 1
-                    iconRotation = 0
+                    iconOffset = 0; iconLift = 0; iconOpacity = 1; iconRotation = 0
                 }
                 try? await Task.sleep(for: .milliseconds(Int(iconFlyDuration * 1000) + 100))
                 if Task.isCancelled { return }
 
-                // Phase 2: Typewriter — characters appear one by one
                 for i in 1...placeholderText.count {
                     if Task.isCancelled { return }
-                    withAnimation(.easeOut(duration: 0.05)) {
-                        visibleChars = i
-                    }
+                    withAnimation(.easeOut(duration: 0.05)) { visibleChars = i }
                     try? await Task.sleep(for: .milliseconds(Int(typeSpeed * 1000)))
                 }
 
-                // Phase 3: Hold
                 try? await Task.sleep(for: .milliseconds(Int(holdDuration * 1000)))
                 if Task.isCancelled { return }
 
-                // Phase 4: Erase characters in reverse
                 for i in stride(from: placeholderText.count, through: 0, by: -1) {
                     if Task.isCancelled { return }
-                    withAnimation(.easeIn(duration: 0.03)) {
-                        visibleChars = i
-                    }
+                    withAnimation(.easeIn(duration: 0.03)) { visibleChars = i }
                     try? await Task.sleep(for: .milliseconds(Int(eraseSpeed * 1000)))
                 }
 
                 try? await Task.sleep(for: .milliseconds(Int(erasePause * 1000)))
                 if Task.isCancelled { return }
 
-                // Phase 5: Icon flies out upward
                 withAnimation(.easeIn(duration: 0.4)) {
-                    iconOffset = 30
-                    iconLift = 14
-                    iconOpacity = 0
-                    iconRotation = 15
+                    iconOffset = 30; iconLift = 14; iconOpacity = 0; iconRotation = 15
                 }
                 try? await Task.sleep(for: .milliseconds(600))
             }
@@ -238,25 +326,20 @@ private struct AnimatedPlaceholder: View {
     }
 }
 
-// MARK: - Animated gradient border
+// MARK: - Animated gradient border (4.1/5.0 pill only)
 
 private struct AnimatedGradientBorder: View {
     let cornerRadius: CGFloat
-
     @State private var rotationAngle: Double = 0
-
-    private let gradientColors: [Color] = [
-        Color(hex: "00AEE5"),
-        Color(hex: "005EC2"),
-        IndiGoColors.indigoBlue,
-        Color(hex: "00AEE5"),
-    ]
 
     var body: some View {
         RoundedRectangle(cornerRadius: cornerRadius)
             .strokeBorder(
                 AngularGradient(
-                    gradient: Gradient(colors: gradientColors),
+                    gradient: Gradient(colors: [
+                        Color(hex: "00AEE5"), Color(hex: "005EC2"),
+                        IndiGoColors.indigoBlue, Color(hex: "00AEE5"),
+                    ]),
                     center: .center,
                     angle: .degrees(rotationAngle)
                 ),
@@ -274,92 +357,47 @@ private struct AnimatedGradientBorder: View {
 
 private struct DepartureIconShape: Shape {
     func path(in rect: CGRect) -> Path {
-        let w = rect.width
-        let h = rect.height
+        let w = rect.width; let h = rect.height
         var p = Path()
 
-        // Runway line
         p.move(to: pt(2, 20.2495, w, h))
-        p.addLine(to: pt(2, 19.4995, w, h))
-        p.addLine(to: pt(2.75, 19.4995, w, h))
-        p.addLine(to: pt(21.25, 19.4995, w, h))
-        p.addLine(to: pt(22, 19.4995, w, h))
-        p.addLine(to: pt(22, 20.2495, w, h))
-        p.addLine(to: pt(22, 20.9995, w, h))
-        p.addLine(to: pt(21.25, 20.9995, w, h))
-        p.addLine(to: pt(2.75, 20.9995, w, h))
-        p.addLine(to: pt(2, 20.9995, w, h))
-        p.closeSubpath()
+        p.addLine(to: pt(2, 19.4995, w, h)); p.addLine(to: pt(2.75, 19.4995, w, h))
+        p.addLine(to: pt(21.25, 19.4995, w, h)); p.addLine(to: pt(22, 19.4995, w, h))
+        p.addLine(to: pt(22, 20.2495, w, h)); p.addLine(to: pt(22, 20.9995, w, h))
+        p.addLine(to: pt(21.25, 20.9995, w, h)); p.addLine(to: pt(2.75, 20.9995, w, h))
+        p.addLine(to: pt(2, 20.9995, w, h)); p.closeSubpath()
 
-        // Airplane body
         p.move(to: pt(5.53876, 4.05025, w, h))
-        p.addCurve(to: pt(6.03086, 3.6016, w, h),
-                    control1: pt(5.62377, 3.83209, w, h),
-                    control2: pt(5.80579, 3.66614, w, h))
+        p.addCurve(to: pt(6.03086, 3.6016, w, h), control1: pt(5.62377, 3.83209, w, h), control2: pt(5.80579, 3.66614, w, h))
         p.addLine(to: pt(8.0071, 3.03493, w, h))
-        p.addCurve(to: pt(8.71735, 3.20003, w, h),
-                    control1: pt(8.25647, 2.96342, w, h),
-                    control2: pt(8.52509, 3.02586, w, h))
-        p.addLine(to: pt(14.9089, 8.80878, w, h))
-        p.addLine(to: pt(19.0779, 7.61334, w, h))
-        p.addCurve(to: pt(22.0717, 9.27282, w, h),
-                    control1: pt(20.3629, 7.24488, w, h),
-                    control2: pt(21.7033, 7.98785, w, h))
-        p.addCurve(to: pt(20.4122, 12.2666, w, h),
-                    control1: pt(22.4402, 10.5578, w, h),
-                    control2: pt(21.6972, 11.8982, w, h))
+        p.addCurve(to: pt(8.71735, 3.20003, w, h), control1: pt(8.25647, 2.96342, w, h), control2: pt(8.52509, 3.02586, w, h))
+        p.addLine(to: pt(14.9089, 8.80878, w, h)); p.addLine(to: pt(19.0779, 7.61334, w, h))
+        p.addCurve(to: pt(22.0717, 9.27282, w, h), control1: pt(20.3629, 7.24488, w, h), control2: pt(21.7033, 7.98785, w, h))
+        p.addCurve(to: pt(20.4122, 12.2666, w, h), control1: pt(22.4402, 10.5578, w, h), control2: pt(21.6972, 11.8982, w, h))
         p.addLine(to: pt(5.71392, 16.4813, w, h))
-        p.addCurve(to: pt(4.87078, 16.1572, w, h),
-                    control1: pt(5.39203, 16.5736, w, h),
-                    control2: pt(5.04795, 16.4413, w, h))
+        p.addCurve(to: pt(4.87078, 16.1572, w, h), control1: pt(5.39203, 16.5736, w, h), control2: pt(5.04795, 16.4413, w, h))
         p.addLine(to: pt(1.90106, 11.3946, w, h))
-        p.addCurve(to: pt(1.83742, 10.7286, w, h),
-                    control1: pt(1.77654, 11.1949, w, h),
-                    control2: pt(1.75298, 10.9483, w, h))
-        p.addCurve(to: pt(2.33075, 10.2768, w, h),
-                    control1: pt(1.92186, 10.5089, w, h),
-                    control2: pt(2.10452, 10.3416, w, h))
+        p.addCurve(to: pt(1.83742, 10.7286, w, h), control1: pt(1.77654, 11.1949, w, h), control2: pt(1.75298, 10.9483, w, h))
+        p.addCurve(to: pt(2.33075, 10.2768, w, h), control1: pt(1.92186, 10.5089, w, h), control2: pt(2.10452, 10.3416, w, h))
         p.addLine(to: pt(4.30699, 9.71009, w, h))
-        p.addCurve(to: pt(5.0661, 9.92372, w, h),
-                    control1: pt(4.58007, 9.63179, w, h),
-                    control2: pt(4.87394, 9.71449, w, h))
-        p.addLine(to: pt(6.30736, 11.2752, w, h))
-        p.addLine(to: pt(9.11455, 10.4703, w, h))
+        p.addCurve(to: pt(5.0661, 9.92372, w, h), control1: pt(4.58007, 9.63179, w, h), control2: pt(4.87394, 9.71449, w, h))
+        p.addLine(to: pt(6.30736, 11.2752, w, h)); p.addLine(to: pt(9.11455, 10.4703, w, h))
         p.addLine(to: pt(5.59757, 4.71356, w, h))
-        p.addCurve(to: pt(5.53876, 4.05025, w, h),
-                    control1: pt(5.47551, 4.51375, w, h),
-                    control2: pt(5.45375, 4.26841, w, h))
+        p.addCurve(to: pt(5.53876, 4.05025, w, h), control1: pt(5.47551, 4.51375, w, h), control2: pt(5.45375, 4.26841, w, h))
         p.closeSubpath()
 
-        // Interior cutout
-        p.move(to: pt(7.39107, 4.77202, w, h))
-        p.addLine(to: pt(10.908, 10.5287, w, h))
-        p.addCurve(to: pt(10.9669, 11.1921, w, h),
-                    control1: pt(11.0301, 10.7285, w, h),
-                    control2: pt(11.0519, 10.9739, w, h))
-        p.addCurve(to: pt(10.4748, 11.6407, w, h),
-                    control1: pt(10.8818, 11.4102, w, h),
-                    control2: pt(10.6998, 11.5762, w, h))
+        p.move(to: pt(7.39107, 4.77202, w, h)); p.addLine(to: pt(10.908, 10.5287, w, h))
+        p.addCurve(to: pt(10.9669, 11.1921, w, h), control1: pt(11.0301, 10.7285, w, h), control2: pt(11.0519, 10.9739, w, h))
+        p.addCurve(to: pt(10.4748, 11.6407, w, h), control1: pt(10.8818, 11.4102, w, h), control2: pt(10.6998, 11.5762, w, h))
         p.addLine(to: pt(6.27525, 12.8449, w, h))
-        p.addCurve(to: pt(5.51614, 12.6313, w, h),
-                    control1: pt(6.00217, 12.9232, w, h),
-                    control2: pt(5.7083, 12.8405, w, h))
-        p.addLine(to: pt(4.27488, 11.2798, w, h))
-        p.addLine(to: pt(3.69999, 11.4446, w, h))
-        p.addLine(to: pt(5.84427, 14.8835, w, h))
-        p.addLine(to: pt(19.9988, 10.8247, w, h))
-        p.addCurve(to: pt(20.6298, 9.68628, w, h),
-                    control1: pt(20.4874, 10.6846, w, h),
-                    control2: pt(20.7699, 10.1749, w, h))
-        p.addCurve(to: pt(19.4914, 9.05523, w, h),
-                    control1: pt(20.4897, 9.19765, w, h),
-                    control2: pt(19.98, 8.91511, w, h))
+        p.addCurve(to: pt(5.51614, 12.6313, w, h), control1: pt(6.00217, 12.9232, w, h), control2: pt(5.7083, 12.8405, w, h))
+        p.addLine(to: pt(4.27488, 11.2798, w, h)); p.addLine(to: pt(3.69999, 11.4446, w, h))
+        p.addLine(to: pt(5.84427, 14.8835, w, h)); p.addLine(to: pt(19.9988, 10.8247, w, h))
+        p.addCurve(to: pt(20.6298, 9.68628, w, h), control1: pt(20.4874, 10.6846, w, h), control2: pt(20.7699, 10.1749, w, h))
+        p.addCurve(to: pt(19.4914, 9.05523, w, h), control1: pt(20.4897, 9.19765, w, h), control2: pt(19.98, 8.91511, w, h))
         p.addLine(to: pt(14.9213, 10.3657, w, h))
-        p.addCurve(to: pt(14.2111, 10.2006, w, h),
-                    control1: pt(14.6719, 10.4372, w, h),
-                    control2: pt(14.4033, 10.3747, w, h))
-        p.addLine(to: pt(8.01951, 4.59182, w, h))
-        p.addLine(to: pt(7.39107, 4.77202, w, h))
+        p.addCurve(to: pt(14.2111, 10.2006, w, h), control1: pt(14.6719, 10.4372, w, h), control2: pt(14.4033, 10.3747, w, h))
+        p.addLine(to: pt(8.01951, 4.59182, w, h)); p.addLine(to: pt(7.39107, 4.77202, w, h))
         p.closeSubpath()
 
         return p
@@ -370,7 +408,7 @@ private struct DepartureIconShape: Shape {
     }
 }
 
-#Preview("Expanded") {
+#Preview("Expanded – Pill") {
     ZStack {
         Image("header-bg").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea()
         VStack {
@@ -381,13 +419,24 @@ private struct DepartureIconShape: Shape {
     }
 }
 
-#Preview("Inline") {
-    ZStack {
-        Image("header-bg").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea()
-        VStack {
-            Spacer().frame(height: 40)
-            SearchWidgetView(mode: .inline).padding(.horizontal, 20)
-            Spacer()
-        }
+#Preview("Expanded – From/To") {
+    VStack {
+        Spacer().frame(height: 60)
+        SearchWidgetView(mode: .expanded)
+            .padding(.horizontal, 16)
+            .environment(\.alphaTheme, Alpha61Theme())
+        Spacer()
     }
+    .background(Color(hex: "F5F8FC"))
+}
+
+#Preview("Inline – From/To") {
+    VStack {
+        Spacer().frame(height: 20)
+        SearchWidgetView(mode: .inline)
+            .padding(.horizontal, 16)
+            .environment(\.alphaTheme, Alpha61Theme())
+        Spacer()
+    }
+    .background(Color(hex: "F5F8FC"))
 }

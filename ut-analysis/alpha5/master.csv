@@ -1,0 +1,11 @@
+sessionId,ut_number,sessionTitle,name,recording_yn,location,travel_context,quick_observations,transcript,created_at,role,experience,age_band,device,journey_completed,rating,frustration,feedback
+40E09C0E-39F7-47E2-B17D-C993D981669B,UT-1,UT_2026-03-25_2119_Frequent_All-the-time,,Y,,,,,2026-03-25T15:49:55.663Z,Frequent,All the time,45-54,Provided,Y,5,1,Test by Shree
+352AD989-F96B-43A1-8A13-409751210ABC,UT-2,UT_2026-03-26_1219_Occasional_All-the-time,,Y,,,,,2026-03-26T06:49:05.480Z,Occasional,All the time,45-54,Provided,Y,4,2,Good
+F96B2F9B-3D1D-46C4-8D39-9740691F57C8,UT-3,UT_2026-03-26_1329_Frequent_All-the-time,,Y,,,,,2026-03-26T07:59:09.504Z,Frequent,All the time,35-44,Provided,Y,1,5,
+DC630515-A69B-4F73-A907-0BFC113586CF,UT-4,UT_2026-03-26_1335_Frequent_All-the-time,,Y,,,,,2026-03-26T08:05:36.766Z,Frequent,All the time,25-34,Provided,Y,4,1,
+20B3E80A-1401-44FC-8CD7-E18C8C4EF225,UT-5,UT_2026-03-26_1511_Occasional_Regularly,,Y,,,,,2026-03-26T09:41:29.195Z,Occasional,Regularly,35-44,Provided,Y,4,1,
+A5E0B1EB-F48F-4511-8188-858F0A36EA89,UT-6,UT_2026-03-26_1534_Occasional_All-the-time,,Y,,,,,2026-03-26T10:04:17.522Z,Occasional,All the time,45-54,Provided,Y,4,1,
+AF922B27-30CE-46D9-8B0A-C03E2769175D,UT-7,UT_2026-03-26_1556_Frequent_Sometimes,,Y,,,,,2026-03-26T10:26:49.089Z,Frequent,Sometimes,45-54,Provided,Y,3,2,Can be more user friendly
+EC699E8E-FD4B-45D8-8829-55F0B7B4E3B8,UT-8,UT_2026-03-26_1624_Frequent_Regularly,,Y,,,,,2026-03-26T10:54:47.373Z,Frequent,Regularly,55+,Provided,Y,4,1,
+F8FFEA62-0600-4D8D-836F-CD5F3C98875A,UT-9,UT_2026-03-26_1813_Frequent_Regularly,,Y,,,,,2026-03-26T12:43:08.775Z,Frequent,Regularly,25-34,Provided,Y,5,1,
+5C527A21-AE3F-489D-BBF4-9ED4DC1A7C54,UT-10,UT_2026-03-26_1840_Frequent_Regularly,,Y,,,,,2026-03-26T13:10:23.376Z,Frequent,Regularly,25-34,Provided,Y,5,1,

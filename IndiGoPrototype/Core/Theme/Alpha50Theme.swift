@@ -26,6 +26,7 @@ struct Alpha50Theme: AlphaTheme {
 
     // -- Global Page Layout (Figma 2204-14952) -------------------------
 
+    var pageBackgroundColor: Color { base.pageBackgroundColor }
     var pageHorizontalPadding: CGFloat { 16 }
     var sectionToSectionSpacing: CGFloat { 32 }
     var titleToContentSpacing: CGFloat { 8 }
@@ -48,6 +49,15 @@ struct Alpha50Theme: AlphaTheme {
     var headerShadowRadius: CGFloat { base.headerShadowRadius }
     var headerShadowY: CGFloat { base.headerShadowY }
 
+    // -- Search Widget (5.0: same text pill as 4.1) --------------------
+
+    var searchUsesFromToMode: Bool { base.searchUsesFromToMode }
+    var searchShowsLOBTabs: Bool { base.searchShowsLOBTabs }
+    var searchBarHeight: CGFloat { base.searchBarHeight }
+    var searchBarCornerRadius: CGFloat { base.searchBarCornerRadius }
+    var searchMicButtonWidth: CGFloat { base.searchMicButtonWidth }
+    var searchMicButtonHeight: CGFloat { base.searchMicButtonHeight }
+
     // -- For You -------------------------------------------------------
 
     var forYouSectionSpacing: CGFloat { 8 }                 // 5.0: title→content = 8px
@@ -60,6 +70,16 @@ struct Alpha50Theme: AlphaTheme {
     var forYouRecentSearchCardWidth: CGFloat { base.forYouRecentSearchCardWidth }
     var forYouRecentSearchCardHeight: CGFloat { base.forYouRecentSearchCardHeight }
     var forYouRecentSearchCardSpacing: CGFloat { base.forYouRecentSearchCardSpacing }
+
+    var forYouRecentSearchUsesSquareCards: Bool { base.forYouRecentSearchUsesSquareCards }
+    var forYouRecentSearchCardBorderColor: Color { base.forYouRecentSearchCardBorderColor }
+    var forYouRecentSearchCardCornerRadius: CGFloat { base.forYouRecentSearchCardCornerRadius }
+    var forYouRecentSearchCardPadding: CGFloat { base.forYouRecentSearchCardPadding }
+    var forYouRecentSearchShowsHideCta: Bool { base.forYouRecentSearchShowsHideCta }
+    var forYouRecentSearchTitleFont: Font { base.forYouRecentSearchTitleFont }
+    var forYouRecentSearchTitleColor: Color { base.forYouRecentSearchTitleColor }
+    var forYouRecentSearchTopPadding: CGFloat { base.forYouRecentSearchTopPadding }
+    var forYouRecentSearchBottomPadding: CGFloat { base.forYouRecentSearchBottomPadding }
 
     // -- 6E Pick -------------------------------------------------------
 
@@ -97,6 +117,15 @@ struct Alpha50Theme: AlphaTheme {
     var bestOffersChevronSize: CGFloat { 36 }               // 5.0: 36px (was 32)
     var bestOffersProminentCornerRadius: CGFloat { 8 }      // 5.0: 8px
 
+    var bestOffersUsesBannerCarousel: Bool { base.bestOffersUsesBannerCarousel }
+    var bestOffersBannerWidth: CGFloat { base.bestOffersBannerWidth }
+    var bestOffersBannerHeight: CGFloat { base.bestOffersBannerHeight }
+    var bestOffersBannerSpacing: CGFloat { base.bestOffersBannerSpacing }
+    var bestOffersBannerCornerRadius: CGFloat { base.bestOffersBannerCornerRadius }
+    var bestOffersBottomBorderColor: Color { base.bestOffersBottomBorderColor }
+    var bestOffersCtaIconName: String { base.bestOffersCtaIconName }
+    var bestOffersCtaIconSize: CGFloat { base.bestOffersCtaIconSize }
+
     // -- BluChip -------------------------------------------------------
 
     var bluChipCardPadding: CGFloat { base.bluChipCardPadding }
@@ -107,6 +136,18 @@ struct Alpha50Theme: AlphaTheme {
     var bluChipProgressBarHeight: CGFloat { base.bluChipProgressBarHeight }
     var bluChipHorizontalPadding: CGFloat { 16 }            // 5.0: 16px (was 20)
     var bluChipBottomPadding: CGFloat { 16 }
+
+    var bluChipUsesDarkCard: Bool { base.bluChipUsesDarkCard }
+    var bluChipDarkCardSpacing: CGFloat { base.bluChipDarkCardSpacing }
+    var bluChipLogoSize: CGFloat { base.bluChipLogoSize }
+    var bluChipBalanceFontSize: CGFloat { base.bluChipBalanceFontSize }
+    var bluChipDividerColor: Color { base.bluChipDividerColor }
+    var bluChipTierColor: Color { base.bluChipTierColor }
+    var bluChipIdColor: Color { base.bluChipIdColor }
+    var bluChipLabelColor: Color { base.bluChipLabelColor }
+    var bluChipBalanceColor: Color { base.bluChipBalanceColor }
+    var bluChipInfoTextColor: Color { base.bluChipInfoTextColor }
+    var bluChipCtaColor: Color { base.bluChipCtaColor }
 
     // -- Community -----------------------------------------------------
 
@@ -119,6 +160,8 @@ struct Alpha50Theme: AlphaTheme {
     var communityHorizontalPadding: CGFloat { 16 }          // 5.0: 16px (was 20)
     var communityBottomPadding: CGFloat { 16 }              // 5.0: 16px (was 20)
     var communityShowsTitle: Bool { true }                   // 5.0: title + subtitle
+    var communityShowsSectionHeading: Bool { true }          // 5.0: "What's new" heading
+    var communitySubtitleFont: Font { IndiGoFonts.bodyExtraSmall() }  // 5.0: Poppins 10pt
     var communityShowsNoFilterLogo: Bool { false }           // 5.0: removed
     var communityShowsCollapsedOverlay: Bool { true }        // 5.0: 40% black overlay
     var communityHeadingFont: Font { .custom("BauhausStd-Medium", size: 16) }  // 5.0: 16pt (was 20)
@@ -159,6 +202,16 @@ struct Alpha50Theme: AlphaTheme {
     var oneClickCardButtonCornerRadius: CGFloat { 8 }
     var oneClickShowsViewAllCard: Bool { true }
 
+    var oneClickUsesLightCards: Bool { base.oneClickUsesLightCards }
+    var oneClickLightCardBorderColor: Color { base.oneClickLightCardBorderColor }
+    var oneClickCtaCircleSize: CGFloat { base.oneClickCtaCircleSize }
+    var oneClickCtaIconName: String { base.oneClickCtaIconName }
+    var oneClickCtaIconSize: CGFloat { base.oneClickCtaIconSize }
+    var oneClickSectionLabel: String { "One Click Away" }
+    var oneClickShowsSubtitle: Bool { true }
+    var oneClickViewAllCircleSize: CGFloat { base.oneClickViewAllCircleSize }
+    var oneClickViewAllIconSize: CGFloat { base.oneClickViewAllIconSize }
+
     // -- Flight Offers Footer ------------------------------------------
 
     var footerStatsGridSpacing: CGFloat { 8 }               // 5.0: 8px (was 12)
@@ -166,6 +219,34 @@ struct Alpha50Theme: AlphaTheme {
     var footerBottomPadding: CGFloat { 100 }                // 5.0: clears BottomNavBar + safe area
     var footerStatCornerRadius: CGFloat { 8 }               // 5.0: 8px (was 12)
     var footerNegatesInterSectionGap: Bool { true }         // 5.0: footer sits flush below OneClickAway
+
+    var footerMapImageName: String { base.footerMapImageName }
+    var footerUsesWWYITHeadline: Bool { base.footerUsesWWYITHeadline }
+    var footerStatCardLayout: FooterStatCardLayout { base.footerStatCardLayout }
+    var footerStatBorderColor: Color { base.footerStatBorderColor }
+    var footerStatLabelColor: Color { base.footerStatLabelColor }
+    var footerStatLabelFont: Font { base.footerStatLabelFont }
+    var footerStatValueFont: Font { base.footerStatValueFont }
+    var footerStatCardPadding: CGFloat { base.footerStatCardPadding }
+    var footerDailyFlightsValueFont: Font { base.footerDailyFlightsValueFont }
+    var footerDailyFlightsLabelFont: Font { base.footerDailyFlightsLabelFont }
+
+    // -- Bottom Nav Bar ------------------------------------------------
+
+    var navShowsLiquidGlass: Bool { base.navShowsLiquidGlass }
+    var navActiveExploreIconAsset: String { base.navActiveExploreIconAsset }
+    var navActiveFlightsIconAsset: String { base.navActiveFlightsIconAsset }
+    var navActiveLabelFont: Font { base.navActiveLabelFont }
+    var navInactiveLabelFont: Font { base.navInactiveLabelFont }
+    var navActiveTextColor: Color { base.navActiveTextColor }
+    var navInactiveTextColor: Color { base.navInactiveTextColor }
+    var navActiveShadowColor: Color { base.navActiveShadowColor }
+    var navActiveShadowRadius: CGFloat { base.navActiveShadowRadius }
+    var navSixEPickBgColor: Color { base.navSixEPickBgColor }
+    var navSixEPickFgColor: Color { base.navSixEPickFgColor }
+    var navFourthTabLabel: String { base.navFourthTabLabel }
+    var navFourthTabIcon: String { base.navFourthTabIcon }
+    var navFourthTabIconIsOriginal: Bool { base.navFourthTabIconIsOriginal }
 
     // -- Section ordering (same as 4.1 by default — override to reorder)
 

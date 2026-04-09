@@ -77,6 +77,7 @@ struct HomeView: View {
     @State private var selectedOfferTitle: String?
     @State private var showSixEPickExplore = false
     @State private var showProfile = false
+    @State private var showOneClickPassenger = false
 
     private var clampedOffset: CGFloat { max(0, scrollOffset) }
 
@@ -98,7 +99,8 @@ struct HomeView: View {
                 HomeHeaderView(
                     scrollOffset: clampedOffset,
                     onSearchTap: { showSearchJourney = true },
-                    onProfileTap: { showProfile = true }
+                    onProfileTap: { showProfile = true },
+                    onMoreTap: { showSixEPickExplore = true }
                 )
                 .offset(y: clampedOffset)
                 .zIndex(1)
@@ -110,12 +112,13 @@ struct HomeView: View {
                     .offset(y: contentCompensation)
             }
             .background(alignment: .top) {
-                // BG image pinned to the top of the scroll content
-                bgImageLayer
-                    .frame(height: HomeHeaderView.expandedHeight)
+                if !theme.searchUsesFromToMode {
+                    bgImageLayer
+                        .frame(height: HomeHeaderView.expandedHeight)
+                }
             }
         }
-        .background(IndiGoColors.background)
+        .background(theme.pageBackgroundColor)
         #if UT_VARIANT
         .utInstrumented(screenId: "HomeView")
         #endif
@@ -137,13 +140,27 @@ struct HomeView: View {
         .navigationDestination(isPresented: $showProfile) {
             ProfileView()
         }
+        .navigationDestination(isPresented: $showOneClickPassenger) {
+            BookPassengerView()
+                .navigationBarBackButtonHidden()
+        }
         .onChange(of: showSearchJourney) { _, isActive in
-            if !isActive {
-                bookingState.isInBookingFlow = false
-            }
+            bookingState.isInBookingFlow = isActive
+        }
+        .onChange(of: showOneClickPassenger) { _, isActive in
+            bookingState.isInBookingFlow = isActive
         }
         .onChange(of: showProfile) { _, isActive in
             bookingState.isInBookingFlow = isActive
+        }
+        .onChange(of: showSixEPickExplore) { _, isActive in
+            bookingState.isInBookingFlow = isActive
+        }
+        .onChange(of: showAllOffers) { _, isActive in
+            bookingState.isInBookingFlow = isActive
+        }
+        .onChange(of: selectedOfferTitle) { _, value in
+            bookingState.isInBookingFlow = value != nil
         }
     }
 
@@ -201,8 +218,30 @@ struct HomeView: View {
                 promoCity: "Dubai",
                 promoPrice: "₹24,999",
                 recentSearches: [
-                    RecentSearchItem(from: "DEL", to: "BOM", subtitle: "Afternoon flight"),
-                    RecentSearchItem(from: "BHU", to: "DEL", subtitle: "Morning flight")
+                    RecentSearchItem(
+                        from: "DEL", to: "BLR", subtitle: "Afternoon flight",
+                        typeLabel: "Flight",
+                        detailLine1Icon: "icon-rs-calendar",
+                        detailLine1Text: "May 23",
+                        detailLine2Icon: "icon-rs-pax",
+                        detailLine2Text: "2 PAX"
+                    ),
+                    RecentSearchItem(
+                        from: "Food Walk", to: "", subtitle: "Sightseeing",
+                        typeLabel: "Sightseeing",
+                        detailLine1Icon: "icon-rs-calendar",
+                        detailLine1Text: "July 23 - Delhi",
+                        detailLine2Icon: "icon-rs-pax",
+                        detailLine2Text: "1 PAX"
+                    ),
+                    RecentSearchItem(
+                        from: "BOM - T2", to: "", subtitle: "Cab booking",
+                        typeLabel: "Cab",
+                        detailLine1Icon: "icon-rs-calendar",
+                        detailLine1Text: "Aug 25",
+                        detailLine2Icon: "icon-rs-car",
+                        detailLine2Text: "Sedan - 4 seater"
+                    )
                 ]
             )
 
@@ -226,9 +265,16 @@ struct HomeView: View {
                     OfferItem(title: "10% off up to ₹200", subtitle: "on cab Booking", promoCode: nil, imageName: "offer-cab-booking"),
                     OfferItem(title: "17% off up to ₹1,900", subtitle: "on Domestic Hotels", promoCode: nil, imageName: "offer-domestic-hotels"),
                 ],
+                offerBanners: [
+                    OfferBanner(imageName: "offer-banner-student"),
+                    OfferBanner(imageName: "offer-banner-hotels"),
+                    OfferBanner(imageName: "offer-banner-shanghai"),
+                    OfferBanner(imageName: "offer-banner-bali"),
+                ],
                 prominentOffer: ProminentOffer(imageName: "offer-prominent-icici"),
                 onBookNow: { showSearchJourney = true },
                 onOfferTap: { offer in selectedOfferTitle = offer.title },
+                onBannerTap: { _ in showAllOffers = true },
                 onViewAllOffers: { showAllOffers = true }
             )
 
@@ -236,10 +282,12 @@ struct HomeView: View {
             BluChipBalanceCard(
                 balance: "67,440",
                 tierName: "Blu 3",
+                loyaltyId: "2582447",
                 progressFraction: 0.63,
                 maxPoints: "100,000",
                 unlockMessage: "Only 200 points away to unlock",
-                unlockHighlight: "20 passes"
+                unlockHighlight: "20 passes",
+                infoMessage: "You're 550 IndiGo BluChips away from a free flight to Goa!"
             )
             .padding(.horizontal, theme.bluChipHorizontalPadding)
             .padding(.bottom, theme.bluChipBottomPadding)
@@ -261,11 +309,41 @@ struct HomeView: View {
             ])
 
         case .oneClickAway:
-            OneClickAwaySection(destinations: MockDestinations.all)
+            OneClickAwaySection(
+                destinations: MockDestinations.all,
+                onDestinationTap: { destination in
+                    initiateOneClickBooking(for: destination)
+                }
+            )
 
         case .flightOffersFooter:
             FlightOffersFooterSection()
         }
+    }
+
+    // MARK: - One-click booking (skip From/To & When, go straight to Who)
+
+    private func initiateOneClickBooking(for destination: Destination) {
+        guard let destCity = destination.city else { return }
+
+        bookingState.reset()
+
+        let defaultOrigin = IndiGoAirports.domestic.first { $0.code == "DEL" }
+        bookingState.origin = defaultOrigin
+        bookingState.destination = destCity
+
+        let fallbackDepart = Calendar.current.date(byAdding: .day, value: 14, to: Date())!
+        bookingState.selectedDate = destination.departureDate ?? fallbackDepart
+
+        if let retDate = destination.returnDate {
+            bookingState.tripType = .returnTrip
+            bookingState.returnDate = retDate
+        } else {
+            bookingState.tripType = .oneWay
+        }
+
+        HapticManager.lightImpact()
+        showOneClickPassenger = true
     }
 }
 

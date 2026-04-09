@@ -4,38 +4,62 @@
 //
 //  Molecule – Bottom navigation bar ("Sticky Footer").
 //
-//  Figma node: 1166:10237
+//  Figma nodes: 1166:10237 (Alpha 5.0), 5658:77842 (Alpha 6.1)
 //
-//  Figma v2 specs:
-//    Menu Bar:      backdrop-blur 8px, bg rgba(255,255,255,0.8),
-//                   radius 40, padding 4,
-//                   shadow 0 4px 28px rgba(0,0,153,0.04)
-//    Nav items:     60w x 44h, radius 40
-//      Active:      liquid glass indicator (blur + refraction), icon/text #009
-//      Inactive:    bg clear, icon/text #4B5772
-//    6EPick btn:    52 x 52, bg #25304B, radius 40
-//    Safe area:     native
+//  Theme-driven properties:
+//    navShowsLiquidGlass      – liquid glass blob behind active tab (5.0) vs flat (6.1)
+//    navActiveExploreIconAsset – outline (5.0) vs filled (6.1)
+//    navActiveLabelFont       – regular (5.0) vs semi-bold (6.1)
+//    navActiveTextColor       – indigo-blue (5.0) vs base-dark (6.1)
+//    navActiveShadowColor/Radius – none (5.0) vs card-soft (6.1)
+//    navSixEPickBg/FgColor    – dark bg + white text (5.0) vs glass bg + blue text (6.1)
+//    navFourthTabLabel/Icon   – Check-in (5.0) vs My trips (6.1)
 //
 
 import SwiftUI
 
 // MARK: - Data model
 
-enum NavTab: String, CaseIterable, Identifiable {
-    case explore  = "Explore"
-    case flights  = "Flights"
-    case hello6E  = "Hello 6E"
-    case checkIn  = "Check-in"
+enum NavTab: CaseIterable, Identifiable {
+    case explore
+    case flights
+    case hello6E
+    case fourthTab
 
-    var id: String { rawValue }
-
-    var iconAsset: String {
+    var id: String {
         switch self {
-        case .explore:  return "nav-explore"
-        case .flights:  return "nav-flights"
-        case .hello6E:  return "nav-hello6e"
-        case .checkIn:  return "nav-checkin"
+        case .explore:   return "explore"
+        case .flights:   return "flights"
+        case .hello6E:   return "hello6E"
+        case .fourthTab: return "fourthTab"
         }
+    }
+
+    func label(theme: any AlphaTheme) -> String {
+        switch self {
+        case .explore:   return "Explore"
+        case .flights:   return "Flights"
+        case .hello6E:   return "Hello 6E"
+        case .fourthTab: return theme.navFourthTabLabel
+        }
+    }
+
+    func iconAsset(theme: any AlphaTheme, isActive: Bool) -> String {
+        switch self {
+        case .explore:   return isActive ? theme.navActiveExploreIconAsset : "nav-explore"
+        case .flights:   return isActive ? theme.navActiveFlightsIconAsset : "nav-flights"
+        case .hello6E:   return "nav-hello6e"
+        case .fourthTab: return theme.navFourthTabIcon
+        }
+    }
+
+    func usesOriginalRendering(theme: any AlphaTheme, isActive: Bool) -> Bool {
+        if !theme.navShowsLiquidGlass {
+            if self == .explore && isActive { return true }
+            if self == .flights && isActive { return true }
+            if self == .fourthTab && theme.navFourthTabIconIsOriginal { return true }
+        }
+        return false
     }
 }
 
@@ -45,6 +69,7 @@ struct BottomNavBar: View {
     @Binding var selectedTab: NavTab
     var on6EPickTap: () -> Void = {}
 
+    @Environment(\.alphaTheme) private var theme
     @Namespace private var glassNS
 
     private let shadowGlobalNav = Color(hex: "000099").opacity(0.04)
@@ -79,7 +104,9 @@ struct BottomNavBar: View {
                     .frame(maxWidth: .infinity)
             }
         }
-        .padding(IndiGoSpacing.xxs)
+        .padding(.leading, IndiGoSpacing.xxs)
+        .padding(.trailing, IndiGoSpacing.xs)
+        .padding(.vertical, IndiGoSpacing.xxs)
         .frame(maxWidth: .infinity)
         .background(
             ZStack {
@@ -97,6 +124,8 @@ struct BottomNavBar: View {
 
     private func navItem(_ tab: NavTab) -> some View {
         let isActive = selectedTab == tab
+        let asset = tab.iconAsset(theme: theme, isActive: isActive)
+        let usesOriginal = tab.usesOriginalRendering(theme: theme, isActive: isActive)
 
         return Button {
             HapticManager.selection()
@@ -105,24 +134,39 @@ struct BottomNavBar: View {
             }
         } label: {
             VStack(spacing: 2) {
-                Image(tab.iconAsset)
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 20, height: 20)
-                Text(tab.rawValue)
-                    .font(IndiGoFonts.navLabel())
+                Group {
+                    if usesOriginal {
+                        Image(asset)
+                            .renderingMode(.original)
+                            .resizable()
+                            .scaledToFit()
+                    } else {
+                        Image(asset)
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                    }
+                }
+                .frame(width: 20, height: 20)
+
+                Text(tab.label(theme: theme))
+                    .font(isActive ? theme.navActiveLabelFont : theme.navInactiveLabelFont)
                     .lineSpacing(0)
             }
-            .foregroundStyle(isActive ? IndiGoColors.textIndigoBlue : IndiGoColors.textDarkGrey)
-            .frame(width: 60, height: 44)
+            .foregroundStyle(isActive ? theme.navActiveTextColor : theme.navInactiveTextColor)
+            .frame(width: isActive ? 60 : 56, height: 44)
             .frame(maxWidth: .infinity)
             .background {
-                if isActive {
+                if isActive && theme.navShowsLiquidGlass {
                     LiquidGlassBlob()
                         .matchedGeometryEffect(id: "liquidGlass", in: glassNS)
                 }
             }
+            .shadow(
+                color: isActive ? theme.navActiveShadowColor : .clear,
+                radius: isActive ? theme.navActiveShadowRadius : 0,
+                x: 0, y: 0
+            )
         }
         .buttonStyle(.plain)
         .contentShape(Rectangle())
@@ -146,11 +190,11 @@ struct BottomNavBar: View {
                     .lineSpacing(0)
                     .frame(maxWidth: .infinity)
             }
-            .foregroundStyle(.white)
+            .foregroundStyle(theme.navSixEPickFgColor)
             .frame(width: 52, height: 52)
             .background(
                 RoundedRectangle(cornerRadius: IndiGoSpacing.radiusXxxl)
-                    .fill(IndiGoColors.backgroundBase)
+                    .fill(theme.navSixEPickBgColor)
             )
         }
         .buttonStyle(.plain)
@@ -159,87 +203,55 @@ struct BottomNavBar: View {
 
 // MARK: - Liquid Glass Blob
 
-/// A frosted-glass indicator that refracts whatever is behind it,
-/// similar to the iOS 26 liquid glass / Zomato nav style.
-/// Uses a real .ultraThinMaterial backdrop blur so content behind
-/// shows through with distortion, plus layered gradients for
-/// the specular highlight and edge refraction.
+/// Frosted-glass indicator (Alpha 4.1 / 5.0 only).
+/// Uses real .ultraThinMaterial backdrop blur + layered gradients.
 private struct LiquidGlassBlob: View {
     private let shape = RoundedRectangle(cornerRadius: IndiGoSpacing.radiusXxxl)
 
     var body: some View {
         ZStack {
-            // 1. Real backdrop blur -- this is the key layer that makes
-            //    content behind the blob appear frosted/refracted
-            shape
-                .fill(.ultraThinMaterial)
-
-            // 2. Tinted glass body -- very light white overlay so
-            //    the blur reads as "glass" not just blurry
-            shape
-                .fill(Color.white.opacity(0.45))
-
-            // 3. Specular highlight -- top-left light catch,
-            //    fading to transparent at bottom-right
-            shape
-                .fill(
-                    .radialGradient(
-                        colors: [
-                            Color.white.opacity(0.7),
-                            Color.white.opacity(0.0)
-                        ],
-                        center: .topLeading,
-                        startRadius: 0,
-                        endRadius: 60
-                    )
+            shape.fill(.ultraThinMaterial)
+            shape.fill(Color.white.opacity(0.45))
+            shape.fill(
+                .radialGradient(
+                    colors: [Color.white.opacity(0.7), Color.white.opacity(0.0)],
+                    center: .topLeading,
+                    startRadius: 0,
+                    endRadius: 60
                 )
-
-            // 4. Rainbow refraction tint -- very subtle color shift
-            //    across the blob (like light through a prism)
-            shape
-                .fill(
-                    .linearGradient(
-                        colors: [
-                            Color(hex: "E8D5F5").opacity(0.15),
-                            Color(hex: "D5E8F5").opacity(0.10),
-                            Color(hex: "F5E8D5").opacity(0.12)
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
+            )
+            shape.fill(
+                .linearGradient(
+                    colors: [
+                        Color(hex: "E8D5F5").opacity(0.15),
+                        Color(hex: "D5E8F5").opacity(0.10),
+                        Color(hex: "F5E8D5").opacity(0.12)
+                    ],
+                    startPoint: .leading,
+                    endPoint: .trailing
                 )
-
-            // 5. Glass edge border -- thin bright stroke that catches
-            //    light at the top and fades at the bottom
-            shape
-                .strokeBorder(
-                    .linearGradient(
-                        colors: [
-                            Color.white.opacity(0.9),
-                            Color.white.opacity(0.3),
-                            Color.white.opacity(0.15)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    ),
-                    lineWidth: 0.75
-                )
-
-            // 6. Inner shadow / depth -- inset darker edge at bottom
-            //    gives the blob a 3D raised feel
-            shape
-                .strokeBorder(
-                    .linearGradient(
-                        colors: [
-                            Color.clear,
-                            Color.black.opacity(0.04)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    ),
-                    lineWidth: 1.5
-                )
-                .padding(0.75)
+            )
+            shape.strokeBorder(
+                .linearGradient(
+                    colors: [
+                        Color.white.opacity(0.9),
+                        Color.white.opacity(0.3),
+                        Color.white.opacity(0.15)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                ),
+                lineWidth: 0.75
+            )
+            shape.strokeBorder(
+                .linearGradient(
+                    colors: [Color.clear, Color.black.opacity(0.04)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                ),
+                lineWidth: 1.5
+            )
+            .padding(0.75)
         }
         .frame(width: 60, height: 44)
         .shadow(color: Color.white.opacity(0.5), radius: 4, x: 0, y: 0)

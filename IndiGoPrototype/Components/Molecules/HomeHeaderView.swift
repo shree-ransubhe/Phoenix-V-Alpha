@@ -4,22 +4,19 @@
 //
 //  Molecule – Home sticky header overlay with scroll-driven transitions.
 //
-//  Architecture (from Figma 804:10305 / 917:11177):
+//  Architecture:
 //    The BG image lives in HomeView, NOT in this view. This view is a
 //    transparent overlay that pins to the top via scroll offset.
 //
-//  State 1 – Expanded (207pt, Figma 804:10305):
-//    StatusBar(44) + gap(24) + GreetingRow(44, px24) + pb(16)
-//    + SearchPill(60, px20)  — total content ~188pt inside 207pt frame
-//    No shadow. Greeting row visible.
+//  Alpha 4.1/5.0 (Figma 804:10305 / 917:11177):
+//    Expanded 207pt → Inline 139pt (68pt collapse range)
+//    GreetingRow fades, search pill goes inline with 6eskai + avatar.
 //
-//  State 2 – Inline (139pt, Figma 917:11177):
-//    StatusBar(44) + pb(16)
-//    + InlineRow(search + 6eskai + profile, px20, gap12) — total ~120pt inside 139pt frame
-//    Shadow visible. Greeting row collapsed.
-//
-//  Transition: over 68pt of scroll (207→139), greeting row fades/collapses
-//  and search pill rearranges inline with 6eskai + profile.
+//  Alpha 6.1 (Figma 5602:84907 / 5602:84926 / 5656:57938):
+//    Expanded 224pt → Inline 124pt (100pt collapse range)
+//    StatusBar(44) + HeaderRow(48) + LOBTabs(44) + gap(16) + SearchBar(56) + gap(16)
+//    Inline: StatusBar(44) + gap(12) + SearchRow(56) + gap(12)
+//    HeaderRow and LOBTabs collapse away on scroll.
 //
 
 import SwiftUI
@@ -28,6 +25,7 @@ struct HomeHeaderView: View {
     let scrollOffset: CGFloat
     var onSearchTap: () -> Void = {}
     var onProfileTap: () -> Void = {}
+    var onMoreTap: () -> Void = {}
     @Environment(\.alphaTheme) private var theme
 
     static let expandedHeight: CGFloat = ThemeProvider.current.headerExpandedHeight
@@ -52,17 +50,122 @@ struct HomeHeaderView: View {
     }
 
     private var isInlineMode: Bool { collapseProgress >= 1.0 }
-
     private var showShadow: Bool { clampedOffset > 2 }
 
     var body: some View {
+        if theme.searchShowsLOBTabs {
+            alpha61Body
+        } else {
+            legacyBody
+        }
+    }
+
+    // MARK: - Alpha 6.1 body (Figma 5602:84907)
+
+    private var alpha61Body: some View {
+        VStack(spacing: 0) {
+            Color.clear.frame(height: theme.headerStatusBarHeight)
+
+            if !isInlineMode {
+                alpha61HeaderRow
+                    .padding(.horizontal, theme.headerHorizontalPadding)
+                    .frame(height: theme.headerGreetingRowHeight * (1 - collapseProgress))
+                    .opacity(Double(1 - collapseProgress))
+                    .clipped()
+
+                LOBTabBar(selectedTab: "Flights", onMoreTap: onMoreTap)
+                    .frame(height: 44 * (1 - collapseProgress))
+                    .opacity(Double(1 - collapseProgress))
+                    .clipped()
+
+                Spacer().frame(height: theme.headerBottomPadding * (1 - collapseProgress))
+            } else {
+                Spacer().frame(height: 12)
+            }
+
+            if isInlineMode {
+                SearchWidgetView(mode: .inline, onTap: onSearchTap, onProfileTap: onProfileTap)
+                    .padding(.horizontal, theme.headerSearchHorizontalPadding)
+            } else if collapseProgress > 0.5 {
+                SearchWidgetView(mode: .inline, onTap: onSearchTap, onProfileTap: onProfileTap)
+                    .padding(.horizontal, theme.headerSearchHorizontalPadding)
+                    .opacity(Double((collapseProgress - 0.5) / 0.5))
+            } else {
+                SearchWidgetView(mode: .expanded, onTap: onSearchTap)
+                    .padding(.horizontal, theme.headerSearchHorizontalPadding)
+            }
+
+            Spacer(minLength: 0)
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: headerHeight)
+        .background(alpha61HeaderBg)
+        .shadow(
+            color: showShadow ? .black.opacity(0.25) : .clear,
+            radius: 8, x: 0, y: 4
+        )
+    }
+
+    // MARK: - Alpha 6.1 header row (Figma 5602:84909)
+    // IndiGo Logo (24x24) + "Hi Ishika!" + 6Eskai + Avatar
+
+    private var alpha61HeaderRow: some View {
+        HStack {
+            HStack(spacing: 12) {
+                Image("dotted-plane")
+                    .resizable()
+                    .renderingMode(.template)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 24, height: 24)
+                    .foregroundStyle(IndiGoColors.indigoBlue)
+
+                Text("Hi Ishika!")
+                    .font(.custom("Poppins-Medium", size: 16))
+                    .foregroundStyle(Color(hex: "25304B"))
+                    .lineLimit(1)
+            }
+
+            Spacer()
+
+            HStack(spacing: 16) {
+                SixEskaiButton()
+                alpha61AvatarButton
+            }
+        }
+        .padding(.vertical, 12)
+    }
+
+    private var alpha61AvatarButton: some View {
+        Button(action: onProfileTap) {
+            Image("icon-avatar-person")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32, height: 32)
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var alpha61HeaderBg: some View {
+        ZStack {
+            if showShadow {
+                Color.white
+                    .opacity(Double(min(1, clampedOffset / 40)))
+            } else {
+                Color.clear
+            }
+        }
+    }
+
+    // MARK: - Legacy 4.1/5.0 body
+
+    private var legacyBody: some View {
         VStack(spacing: 0) {
             Color.clear.frame(height: theme.headerStatusBarHeight)
 
             if !isInlineMode {
                 Spacer().frame(height: theme.headerTopGap * (1 - collapseProgress))
 
-                greetingRow
+                legacyGreetingRow
                     .padding(.horizontal, theme.headerHorizontalPadding)
                     .frame(height: theme.headerGreetingRowHeight * (1 - collapseProgress))
                     .opacity(Double(1 - collapseProgress))
@@ -89,14 +192,14 @@ struct HomeHeaderView: View {
         }
         .frame(maxWidth: .infinity)
         .frame(height: headerHeight)
-        .background(headerBg)
+        .background(legacyHeaderBg)
         .shadow(
             color: showShadow ? .black.opacity(0.25) : .clear,
             radius: theme.headerShadowRadius, x: 0, y: theme.headerShadowY
         )
     }
 
-    private var headerBg: some View {
+    private var legacyHeaderBg: some View {
         ZStack {
             if showShadow {
                 Rectangle().fill(.ultraThinMaterial)
@@ -107,9 +210,9 @@ struct HomeHeaderView: View {
         }
     }
 
-    // MARK: - Greeting row
+    // MARK: - Legacy greeting row (4.1/5.0)
 
-    private var greetingRow: some View {
+    private var legacyGreetingRow: some View {
         HStack {
             HStack(spacing: 12) {
                 Image("dotted-plane")
@@ -121,9 +224,9 @@ struct HomeHeaderView: View {
 
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Hi there!")
-                        .font(IndiGoFonts.bodySmall())
+                        .font(.custom("Poppins-Regular", size: 10))
                         .foregroundStyle(IndiGoColors.backgroundBase)
-                    Text("Ishika Shah")
+                    Text("Ishika Verma")
                         .font(IndiGoFonts.buttonWeb())
                         .foregroundStyle(IndiGoColors.backgroundBase)
                 }
@@ -132,18 +235,14 @@ struct HomeHeaderView: View {
             Spacer()
 
             HStack(spacing: 16) {
-                sixEskaiButton
-                avatarButton
+                SixEskaiButton()
+                legacyAvatarButton
             }
         }
         .frame(height: 44)
     }
 
-    private var sixEskaiButton: some View {
-        SixEskaiButton()
-    }
-
-    private var avatarButton: some View {
+    private var legacyAvatarButton: some View {
         Button(action: onProfileTap) {
             Image("profile-avatar")
                 .resizable()
@@ -156,7 +255,53 @@ struct HomeHeaderView: View {
     }
 }
 
-#Preview("Expanded – 207pt") {
+// MARK: - LOB Tab Bar (Alpha 6.1, Figma 5602:88589)
+
+struct LOBTabBar: View {
+    let selectedTab: String
+    var onMoreTap: () -> Void = {}
+
+    private let tabs = ["Flights", "Hotels", "Cabs", "Sightseeing", "More"]
+
+    var body: some View {
+        HStack(spacing: 0) {
+            ForEach(tabs, id: \.self) { tab in
+                if tab == "More" {
+                    Button(action: onMoreTap) {
+                        tabLabel(tab, isSelected: tab == selectedTab)
+                    }
+                    .buttonStyle(.plain)
+                } else {
+                    tabLabel(tab, isSelected: tab == selectedTab)
+                }
+            }
+        }
+        .padding(.horizontal, 16)
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(IndiGoColors.indigoBlue.opacity(0.1))
+                .frame(height: 1)
+        }
+    }
+
+    private func tabLabel(_ title: String, isSelected: Bool) -> some View {
+        VStack(spacing: 0) {
+            Text(title)
+                .font(.custom("Poppins-Medium", size: 12))
+                .foregroundStyle(isSelected ? Color(hex: "25304B") : IndiGoColors.indigoBlue)
+                .frame(height: 44)
+                .frame(maxWidth: .infinity)
+
+            Rectangle()
+                .fill(isSelected ? Color(hex: "25304B") : Color.clear)
+                .frame(height: 2)
+        }
+    }
+}
+
+// MARK: - Previews
+
+#Preview("Expanded – Legacy") {
     ZStack {
         Image("header-bg").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea()
         VStack(spacing: 0) {
@@ -167,13 +312,22 @@ struct HomeHeaderView: View {
     .ignoresSafeArea(edges: .top)
 }
 
-#Preview("Inline – 139pt") {
-    ZStack {
-        Image("header-bg").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea()
-        VStack(spacing: 0) {
-            HomeHeaderView(scrollOffset: 100)
-            Spacer()
-        }
+#Preview("Expanded – Alpha 6.1") {
+    VStack(spacing: 0) {
+        HomeHeaderView(scrollOffset: 0)
+        Spacer()
     }
+    .background(Color(hex: "F5F8FC"))
     .ignoresSafeArea(edges: .top)
+    .environment(\.alphaTheme, Alpha61Theme())
+}
+
+#Preview("Inline – Alpha 6.1") {
+    VStack(spacing: 0) {
+        HomeHeaderView(scrollOffset: 200)
+        Spacer()
+    }
+    .background(Color(hex: "F5F8FC"))
+    .ignoresSafeArea(edges: .top)
+    .environment(\.alphaTheme, Alpha61Theme())
 }
